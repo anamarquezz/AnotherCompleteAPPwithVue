@@ -2,18 +2,21 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import jQuery from 'jquery'
+import jQuery from 'jquery';
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/js/bootstrap.js'
-import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue'
-import VueResource from 'vue-resource'
-import vuex from 'vuex'
-
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.js';
+import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue';
+import VueResource from 'vue-resource';
+import vuex from 'vuex';
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 
 Vue.use(BootstrapVue);
 Vue.use(VueResource);
 Vue.use(vuex);
+Vue.use(Vuetify)
+
 
 
 

@@ -5,7 +5,7 @@ export default {
   gsw_ui(state){
     return state.sw_ui;
   }, 
-  g_loginUser: (state, data) => {
+  g_loginUser(state){
     return state.loginUser;
   }
 }

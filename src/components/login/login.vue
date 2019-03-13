@@ -1,16 +1,14 @@
 <template>
-  <div class="">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-3 height100  ">
+        <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3 height100 backgroundfondo">
           <img src="../../assets/img/logow.png" class="mt-5 imgRes" />
           <div class="topcenter">
             <div class="marketing-banner-text">Evaluación de <strong>desempeño</strong>
             </div>
 
 
-            <form class="">
-
+            <form>
               <b-form-group id="inputusername" class="f3 text-white" label="User Name:" label-for="username" description="">
                 <b-form-input id="username" type="text" placeholder="User Name" @keyup.enter="onlogin">
                 </b-form-input>
@@ -32,15 +30,12 @@
         </div>
       </div>
 
-      <div class="col-12 col-sm-4 col-md-6 col-lg-8 col-xl-9 height100 text-center banner ">
+      <div class="col-12 col-sm-12 col-md-6 col-lg-8 col-xl-9 height100 text-center banner  d-sm-none d-md-block d-lg-block d-xl-block">
 
         <div class="banner">
         </div>
       </div>
     </div>
-  </div>
-
-
   </div>
 </template>
 

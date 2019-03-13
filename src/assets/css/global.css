@@ -28,8 +28,10 @@ html,body{
 
 .banner {
   padding-top: 10px;
-  background-image: url(../img/employeeEvaluation.jpg);  
+  width: 10%;
+  background-image: url(../img/evaluationback.png);  
   opacity: .8;
+  z-index: 2000;
 }
 
 .marketing-banner {
@@ -58,6 +60,49 @@ html,body{
 }
 
 .iconsize{
-  width: 70px;
-  height: 70px;
+  width: 90px;
+  height: 90px;
+  border: 1px double #b6b6b6;
 }
+
+.backgroundwhite{
+  background: #e9ecef;
+}
+
+.backgroundfbfbfb{
+  background: #fbfbfb;
+}
+.colorAzul{
+  color: #6BA2B9;
+}
+
+.breadcrumb2 {
+  display: -webkit-box;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  list-style: none;
+  background-color: #dddddd;
+  border-radius: 0.25rem;
+  color: black;
+  font-weight: bold;
+}
+
+
+.theme--dark.v-toolbar {
+  background-color: #1b3950 !important;
+  color: #fff !important;
+}
+
+
+.dinline{
+  display: inline;
+}
+/*
+.theme--dark.v-toolbar {
+  background-color: #3c697b !important;
+  color: #fff !important;
+}
+*/

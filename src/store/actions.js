@@ -6,14 +6,6 @@ import Vue from 'vue'
 
 export default {
 
-
-  init: function ({
-    state,
-    commit,
-    dispatch
-  }) {},
-
-
   _token: function ({
     commit,
     state,
@@ -52,7 +44,32 @@ export default {
         }
       }).then(response => {
         if (response.body.Employee != "") {
-          commit('set_loginUser', response.body.Employee);
+          commit('set_loginUser', response.body.Employee);   
+          dispatch('GetSubordinateByUser');   
+        }
+      });
+    } catch (e) {
+      dispatch('set_showMessage', 'Problem with Application');
+      commit('set_loading', false);
+    }
+  },
+
+  GetSubordinateByUser: function ({
+    state,
+    commit,
+    dispatch
+  }) {
+    try {
+      Vue.http.get("http://localhost:49014/api/evaluation/GetSubordinateByUser", {
+        params: {
+          number: 27045//state.loginUser.userId
+        },
+        headers: {
+          Authorization: state.token
+        }
+      }).then(response => {
+        if (response.body.EmployeSubordinate != "") {
+          commit('set_SubordinateByUser', response.body.EmployeSubordinate);
           commit('set_sw_ui','mainevaluation');
         }
       });
@@ -61,6 +78,7 @@ export default {
       commit('set_loading', false);
     }
   },
+
   set_showMessage: function ({
     state,
     commit,

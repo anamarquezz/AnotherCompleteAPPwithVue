@@ -26,8 +26,10 @@ export default new Vuex.Store({
       Shift: '',
       UserPic: '',
       Area: '',
-      Job: ''
-    }
+      Job: '',
+      Subordinates:[]
+    },
+   
   },
 
   /*MUTATIONS CHANGES THE VARIABLES OF THE STATE */

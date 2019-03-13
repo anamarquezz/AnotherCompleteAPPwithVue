@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-    <div class="container-fluid">.
+    <div class="container-fluid">
       <login v-if="gsw_ui === 'login'"></login>     
-
       <mainevaluation v-if="gsw_ui === 'mainevaluation'" ></mainevaluation>
 
     </div>
