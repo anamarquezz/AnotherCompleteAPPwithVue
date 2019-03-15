@@ -18,6 +18,7 @@ export default {
     state.loginUser.Area = data.Area;
     state.loginUser.Job = data.Job;
     state.loginUser.UserPic = "data:image/png;base64," + data.UserPic;
+    
   },
 
   set_SubordinateByUser: (state, data) => {

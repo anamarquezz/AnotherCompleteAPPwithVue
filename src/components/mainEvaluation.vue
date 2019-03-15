@@ -1,41 +1,175 @@
 <template>
-  <div class="container-fluid">
-    <div class="row mt-2">
-      <div class="col-9">
-        <!-- <h4 class="mt-2 dinline">Evaluación de <strong>Desempeño</strong></h4> -->
-        </div> 
-        <div class="col-3 text-right">           
-            <v-btn color="light-blue darken-4" dark large>Log Out</v-btn>
-        </div>
-    
-     
-     
+
+  <div class=" mt-2">
+    <!--  <navbar></navbar>    
+    <employeetoevaluate></employeetoevaluate>-->
+
+    <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.mdAndUp" app v-model="drawer">
+      <v-list dense>
+        <template v-for="item in items">
+          <v-layout row v-if="item.heading" align-center :key="item.heading">
+            <v-flex xs6>
+              <v-subheader v-if="item.heading">
+                {{ item.heading }}
+              </v-subheader>
+            </v-flex>
+          </v-layout>
+          <v-list-group v-else-if="item.children" v-model="item.model" :key="item.text" :prepend-icon="item.model ? item.icon : item['icon-alt']"
+            append-icon="">
+            <v-list-tile slot="activator">
+              <v-list-tile-content>
+                <v-list-tile-title>
+                <b>  {{ item.text }} </b>
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile v-for="(child, i) in item.children" :key="i" @click="clickMenu(child)">
+              <v-list-tile-action v-if="child.icon">
+                <v-icon>{{ child.icon }}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>
+               {{ child.text }}
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list-group>
+          <v-list-tile v-else @click="clickMenu(item)" :key="item.text">
+            <v-list-tile-action>
+              <v-icon> {{ item.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+              {{ item.text }}
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar dark app :clipped-left="$vuetify.breakpoint.mdAndUp" fixed>
+      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <img src="../assets/img/logow.png" width="200px" class="mr-2" />
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <span class="mr-3">{{g_loginUser.Name}},
+        {{g_loginUser.Puesto}}</span>
+      <v-btn icon large>
+        <v-avatar size="50px" tile>
+          <img :src="g_loginUser.UserPic" alt="Vuetify" class="iconmenu rounded-circle">
+        </v-avatar>
+      </v-btn>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout>
+          <listaEmpleadosEvaluar v-if="showComponent =='employeetoevaluate'"></listaEmpleadosEvaluar>
+          <home v-if="showComponent =='home'"></home>
+          <evaluarempleado v-if="showComponent =='evaluarEmpleado'"></evaluarempleado>
+        </v-layout>
+      </v-container>
+    </v-content>
+  <!--  <v-btn fab bottom left color="pink" dark fixed @click.stop="dialog = !dialog">
+      <v-icon>add</v-icon>
+    </v-btn>
+    -->
+
+    <v-dialog v-model="dialog" width="800px">
+      dfgdfgdfdfgdfgdfgdfg
+    </v-dialog>
+
   </div>
-   
-    <navbar></navbar>    
-    <employeetoevaluate></employeetoevaluate>
-  </div>
+
+
+
+
+
 </template>
 
 <script>
   import navbar from '../components/nav/navbar.vue';
-  import employeetoevaluate from '../components/modules/employeetoevaluate.vue';
+  import listaEmpleadosEvaluar from '../components/modules/listaEmpleadosEvaluar.vue';
+  import evaluarempleado from '../components/modules/evaluarempleado.vue';
+  import home from '../components/modules/home.vue';
   export default {
     name: 'mainEvaluation',
     components: {
       navbar,
-      employeetoevaluate
+      listaEmpleadosEvaluar,
+      evaluarempleado,
+      home
     },
     data() {
-      return {}
+      return {
+        dialog: false,
+        drawer: null,
+        showComponent:'home',
+        items: [
+          {
+            icon: 'fas fa-home',
+            text: 'home',
+            code: 'home'
+          },{
+            icon: 'far fa-list-alt',
+            text: 'Empleados a Evaluar',
+            code: 'employeetoevaluate'
+          },          
+          {
+            icon: 'fas fa-user-circle',
+            text: 'Evaluar Empleado',
+            code: 'evaluarEmpleado'
+          }, /*
+           {
+           icon: 'settings',
+            'icon-alt': 'settings',
+            text: 'settings',
+            model: false,
+            children: [{
+              icon: 'fas fa-user-cog',
+              text: 'Account',
+              code:'account'
+            }]
+          },*/
+          {
+            icon: 'fas fa-sign-out-alt fa-rotate-180',
+            text: 'Cerrar sesión',
+            code: 'Salir',
+        
+          },
+        ]
+      }
     },
     computed: {
-     
+      g_loginUser() {
+        return this.$store.getters.g_loginUser;
+      }
     },
-    methods: {}
+    methods: {
+      clickMenu(child) {      
+         if(child.code =='Salir'){
+              this.$store.dispatch('gsw_ui', 'login');
+         }else{
+
+         }
+         this.showComponent = child.code;
+
+         
+      }
+    }
   }
 </script>
 
 <style scoped>
+  @import '../assets/css/global.css';
 
+  .theme--dark.v-toolbar {
+    background-color: black !important;
+    color: #fff !important;
+  }
+
+ .v-menu__content {
+    /* max-width: none; */
+   position: fixed !important;
+}
 </style>

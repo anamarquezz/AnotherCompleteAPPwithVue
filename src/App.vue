@@ -1,9 +1,8 @@
 <template>
-  <div id="app">
-    <div class="container-fluid">
+  <div id="app" class="h-100p">
+    <div class="container-fluid h-100p">
       <login v-if="gsw_ui === 'login'"></login>     
       <mainevaluation v-if="gsw_ui === 'mainevaluation'" ></mainevaluation>
-
     </div>
   </div>
 </template>
@@ -33,4 +32,5 @@
 </script>
 
 <style scoped>
+  @import './assets/css/global.css';
 </style>

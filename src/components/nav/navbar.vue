@@ -13,7 +13,7 @@
       <h6 class="ml-3 ">{{g_loginUser.Name}}</h6>
           <h6 class="ml-3 ">{{g_loginUser.Puesto}}</h6>
           <h6 class="ml-3 ">{{g_loginUser.area}}</h6>
-          <img :src="g_loginUser.UserPic" class="iconsize rounded-circle" />
+          <img :src="g_loginUser.UserPic" class="iconmenu rounded-circle" />
     </form>
   </div>
 </nav>

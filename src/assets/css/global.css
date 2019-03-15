@@ -60,10 +60,18 @@ html,body{
 }
 
 .iconsize{
-  width: 90px;
-  height: 90px;
+  width: 50px;
+  height: 50px;
   border: 1px double #b6b6b6;
 }
+
+.iconmenu{
+  width: 50px;
+  border: 1px double #b6b6b6;
+}
+
+
+
 
 .backgroundwhite{
   background: #e9ecef;
@@ -92,8 +100,14 @@ html,body{
 
 
 .theme--dark.v-toolbar {
-  background-color: #1b3950 !important;
+  background-color: #1e88e5 !important;
   color: #fff !important;
+}
+
+.theme--light.v-table thead th {
+  color: rgba(53, 53, 53, 0.87);
+  font-weight: bold;
+  font-size: 16px;
 }
 
 
@@ -106,3 +120,12 @@ html,body{
   color: #fff !important;
 }
 */
+
+.h-100p{
+  height: 100%;
+}
+
+.fntsi50px{
+font-size: 40px;
+
+}

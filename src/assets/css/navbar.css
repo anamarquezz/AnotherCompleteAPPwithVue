@@ -1,3 +1,17 @@
 .roundnav{
     border-radius: .8em;
 }
+
+.containerswiper {
+    position: fixed;
+    width: 10%;
+    height: 100%;
+    top: 23px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.98);
+    z-index: 4;
+    cursor: pointer;
+  }
+

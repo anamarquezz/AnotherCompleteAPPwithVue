@@ -79,6 +79,14 @@ export default {
     }
   },
 
+  gsw_ui: function({
+    state,
+    commit,
+    dispatch
+  },ui){
+    commit('set_sw_ui',ui);
+  },
+
   set_showMessage: function ({
     state,
     commit,
