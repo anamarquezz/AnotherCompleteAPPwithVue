@@ -1,8 +1,8 @@
 <template>
 
   <div class=" mt-2">
-    <!--  <navbar></navbar>    
-    <employeetoevaluate></employeetoevaluate>-->
+
+    <!-- MENU PRINCIPAL -->
 
     <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.mdAndUp" app v-model="drawer">
       <v-list dense>
@@ -64,9 +64,15 @@
     <v-content>
       <v-container fluid fill-height>
         <v-layout>
-          <listaEmpleadosEvaluar v-if="showComponent =='employeetoevaluate'"></listaEmpleadosEvaluar>
-          <home v-if="showComponent =='home'"></home>
-          <evaluarempleado v-if="showComponent =='evaluarEmpleado'"></evaluarempleado>
+            <!-- Componentes -->
+          <listaEmpleadosEvaluar v-if="gsw_uiBlackboard =='employeetoevaluate'"></listaEmpleadosEvaluar>
+          
+          <home v-if="gsw_uiBlackboard =='home'"></home>
+          
+          <evaluarempleado v-if="gsw_uiBlackboard =='evaluarEmpleado'"></evaluarempleado>
+
+          <cdialog  v-if="gsw_dialog"></cdialog>  
+
         </v-layout>
       </v-container>
     </v-content>
@@ -88,23 +94,24 @@
 </template>
 
 <script>
-  import navbar from '../components/nav/navbar.vue';
-  import listaEmpleadosEvaluar from '../components/modules/listaEmpleadosEvaluar.vue';
-  import evaluarempleado from '../components/modules/evaluarempleado.vue';
-  import home from '../components/modules/home.vue';
+
+  import listaEmpleadosEvaluar from './modules/listaevaluacion/listaEmpleadosEvaluar.vue';
+  import evaluarempleado from './modules/evaluarempleado/evaluarempleado.vue';
+  import home from './modules/home/home.vue';
+  import cdialog from './elemento/cdialog.vue';
   export default {
-    name: 'mainEvaluation',
+    name: 'blackboard',
     components: {
-      navbar,
+
       listaEmpleadosEvaluar,
       evaluarempleado,
-      home
+      home,
+      cdialog
     },
     data() {
       return {
         dialog: false,
-        drawer: null,
-        showComponent:'home',
+        drawer: null,     
         items: [
           {
             icon: 'fas fa-home',
@@ -119,7 +126,11 @@
             icon: 'fas fa-user-circle',
             text: 'Evaluar Empleado',
             code: 'evaluarEmpleado'
-          }, /*
+          }, {
+            icon: 'fas fa-user-circle',
+            text: 'dialog',
+            code: 'cdialog'
+          },  /*
            {
            icon: 'settings',
             'icon-alt': 'settings',
@@ -143,18 +154,21 @@
     computed: {
       g_loginUser() {
         return this.$store.getters.g_loginUser;
-      }
+      },
+      gsw_uiBlackboard() {
+        return this.$store.getters.gsw_uiBlackboard;        
+      },
+      gsw_dialog(){
+        return this.$store.getters.gsw_dialog;
+      }      
     },
     methods: {
       clickMenu(child) {      
          if(child.code =='Salir'){
               this.$store.dispatch('gsw_ui', 'login');
-         }else{
-
+         }else{          
+             this.$store.dispatch('sw_uiBlackboard', child.code);
          }
-         this.showComponent = child.code;
-
-         
       }
     }
   }

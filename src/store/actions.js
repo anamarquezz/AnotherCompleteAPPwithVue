@@ -70,13 +70,66 @@ export default {
       }).then(response => {
         if (response.body.EmployeSubordinate != "") {
           commit('set_SubordinateByUser', response.body.EmployeSubordinate);
-          commit('set_sw_ui','mainevaluation');
+          commit('set_sw_ui','blackboard');
         }
       });
     } catch (e) {
       dispatch('set_showMessage', 'Problem with Application');
       commit('set_loading', false);
     }
+  },
+
+  
+
+  GetEvaluationEmployee: function ({
+    state,
+    commit,
+    dispatch
+  },empleadoInfo) {
+    try {
+      Vue.http.get("http://localhost:49014/api/evaluation/GetEvaluationEmployee", {
+        params: {
+          number: empleadoInfo.number
+        },
+        headers: {
+          Authorization: state.token
+        }
+      }).then(response => {
+        if (response.body.EmployeeInfo != "") {          
+          commit('set_EmployeeInfo', response.body.EmployeeInfo);
+          commit('sw_uiBlackboard','evaluarEmpleado');
+          commit('sw_dialog',false);
+        }
+      });
+    } catch (e) {
+      dispatch('set_showMessage', 'Problem with Application');
+      commit('set_loading', false);
+    }
+  },
+
+  set_cDialog: function({
+    state,
+    commit,
+    dispatch
+  },empleadoaEvaluarSeleccionado){   
+    commit('set_cDialog',empleadoaEvaluarSeleccionado);
+  }, 
+
+  sw_dialog: function({
+    state,
+    commit,
+    dispatch
+  },value){   
+    commit('sw_dialog',value);
+  }, 
+
+  
+  sw_uiBlackboard: function({
+    state,
+    commit,
+    dispatch
+  },ui){
+    commit('sw_uiBlackboard',ui);
   },
 
   gsw_ui: function({

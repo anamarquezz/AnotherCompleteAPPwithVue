@@ -71,6 +71,13 @@ html,body{
 }
 
 
+.icondialog{
+  width: 150px;
+  height: 150px;
+  border: 1px double #b6b6b6;
+}
+
+
 
 
 .backgroundwhite{
@@ -99,16 +106,6 @@ html,body{
 }
 
 
-.theme--dark.v-toolbar {
-  background-color: #1e88e5 !important;
-  color: #fff !important;
-}
-
-.theme--light.v-table thead th {
-  color: rgba(53, 53, 53, 0.87);
-  font-weight: bold;
-  font-size: 16px;
-}
 
 
 .dinline{
@@ -128,4 +125,28 @@ html,body{
 .fntsi50px{
 font-size: 40px;
 
+}
+
+
+
+/* MODIFICACION DE STYLES VUETIFY
+*/
+.theme--dark.v-toolbar {
+  background-color: #1e88e5 !important;
+  color: #fff !important;
+}
+
+.theme--light.v-table thead th {
+  color: rgba(53, 53, 53, 0.87);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+  margin-bottom: -22px;
+}
+
+.theme--light.v-text-field--outline>.v-input__control>.v-input__slot {
+  border: 2px outset rgba(138, 132, 132, 0.54);
 }

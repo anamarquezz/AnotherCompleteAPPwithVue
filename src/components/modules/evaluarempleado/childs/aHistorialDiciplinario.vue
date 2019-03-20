@@ -1,11 +1,5 @@
 <template>
-  <div class="container-fluid">
-
-    <v-toolbar light color="">
-      <v-spacer></v-spacer>
-      <v-btn color="green  mb-2" dark large data-toggle="tooltip" data-placement="top" title="Enviar Evaluaciones"><b>Guardar</b></v-btn>
-    </v-toolbar>
-
+   <v-container grid-list-xl>
 
     <v-toolbar dark color="primary">
       <v-toolbar-title class="">Empleados a evaluar</v-toolbar-title>
@@ -75,26 +69,13 @@
         </v-alert>
       </v-data-table>
     </v-layout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  </div>
+  </v-container>
 
 </template>
 
 <script>
   export default {
-    name: 'listaEmpleadosEvaluar',
+    name: 'aHistorialDiciplinario',
     data() {
       return {
         pagination: {
@@ -164,8 +145,8 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  @import '../../assets/css/global.css';
-  @import '../../assets/css/media_query.css';
+  @import '../../../../assets/css/global.css';
+  @import '../../../../assets/css/media_query.css';
 
   .theme--dark.v-toolbar {
     background-color: #1e88e5 !important;

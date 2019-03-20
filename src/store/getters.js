@@ -7,5 +7,18 @@ export default {
   }, 
   g_loginUser(state){
     return state.loginUser;
+  },
+  gsw_dialog(state){
+    return state.sw_dialog;
+  },  
+  g_empleadoaEvaluar(state){
+    return state.loginUser.empleadoaEvaluar;
+  },
+  g_cDialog(state){
+    return state.loginUser.empleadoaEvaluarSeleccionado;
+  },
+  gsw_uiBlackboard(state){
+    return state.sw_uiBlackboard;
   }
+
 }

@@ -2,21 +2,21 @@
   <div id="app" class="h-100p">
     <div class="container-fluid h-100p">
       <login v-if="gsw_ui === 'login'"></login>     
-      <mainevaluation v-if="gsw_ui === 'mainevaluation'" ></mainevaluation>
+      <blackboard v-if="gsw_ui === 'blackboard'" ></blackboard>
     </div>
   </div>
 </template>
 
 <script>
   /*APPSS */
-  import mainevaluation from './components/mainevaluation.vue';
-  import login from './components/login/login.vue';
+  import blackboard from './components/blackboard.vue';
+  import login from './components/modules/login/login.vue';
 
   export default {
 
     name: 'App',
     components: {
-      mainevaluation,
+      blackboard,
       login
     },
     data() {

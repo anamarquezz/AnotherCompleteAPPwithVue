@@ -9,11 +9,12 @@ import mutations from './mutations'
 import getters from './getters'
 
 Vue.use(Vuex)
-
-
 export default new Vuex.Store({
   state: {
-    sw_ui:'login',    
+    sw_ui: 'login',
+    sw_uiBlackboard: 'home',
+    sw_dialog:false,
+    continue: false,
     token: null,
     modalmessage: {
       show: false,
@@ -27,14 +28,17 @@ export default new Vuex.Store({
       UserPic: '',
       Area: '',
       Job: '',
-      Subordinates:[]
-    },
-   
+      Subordinates: [],
+      empleadoaEvaluarSeleccionado: '',
+      empleadoaEvaluar: {
+        empleadoInfo: '',
+        indicatorTress: [],
+        indicatorConfig: [],
+        categoryValue: []
+      }
+    }
   },
-
-  /*MUTATIONS CHANGES THE VARIABLES OF THE STATE */
   mutations: mutations,
-  /* Instead of mutating the state, actions commit mutations. Events and they are Actions can contain arbitrary asynchronous operations */
   actions: actions,
   getters: getters
 });
