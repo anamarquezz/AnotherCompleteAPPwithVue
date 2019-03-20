@@ -19,6 +19,9 @@ export default {
   },
   gsw_uiBlackboard(state){
     return state.sw_uiBlackboard;
+  },
+  g_loginwidthjsons(state){
+    return state.loginwidthjsons;
   }
 
 }

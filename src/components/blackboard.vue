@@ -181,9 +181,4 @@
     background-color: black !important;
     color: #fff !important;
   }
-
- .v-menu__content {
-    /* max-width: none; */
-   position: fixed !important;
-}
 </style>

@@ -13,13 +13,21 @@ export default new Vuex.Store({
   state: {
     sw_ui: 'login',
     sw_uiBlackboard: 'home',
-    sw_dialog:false,
+    sw_dialog:{
+      Value:false,
+      Title:'',
+      Subtitle:'',
+      contieneImagen:false,
+      Image:'',
+      Paragraph:''
+    },
     continue: false,
     token: null,
     modalmessage: {
       show: false,
       message: ''
     },
+    loginwidthjsons:false,
     loginUser: {
       userId: '',
       Name: '',

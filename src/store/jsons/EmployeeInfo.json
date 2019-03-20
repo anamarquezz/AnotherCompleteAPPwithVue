@@ -1,0 +1,118 @@
+{
+    "EmployeeInfo": {
+        "empleadoInfo": {
+            "Number": 28759,
+            "Name": "ANA LIDIA",
+            "PrettyName": "MARQUEZ HERNANDEZ, ANA LIDIA",
+            "PaternalSurname": "MARQUEZ",
+            "MaternalSurname": "HERNANDEZ",
+            "Department": "SISTEMAS",
+            "AdmissionDate": "2018-01-29T00:00:00",
+            "Position": "DESARROLLADOR",
+            "Clasification": "PLANTA 1",
+            "SupervisorName": "ALEJANDRO",
+            "SupervisorPrettyName": "GOMEZ RUIZ, ALEJANDRO",
+            "SupervisorPaternalSurname": "GOMEZ",
+            "SupervisorMaternalSurname": "RUIZ",
+            "Category": "PERSONAL GERENCIA / ADMINISTRATIVOS (CON PERSONAL A SU CARGO)"
+        },
+        "indicatorTress": [
+            {
+                "Code": "AMONE",
+                "Description": "Amonestación",
+                "Result": 5,
+                "Cantidad": 0
+            },
+            {
+                "Code": "FALTA",
+                "Description": "Falta Injustificada",
+                "Result": 5,
+                "Cantidad": 0
+            },
+            {
+                "Code": "RETA",
+                "Description": "Retardos",
+                "Result": 5,
+                "Cantidad": 1
+            },
+            {
+                "Code": "SUSPEN",
+                "Description": "Suspensión",
+                "Result": 5,
+                "Cantidad": 0
+            }
+        ],
+        "indicatorConfig": [
+            {
+                "IndicatorCode": "CALCONF",
+                "Description": "Calidad y confiabilidad: Mantener grado de cumplimiento. Dar seguimiento a tareas con exactitud, esmero y orden en el trabajo ejecutado, con buen nivel de supervisión.\t\t\t\t\t\t\t\t\t\t\t\t\t"
+            },
+            {
+                "IndicatorCode": "INIEFI",
+                "Description": "Iniciativa y eficiencia: Habilidad para sugerir y mejorar proyectos y sistemas de trabajo que incrementen la productividad. Siempre alcanzando objetivos y metas programadas con el mínimo de recursos y tiempo disponibles, logrando su optimización.\t\t\t\t\t\t\t\t\t\t\t\t\t"
+            },
+            {
+                "IndicatorCode": "CONEXP",
+                "Description": "Conocimiento y experiencia: Aplica y utiliza el conocimiento teórico o práctico adquirido a través del estudio y/o la experiencia correspondiente, de manera efectiva.\t\t\t\t\t\t\t\t\t\t\t\t\t"
+            },
+            {
+                "IndicatorCode": "COOPTRAB",
+                "Description": "Cooperación y trabajo en equipo: Capacidad de trabajar, cooperando en grupos multidisciplinarios. Ser capaz de entender, tener expectativas positivas y comprensión respecto a los demás, aportando y aceptando ideas de otros que conlleven a la consecución de metas y objetivos comunes.\t\t\t\t\t\t\t\t\t\t\t\t\t"
+            },
+            {
+                "IndicatorCode": "DECMAN",
+                "Description": "Decisiones y manejo de conflictos: Tomar decisiones adecuadas y oportunas, comprendiendo situaciones de conflicto, resolviendo problemas de forma lógica y sistemática.\t\t\t\t\t\t\t\t\t\t\t\t\t"
+            },
+            {
+                "IndicatorCode": "LIDDIR",
+                "Description": "Liderazgo y dirección: Capaz de confiar a los demás lo que es necesario hacer y lograr que esto se cumpla. Proporcionar dirección a sus empleados, delegar y eliminar los obstáculos para que el trabajo se realice.\t\t\t\t\t\t\t\t\t\t\t\t\t"
+            },
+            {
+                "IndicatorCode": "DESPER",
+                "Description": "Desarrollo de Personal: Promover y lograr el crecimiento profesional en la gente a su cargo. Motivar a su personal. Buscar capacitaciones y/o cursos asi como mejoras para el personal a su mando. \t\t\t\t\t\t\t\t\t\t\t\t\t"
+            }
+        ],
+        "categoryValue": [
+            {
+                "CategoryCode": "GER_ADM_CPC",
+                "Formula": "e.Score >= 80 && e.Score <= 90",
+                "Min": 80,
+                "Max": 90,
+                "Score": 10,
+                "Descripcion": "Supera las Expectativas"
+            },
+            {
+                "CategoryCode": "GER_ADM_CPC",
+                "Formula": "e.Score >= 65 && e.Score <= 79",
+                "Min": 65,
+                "Max": 79,
+                "Score": 8,
+                "Descripcion": "Cumple con las espectativas"
+            },
+            {
+                "CategoryCode": "GER_ADM_CPC",
+                "Formula": "e.Score >= 50 && e.Score <= 64",
+                "Min": 50,
+                "Max": 64,
+                "Score": 6,
+                "Descripcion": "Cumple la mayoría de las expectativas\r\n"
+            },
+            {
+                "CategoryCode": "GER_ADM_CPC",
+                "Formula": "e.Score >= 35 && e.Score <= 49",
+                "Min": 35,
+                "Max": 49,
+                "Score": 4,
+                "Descripcion": "Cumple parcialmente las expectativas\r\n"
+            },
+            {
+                "CategoryCode": "GER_ADM_CPC",
+                "Formula": "e.Score >= 18 && e.Score <= 34",
+                "Min": 18,
+                "Max": 34,
+                "Score": 2,
+                "Descripcion": "No cumple las expectativas\r\n"
+            }
+        ]
+    }
+}

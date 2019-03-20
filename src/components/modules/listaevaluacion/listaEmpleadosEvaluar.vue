@@ -1,29 +1,18 @@
 <template>
   <div class="container-fluid">
 
-    <v-toolbar light color="">
+    <v-toolbar light color="grey darken-2">
+      <v-toolbar-title class="white--text">Empleados a evaluar</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn color="green  mb-2" dark large data-toggle="tooltip" data-placement="top" title="Enviar Evaluaciones"><b>Guardar</b></v-btn>
+      <v-btn v-if="mostrarEnviar" color="blue darken-1  mb-2" dark large data-toggle="tooltip" data-placement="top"
+        title="Enviar Evaluaciones"><b>ENVIAR</b></v-btn>
     </v-toolbar>
 
 
-    <v-toolbar dark color="primary">
-      <v-toolbar-title class="">Empleados a evaluar</v-toolbar-title>
+    <v-toolbar light color="" class="">
+
       <v-spacer></v-spacer>
       <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
-      <v-menu offset-y :nudge-left="190" :nudge-top="240" :close-on-content-click="false">
-        <v-btn icon slot="activator">
-          <v-icon>more_vert</v-icon>
-        </v-btn>
-        <v-list>
-          <v-list-tile v-for="(item) in headers" :key="item.value" @click="changeSort(item.value)">
-            <v-list-tile-title>{{ item.text }}<v-icon v-if="pagination.sortBy === item.value">{{pagination.descending ?
-                'arrow_downward':'arrow_upward'}}</v-icon>
-            </v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-
-      </v-menu>
     </v-toolbar>
     <v-layout v-resize="onResize" column>
       <v-data-table :headers="headers" :items="g_loginUser.Subordinates" :search="search" :pagination.sync="pagination"
@@ -37,12 +26,12 @@
             <td class="">{{ props.item.Clasificacion }}</td>
             <td class="">{{ props.item.Position}}</td>
             <td>
-              <i class="fas fa-times-circle amber--text text--darken-3 fntsi50px" v-if="props.item.Status=='NO INICIADO'"></i>
+              <i v-if="props.item.Status != 'COMPLETADO'" class="fas fa-times-circle red--text text--darken-3 fntsi50px"></i>
               <i v-else class="fas fa-check-circle green--text  fntsi50px"></i>
             </td>
             <td class="">
-              <v-btn color="blue darken-2 w-50 mb-2" dark large @click="EvaluarEmpleado(props.item)">Evaluar</v-btn>
-              <!--  <v-btn color="orange darken-1 w-100 mb-2" dark large>Evaluar</v-btn> -->
+              <v-btn v-if="props.item.Status != 'COMPLETADO'" color="blue darken-2 w-50 mb-2" dark large @click="EvaluarEmpleado(props.item)"><b>Evaluar</b></v-btn>
+              <v-btn v-else color="blue w-50 mb-2 font-bold" dark large @click="EvaluarEmpleado(props.item)"><b>Editar</b></v-btn>
             </td>
 
           </tr>
@@ -87,8 +76,12 @@
     data() {
       return {
         pagination: {
-          sortBy: 'name'
+          descending: true,
+          page: 1,
+          rowsPerPage: 10, // -1 for All
+          sortBy: 'name',       
         },
+        mostrarEnviar: false,
         selected: [],
         search: '',
         isMobile: false,
@@ -118,13 +111,13 @@
             value: 'actions'
           },
         ],
+
       }
     },
     computed: {
       g_loginUser() {
         return this.$store.getters.g_loginUser;
       }
-    
     },
     methods: {
       onResize() {
@@ -137,7 +130,7 @@
         if (this.selected.length) this.selected = []
         else this.selected = this.g_loginUser.Subordinates.slice()
       },
-      changeSort(column) {       
+      changeSort(column) {
         if (this.pagination.sortBy === column) {
           this.pagination.descending = !this.pagination.descending
         } else {
@@ -145,10 +138,27 @@
           this.pagination.descending = false
         }
       },
-      EvaluarEmpleado(empleadoSelectInfo){    
-            this.$store.dispatch('sw_dialog', true);
-            this.$store.dispatch('set_cDialog', empleadoSelectInfo); 
+      EvaluarEmpleado(empleadoSelectInfo) {
+        var condition = empleadoSelectInfo.Status == 'COMPLETADO' ? 'Editar' : 'Evaluar';
+         var esnuevo = empleadoSelectInfo.Status == 'COMPLETADO' ? false:true;
+
+        var dialog = {
+          Value: true,
+          Title: condition + " Empleado",
+          Subtitle: "¿Estás Seguro de " + condition + " al siguiente Empleado?",
+          contieneImagen: true,
+          Image: empleadoSelectInfo.Image,
+          Paragraph: empleadoSelectInfo.PrettyName,
+          esNuevo: esnuevo
+        };
+
+        this.$store.dispatch('sw_dialog', dialog);
+        this.$store.dispatch('set_cDialog', empleadoSelectInfo);
       }
+    },
+    mounted: function () {
+      this.mostrarEnviar = (this.$store.getters.g_loginUser.Subordinates.filter(e => e.Status === "COMPLETADO").length ==
+        this.$store.getters.g_loginUser.Subordinates.length);
     }
   }
 </script>

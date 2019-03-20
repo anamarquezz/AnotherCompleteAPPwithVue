@@ -11,7 +11,7 @@ export default {
     state,
     dispatch
   }, data) {
-
+    
     Vue.http.post("http://localhost:49014/auth/token", {
         username: data.username,
         password: "cl0v3r",
@@ -21,8 +21,8 @@ export default {
       }, {
         emulateJSON: true
       })
-      .then(responseToken => {      
-       var token = "bearer" + " " + responseToken.body.access_token;
+      .then(responseToken => {
+        var token = "bearer" + " " + responseToken.body.access_token;
         if (token != "") {
           commit('set_token', token);
           dispatch('getEmpleadoInfo');
@@ -37,15 +37,15 @@ export default {
     try {
       Vue.http.get("http://localhost:49014/api/training/GetEmployeeInfo", {
         params: {
-          user_id:0
+          user_id: 0
         },
         headers: {
           Authorization: state.token
         }
       }).then(response => {
         if (response.body.Employee != "") {
-          commit('set_loginUser', response.body.Employee);   
-          dispatch('GetSubordinateByUser');   
+          commit('set_loginUser', response.body.Employee);
+          dispatch('GetSubordinateByUser');
         }
       });
     } catch (e) {
@@ -53,6 +53,31 @@ export default {
       commit('set_loading', false);
     }
   },
+
+  getEmpleadoInfoJson: function ({
+    state,
+    commit,
+    dispatch
+  }) {
+    try {
+      var resultEmp = require('./jsons/Employee.json');   
+      commit('set_loginUser', resultEmp.Employee);  
+
+
+      var resultEmpSub = require('./jsons/EmployeSubordinate.json'); 
+      commit('set_SubordinateByUser', resultEmpSub.EmployeSubordinate);
+
+      
+
+
+      commit('set_sw_ui', 'blackboard');
+
+    } catch (e) {
+      dispatch('set_showMessage', e.message);
+     // commit('set_loading', false);
+    }
+  },
+
 
   GetSubordinateByUser: function ({
     state,
@@ -62,7 +87,7 @@ export default {
     try {
       Vue.http.get("http://localhost:49014/api/evaluation/GetSubordinateByUser", {
         params: {
-          number: 27045//state.loginUser.userId
+          number: 27045 //state.loginUser.userId
         },
         headers: {
           Authorization: state.token
@@ -70,7 +95,7 @@ export default {
       }).then(response => {
         if (response.body.EmployeSubordinate != "") {
           commit('set_SubordinateByUser', response.body.EmployeSubordinate);
-          commit('set_sw_ui','blackboard');
+          commit('set_sw_ui', 'blackboard');
         }
       });
     } catch (e) {
@@ -79,13 +104,22 @@ export default {
     }
   },
 
-  
+  GetEvaluationEmployeeJson: function({
+    state,
+    commit,
+    dispatch
+  }){
+    try{
 
+    }catch (e) {
+      dispatch('set_showMessage', 'Problem with Application');
+    }
+  },
   GetEvaluationEmployee: function ({
     state,
     commit,
     dispatch
-  },empleadoInfo) {
+  }, empleadoInfo) {
     try {
       Vue.http.get("http://localhost:49014/api/evaluation/GetEvaluationEmployee", {
         params: {
@@ -95,10 +129,10 @@ export default {
           Authorization: state.token
         }
       }).then(response => {
-        if (response.body.EmployeeInfo != "") {          
+        if (response.body.EmployeeInfo != "") {
           commit('set_EmployeeInfo', response.body.EmployeeInfo);
-          commit('sw_uiBlackboard','evaluarEmpleado');
-          commit('sw_dialog',false);
+          commit('sw_uiBlackboard', 'evaluarEmpleado');
+          commit('sw_dialog', false);
         }
       });
     } catch (e) {
@@ -107,37 +141,46 @@ export default {
     }
   },
 
-  set_cDialog: function({
+  set_cDialog: function ({
     state,
     commit,
     dispatch
-  },empleadoaEvaluarSeleccionado){   
-    commit('set_cDialog',empleadoaEvaluarSeleccionado);
-  }, 
-
-  sw_dialog: function({
-    state,
-    commit,
-    dispatch
-  },value){   
-    commit('sw_dialog',value);
-  }, 
-
-  
-  sw_uiBlackboard: function({
-    state,
-    commit,
-    dispatch
-  },ui){
-    commit('sw_uiBlackboard',ui);
+  }, empleadoaEvaluarSeleccionado) {
+    commit('set_cDialog', empleadoaEvaluarSeleccionado);
   },
 
-  gsw_ui: function({
+  set_loginwidthjsons: function ({
     state,
     commit,
     dispatch
-  },ui){
-    commit('set_sw_ui',ui);
+  }, value) {
+    commit('set_loginwidthjsons', value);
+    dispatch('getEmpleadoInfoJson');
+  },
+
+  sw_dialog: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
+    commit('sw_dialog', values);
+  },
+
+
+  sw_uiBlackboard: function ({
+    state,
+    commit,
+    dispatch
+  }, ui) {
+    commit('sw_uiBlackboard', ui);
+  },
+
+  gsw_ui: function ({
+    state,
+    commit,
+    dispatch
+  }, ui) {
+    commit('set_sw_ui', ui);
   },
 
   set_showMessage: function ({

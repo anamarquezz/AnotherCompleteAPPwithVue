@@ -28,6 +28,7 @@
 
           <b-btn class="btn btn-lg btn-primary btn-block ml-5 w-75" variant="primary" v-on:click="onloginn()">Sign in</b-btn>
           <p class="mt-5 mb-3 text-muted text-center">© 2019</p>
+          <b-btn class="btn btn-lg btn-primary btn-block ml-5 w-75" variant="deep-purple" v-on:click="onloginjson()">log ing with json</b-btn>
         </form>
 
 
@@ -71,6 +72,9 @@
         if (this.validLogin()) {
           this.$store.dispatch('_token', this.data);
         }
+      },
+      onloginjson : function(){
+          this.$store.dispatch('set_loginwidthjsons', true);       
       },
       validLogin: function () {
         this.data.username = document.getElementById('username').value,

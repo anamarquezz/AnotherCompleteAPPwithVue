@@ -14,11 +14,19 @@ export default {
     state.modalmessage.message = message;
     state.modalmessage.show = true;
   },
-  sw_dialog:(state,value) => {
-    state.sw_dialog = value;
+  sw_dialog:(state,value) => { 
+    state.sw_dialog.Value = value.Value;
+    state.sw_dialog.Title = value.Title;
+    state.sw_dialog.Subtitle= value.Subtitle;
+    state.sw_dialog.contieneImagen = value.contieneImagen;
+    state.sw_dialog.Image = value.Image;
+    state.sw_dialog.Paragraph = value.Paragraph;
   },
   set_cDialog: (state, empleadoaEvaluarSeleccionado) => {
     state.loginUser.empleadoaEvaluarSeleccionado = empleadoaEvaluarSeleccionado;
+  },
+  set_loginwidthjsons:(state, value) =>{
+    state.loginwidthjsons = value;
   },
   set_loginUser: (state, data) => {
     state.loginUser.userId = data.userId;
