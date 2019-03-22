@@ -58,17 +58,17 @@
     methods: {
       act_continuar: function () {
 
-        this.$store.dispatch('GetEvaluationEmployee', empleadoSelectInfo);
+        // this.$store.dispatch('GetEvaluationEmployeeJson', this.g_cDialog);
+        this.$store.dispatch('GetEvaluationEmployee', this.g_cDialog);
       },
       act_regresar: function () {
         var dialog = {
           Value: false,
-          Title: '',
-          Subtitle: '',
-          contieneImagen: false,
-          Image: '',
-          Paragraph: ''
-
+          Title: this.g_cDialog.Title,
+          Subtitle: this.g_cDialog.Subtitle,
+          contieneImagen: true,
+          Image: this.g_cDialog.Image,
+          Paragraph:this.g_cDialog.Paragraph
         };
         this.$store.dispatch('sw_dialog', dialog);
       }

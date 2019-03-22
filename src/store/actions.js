@@ -110,26 +110,32 @@ export default {
     dispatch
   }){
     try{
+      var resultEmp = require('./jsons/EmployeeInfo.json');   
+  
 
+      commit('set_EmployeeInfo', resultEmp.EmployeeInfo);
+      commit('sw_uiBlackboard', 'evaluarEmpleado');
+      commit('sw_dialog', false);
     }catch (e) {
-      dispatch('set_showMessage', 'Problem with Application');
+      dispatch('set_showMessage', e.message);
     }
   },
   GetEvaluationEmployee: function ({
     state,
     commit,
     dispatch
-  }, empleadoInfo) {
+  }, data) {
     try {
       Vue.http.get("http://localhost:49014/api/evaluation/GetEvaluationEmployee", {
         params: {
-          number: empleadoInfo.number
+          number: data.Number
         },
         headers: {
           Authorization: state.token
         }
       }).then(response => {
         if (response.body.EmployeeInfo != "") {
+          response.body.EmployeeInfo.empleadoInfo.Image = data.Image;
           commit('set_EmployeeInfo', response.body.EmployeeInfo);
           commit('sw_uiBlackboard', 'evaluarEmpleado');
           commit('sw_dialog', false);
@@ -140,7 +146,7 @@ export default {
       commit('set_loading', false);
     }
   },
-
+//JSON
   set_cDialog: function ({
     state,
     commit,

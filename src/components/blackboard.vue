@@ -4,7 +4,7 @@
 
     <!-- MENU PRINCIPAL -->
 
-    <v-navigation-drawer fixed :clipped="$vuetify.breakpoint.mdAndUp" app v-model="drawer">
+    <v-navigation-drawer  fixed :clipped="$vuetify.breakpoint.mdAndUp" app v-model="drawer">
       <v-list dense>
         <template v-for="item in items">
           <v-layout row v-if="item.heading" align-center :key="item.heading">
@@ -71,10 +71,11 @@
           
           <evaluarempleado v-if="gsw_uiBlackboard =='evaluarEmpleado'"></evaluarempleado>
 
-          <cdialog  v-if="gsw_dialog"></cdialog>  
+        
 
         </v-layout>
       </v-container>
+        <cdialog  v-if="gsw_dialog"></cdialog>  
     </v-content>
   <!--  <v-btn fab bottom left color="pink" dark fixed @click.stop="dialog = !dialog">
       <v-icon>add</v-icon>
@@ -121,12 +122,12 @@
             icon: 'far fa-list-alt',
             text: 'Empleados a Evaluar',
             code: 'employeetoevaluate'
-          },          
+          },/*{          
           {
             icon: 'fas fa-user-circle',
             text: 'Evaluar Empleado',
             code: 'evaluarEmpleado'
-          }, {
+          }, /*{
             icon: 'fas fa-user-circle',
             text: 'dialog',
             code: 'cdialog'

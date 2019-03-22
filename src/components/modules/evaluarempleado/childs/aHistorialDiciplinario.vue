@@ -1,75 +1,37 @@
 <template>
-   <v-container grid-list-xl>
+  <div>     
 
-    <v-toolbar dark color="primary">
-      <v-toolbar-title class="">Empleados a evaluar</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
-      <v-menu offset-y :nudge-left="190" :nudge-top="240" :close-on-content-click="false">
-        <v-btn icon slot="activator">
-          <v-icon>more_vert</v-icon>
-        </v-btn>
-        <v-list>
-          <v-list-tile v-for="(item) in headers" :key="item.value" @click="changeSort(item.value)">
-            <v-list-tile-title>{{ item.text }}<v-icon v-if="pagination.sortBy === item.value">{{pagination.descending ?
-                'arrow_downward':'arrow_upward'}}</v-icon>
-            </v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-
-      </v-menu>
-    </v-toolbar>
-    <v-layout v-resize="onResize" column>
-      <v-data-table :headers="headers" :items="g_loginUser.Subordinates" :search="search" :pagination.sync="pagination"
-        :hide-headers="isMobile" :class="{mobile: isMobile}">
-
+    <v-toolbar dark color="blue ">
+      <v-toolbar-title class="white--text ">
+        <h6 class="text-pre-wrap font-weight-bold"> DESEMPEÑO A EVALUAR</h6>
+      </v-toolbar-title>          
+    </v-toolbar>    
+   
+    <v-layout v-resize="onResize" column style="padding-top:10px" class="text-justify" >
+      <v-data-table :headers="headers" :items="g_empEvaluar.indicatorTress" 
+        :pagination.sync="pagination" :hide-headers="isMobile" :class="{mobile: isMobile}" hide-actions>
         <template slot="items" slot-scope="props">
-          <tr v-if="!isMobile">
-            <td class="">
-              <img :src="props.item.Image" class="iconsize rounded-circle mt-1 mb-1 " /></td>
-            <td class="">{{ props.item.PrettyName }} , <b>Num Emp. #{{props.item.Number}}</b> </td>
-            <td class="">{{ props.item.Clasificacion }}</td>
-            <td class="">{{ props.item.Position}}</td>
-            <td>
-              <i class="fas fa-times-circle amber--text text--darken-3 fntsi50px" v-if="props.item.Status=='NO INICIADO'"></i>
-              <i v-else class="fas fa-check-circle green--text  fntsi50px"></i>
-            </td>
-            <td class="">
-              <v-btn color="blue darken-2 w-50 mb-2" dark large>Evaluar</v-btn>
-              <!--  <v-btn color="orange darken-1 w-100 mb-2" dark large>Evaluar</v-btn> -->
-            </td>
-
+          <tr  v-if="!isMobile">
+            <td class="miw-3  p-3">{{props.item.Description}} </td>                       
+             <v-rating  v-model="props.item.Result" background-color="orange" color="orange" readonly="readonly"></v-rating>
           </tr>
           <tr v-else>
             <td>
-              <ul class="container-fluid">
-                <div class="row">
-                  <div col-1>
-                    <i class="fas fa-times-circle amber--text text--darken-3 fntsi50px" v-if="props.item.Status=='NO INICIADO'"></i>
-                    <i v-else class="fas fa-check-circle green--text  fntsi50px"></i>
-                  </div>
-                  <div class="col-3">
-                    <img :src="props.item.Image" class="iconsize rounded-circle" />
-                  </div>
-                  <div class="col-5">
-                    {{props.item.Name}},<b>Emp # {{props.item.Number}}</b>, {{ props.item.Position}}
-                    <!-- <button type="button" class="btn btn btn-primary w-100">Editar</button>    -->
-                  </div>
-                  <div class="col-12">
-                    <v-btn color="indigo accent-2 w-100 mb-2" dark large>Evaluar</v-btn>
-                  </div>
-
-                </div>
+              <ul class="flex-content">
+                <li class="flex-item">{{props.item.Description}}</li>
+                <li class="" data-label="Puntuación">
+                  <v-rating   v-if="!isMobile" v-model="props.item.Result" background-color="orange" color="orange" readonly="readonly" small></v-rating>                
+                </li>
               </ul>
             </td>
           </tr>
         </template>
-        <v-alert slot="no-results" :value="true" color="red lighten-1" icon="warning ">
+        <v-alert slot="no-results" :value="true" color="error" icon="warning">
           Your search for "{{ search }}" found no results.
         </v-alert>
       </v-data-table>
     </v-layout>
-  </v-container>
+  </div>
 
 </template>
 
@@ -78,50 +40,40 @@
     name: 'aHistorialDiciplinario',
     data() {
       return {
+        rrating: 5,
+        readonly :true,
         pagination: {
-          sortBy: 'name'
+          descending: true,
+          page: 1,
+          rowsPerPage: 10, // -1 for All
+          sortBy: 'histodisc',
         },
+        mostrarEnviar: false,
         selected: [],
         search: '',
         isMobile: false,
         font: 'font-size: 20px !important;',
         headers: [{
-            text: '',
-            value: 'Image'
+            text: 'Historial Disciplinario',
+            value: 'Description'
           },
           {
-            text: 'Nombre',
-            value: 'PrettyName'
-          },
-          {
-            text: 'Clasificación',
-            value: 'Clasificacion'
-          },
-          {
-            text: 'Puesto',
-            value: 'Position'
-          },
-          {
-            text: 'Evaluado',
-            value: 'Evaluado'
-          },
-          {
-            text: '',
-            value: 'actions'
-          },
-
+            text: 'Puntuación',
+            value: 'Puntuación'
+          }
 
         ],
+
       }
     },
     computed: {
-      g_loginUser() {
-        return this.$store.getters.g_loginUser;
-      },
+      g_empEvaluar() {
+        return this.$store.getters.g_loginUser.empleadoaEvaluar;
+      }
     },
     methods: {
       onResize() {
-        if (window.innerWidth < 769)
+        if (window.innerWidth < 770)
           this.isMobile = true;
         else
           this.isMobile = false;
@@ -131,14 +83,35 @@
         else this.selected = this.g_loginUser.Subordinates.slice()
       },
       changeSort(column) {
-        console.log(column);
         if (this.pagination.sortBy === column) {
           this.pagination.descending = !this.pagination.descending
         } else {
           this.pagination.sortBy = column
           this.pagination.descending = false
         }
+      },
+      EvaluarEmpleado(empleadoSelectInfo) {
+        var condition = empleadoSelectInfo.Status == 'COMPLETADO' ? 'Editar' : 'Evaluar';
+        var esnuevo = empleadoSelectInfo.Status == 'COMPLETADO' ? false : true;
+
+        var dialog = {
+          Value: true,
+          Title: condition + " Empleado",
+          Subtitle: "¿Estás Seguro de " + condition + " al siguiente Empleado?",
+          contieneImagen: true,
+          Image: empleadoSelectInfo.Image,
+          Paragraph: empleadoSelectInfo.PrettyName,
+          esNuevo: esnuevo
+        };
+
+        this.$store.dispatch('sw_dialog', dialog);
+        this.$store.dispatch('set_cDialog', empleadoSelectInfo);
       }
+    },
+    mounted: function () {
+      this.mostrarEnviar = (this.$store.getters.g_loginUser.Subordinates.filter(e => e.Status === "COMPLETADO")
+        .length ==
+        this.$store.getters.g_loginUser.Subordinates.length);
     }
   }
 </script>

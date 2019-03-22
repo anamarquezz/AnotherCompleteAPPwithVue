@@ -21,12 +21,14 @@ export default new Vuex.Store({
       Image:'',
       Paragraph:''
     },
+    
     continue: false,
     token: null,
     modalmessage: {
       show: false,
       message: ''
     },
+    NumeroEmpleadoSeleccionado:'',
     loginwidthjsons:false,
     loginUser: {
       userId: '',

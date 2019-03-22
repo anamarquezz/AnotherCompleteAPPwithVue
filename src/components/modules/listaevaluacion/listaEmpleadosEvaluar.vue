@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
 
-    <v-toolbar light color="grey darken-2">
+    <v-toolbar dark color="blue" >
       <v-toolbar-title class="white--text">Empleados a evaluar</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn v-if="mostrarEnviar" color="blue darken-1  mb-2" dark large data-toggle="tooltip" data-placement="top"
@@ -149,7 +149,8 @@
           contieneImagen: true,
           Image: empleadoSelectInfo.Image,
           Paragraph: empleadoSelectInfo.PrettyName,
-          esNuevo: esnuevo
+          esNuevo: esnuevo,
+          Number:empleadoSelectInfo.Number
         };
 
         this.$store.dispatch('sw_dialog', dialog);

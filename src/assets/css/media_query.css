@@ -59,3 +59,31 @@
     height: 40px;
     font-weight: bold;
   }
+
+  
+  @media (min-width: 768px){
+    .miw-3{
+      min-width: 100px;
+      max-width:100px;
+      
+    }
+  }
+
+  @media (min-width: 992px){
+    .miw-3{
+      min-width: 280px;
+      max-width:200px;
+      
+    }
+  }
+
+
+
+
+    @media (min-width: 1200px){
+    .miw-3{
+      min-width: 430px;
+      max-width: 400px;
+      
+    }
+  }

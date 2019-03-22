@@ -6,7 +6,7 @@
 
       <div class="topcenter">
         <div>
-          <img src="../../../assets/img/logow.png" class="mt-5 mb-5  ml-5 imgRes  " />
+          <img src="../../../assets/img/logow.png" class="mb-5  ml-5 imgRes  " />
         </div>
         <div class="marketing-banner-text ml-5">Evaluación de <strong>desempeño</strong>
         </div>
