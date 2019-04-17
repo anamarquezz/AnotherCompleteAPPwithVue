@@ -17,11 +17,24 @@ export default {
   g_cDialog(state){
     return state.loginUser.empleadoaEvaluarSeleccionado;
   },
-  gsw_uiBlackboard(state){
-    return state.sw_uiBlackboard;
+  gsw_uimainEvaluacion(state){
+    return state.sw_uimainEvaluacion;
   },
   g_loginwidthjsons(state){
     return state.loginwidthjsons;
-  }
+  },
+  g_userRating(state){
+    return state.loginUser.empleadoaEvaluar.ratingEmpleado;
+  },
+  g_showMessage(state){
+    return state.modalmessage;
+  },
+  g_Loading(state){
+    return state.loading;
+  },
+  g_headers(state){
+    return   state.loginUser.headersGrid;
+  },
+
 
 }

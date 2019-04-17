@@ -1,28 +1,39 @@
 <template>
-  <v-container fluid grid-list-xs text-xs-center>
+  <v-container fluid grid-list-xs>
+
     <div class="row mb-3">
-      <div class="col-md-7 col-lg-7 col-xl-10 mt-2">
-        <v-toolbar dark color="blue ">
-          <v-toolbar-title class="white--text ">
-            <h6 class="text-pre-wrap font-weight-bold">EVALUACION DE DESEMPEÑO</h6>
-          </v-toolbar-title>
-            <v-spacer></v-spacer>          
-        </v-toolbar>
-      </div>
-      <div class="col-xl-2">
-           <v-btn color="blue darken-2 w-50 mb-2" dark large class="w-100 h-75"><b>Evaluar</b></v-btn>
+      <div class="row">
+        <div class="col text-left"></div>
+        <v-btn color="blue darken-2 mnl-5" dark large @click="RegresarUsuarios()"><b>
+            <h4 class="dinline mr-2"><i class="fas fa-arrow-left mt-2"></i></h4>Regresar
+          </b>
+          </v-btn>
+            <h6 class="text-pre-wrap font-weight-bold headline ml-5">EVALUACION DE DESEMPEÑO</h6>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-7 col-lg-7 col-xl-8 order-2  order-md-1 order-lg-1 order-xl-1 mt-2">
+
+    <v-layout>
+      <v-flex xs12 sm8 md8 lg8 xl8>
+
+         <div class="text-right">
+          <v-btn color="light-blue darken-4" dark large v-on:click="GuardarEvaluacion"><b>Guardar</b></v-btn>
+        </div>
         <aHistorialDiciplinario></aHistorialDiciplinario>
-        <aReactivosPersonal class="mt-3"> </aReactivosPersonal>
-      </div>
-      <div class="col-md-7 col-lg-5 col-xl-4 order-1 order-md-2 order-lg-2 order-xl-2  mt-2">
-        <infoEmpleado class=""></infoEmpleado>
-        <firmasyResultados class="mt-lg-5"></firmasyResultados>
-      </div>
-    </div>
+        <aReactivosPersonal class="mt-1"></aReactivosPersonal>
+<firmas class="mt-lg-5"></firmas>
+
+         
+      </v-flex>
+
+      <v-flex xs12 sm4 md4 lg4 xl4>
+          <infoEmpleado class=""></infoEmpleado>        
+          <expansionlist></expansionlist>
+          <calificacionpuntuacion></calificacionpuntuacion>
+          
+        
+      </v-flex>   
+    </v-layout>   
+
   </v-container>
 
 
@@ -30,26 +41,59 @@
 
 <script>
   import infoEmpleado from './childs/infoEmpleado.vue';
-  import firmasyResultados from './childs/firmasyResultados.vue';
+  import firmas from './childs/firmas.vue';
+
+  import expansionlist from '../../elemento/expansionlist.vue'
 
   import aHistorialDiciplinario from './childs/aHistorialDiciplinario.vue';
   import aReactivosPersonal from './childs/aReactivosPersonal.vue';
+
+  import calificacionpuntuacion from './childs/calificacionpuntuacion.vue';
 
   export default {
     name: 'evaluarEmpleado',
     components: {
 
       infoEmpleado,
-      firmasyResultados,
+      firmas,
       aHistorialDiciplinario,
-      aReactivosPersonal
+      aReactivosPersonal,
+      calificacionpuntuacion,
+
+      expansionlist
     },
     data() {
       return {}
     },
     computed: {},
-    methods: {}
+    methods: {
+      GuardarEvaluacion: function () {
+        var esto =this;
+       new Promise((resolve, reject) => {
+          esto.$store.dispatch('saveUpdateUser').then(() =>
+            resolve('listo!!')).catch(err => console.log(err));
+        }).then(()=>{
+              esto.$store.dispatch('backevaluarempleado') 
+           esto.$router.push('/mempleadosaevaluar')
+        });
+
+
+      },
+      RegresarUsuarios() {
+        var esto = this;   
+        new Promise((resolve, reject) => {
+          esto.$store.dispatch('GetSubordinateByUser').then(() =>
+            resolve('listo!!'),
+               esto.$store.dispatch('backevaluarempleado')      ).catch(err => console.log(err));
+        }).then((successMessage) => {
+          esto.$router.push('/mempleadosaevaluar');         
+        });
+
+
+      }
+    }
   }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -61,4 +105,5 @@
     background-color: #1e88e5 !important;
     color: #fff !important;
   }
+
 </style>

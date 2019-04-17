@@ -1,26 +1,36 @@
 <template>
-  <div>     
+
+  <div>
 
     <v-toolbar dark color="blue ">
       <v-toolbar-title class="white--text ">
-        <h6 class="text-pre-wrap font-weight-bold"> DESEMPEÑO A EVALUAR</h6>
-      </v-toolbar-title>          
-    </v-toolbar>    
-   
-    <v-layout v-resize="onResize" column style="padding-top:10px" class="text-justify" >
-      <v-data-table :headers="headers" :items="g_empEvaluar.indicatorTress" 
-        :pagination.sync="pagination" :hide-headers="isMobile" :class="{mobile: isMobile}" hide-actions>
+        <h6 class="text-pre-wrap font-weight-bold title"> DESEMPEÑO A EVALUAR</h6>
+      </v-toolbar-title>
+    </v-toolbar>
+
+    <v-layout v-resize="onResize" column style="padding-top:10px" class="text-justify">
+      <v-data-table :headers="headers" :items="g_loginUser.empleadoaEvaluar.indicatorTress" :pagination.sync="pagination"
+        :hide-headers="isMobile" :class="{mobile: isMobile}" hide-actions>
         <template slot="items" slot-scope="props">
-          <tr  v-if="!isMobile">
-            <td class="miw-3  p-3">{{props.item.Description}} </td>                       
-             <v-rating  v-model="props.item.Result" background-color="orange" color="orange" readonly="readonly"></v-rating>
+          <tr v-if="!isMobile">
+            <td class="miw-3  p-3 font-sizes"><b>{{props.item.Description}}</b>, <i> periodo: {{g_loginUser.minYear}} - {{g_loginUser.maxYear}}</i></td>
+
+            <v-radio-group v-model="props.item.Result" row class="mt-2">
+              <v-radio :label="''+i" :value="i" v-for="i in props.item.Result" :key="i" color="grey lighten-1" readonly="readonly"></v-radio>
+            </v-radio-group>
+
+            <!-- <v-rating  v-model="props.item.Result" background-color="orange" color="orange" readonly="readonly"></v-rating> -->
           </tr>
           <tr v-else>
             <td>
               <ul class="flex-content">
-                <li class="flex-item">{{props.item.Description}}</li>
+                <li class="flex-item font-sizes">{{props.item.Description}}</li>
                 <li class="" data-label="Puntuación">
-                  <v-rating   v-if="!isMobile" v-model="props.item.Result" background-color="orange" color="orange" readonly="readonly" small></v-rating>                
+                  <v-radio-group v-model="row" column class="mt-2">
+                    <v-radio :label="i" :value="i" v-for="i in props.item.Result" :key="i" color="blue darken-3">
+                    </v-radio>
+                  </v-radio-group>
+                  <!-- <v-rating  v-model="props.item.Result" background-color="orange" color="orange" readonly="readonly" small></v-rating>                 -->
                 </li>
               </ul>
             </td>
@@ -36,12 +46,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
+
   export default {
     name: 'aHistorialDiciplinario',
     data() {
       return {
         rrating: 5,
-        readonly :true,
+        readonly: true,
         pagination: {
           descending: true,
           page: 1,
@@ -66,11 +79,10 @@
 
       }
     },
-    computed: {
-      g_empEvaluar() {
-        return this.$store.getters.g_loginUser.empleadoaEvaluar;
-      }
-    },
+     computed: {       
+            ...mapGetters(["g_loginUser"]),
+            
+    }, 
     methods: {
       onResize() {
         if (window.innerWidth < 770)
@@ -109,11 +121,10 @@
       }
     },
     mounted: function () {
-      this.mostrarEnviar = (this.$store.getters.g_loginUser.Subordinates.filter(e => e.Status === "COMPLETADO")
-        .length ==
-        this.$store.getters.g_loginUser.Subordinates.length);
+     var a = this;
     }
   }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -125,4 +136,9 @@
     background-color: #1e88e5 !important;
     color: #fff !important;
   }
+
+  .font-sizes {
+    font-size: 17px;
+  }
+
 </style>

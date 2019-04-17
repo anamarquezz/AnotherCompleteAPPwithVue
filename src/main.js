@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import jQuery from 'jquery';
+import router from '../src/router.js'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -14,10 +15,14 @@ import vuex from 'vuex';
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 
+import routerv from 'vue-router'
+
 Vue.use(BootstrapVue);
 Vue.use(VueResource);
 Vue.use(vuex);
 Vue.use(Vuetify)
+Vue.use(routerv);
+
 
 
 
@@ -39,7 +44,9 @@ import store from './store/store'
 /* eslint-disable no-new */
 export default new Vue({
   el: '#app',
-  store:store,
+  router,
+  store,
   components: { App },
   template: '<App/>'
 })
+1

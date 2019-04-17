@@ -11,42 +11,66 @@ import getters from './getters'
 Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
-    sw_ui: 'login',
-    sw_uiBlackboard: 'home',
-    sw_dialog:{
-      Value:false,
-      Title:'',
-      Subtitle:'',
-      contieneImagen:false,
-      Image:'',
-      Paragraph:''
+    drawer:true,
+    sw_ui: 'login',   
+    sw_uimainEvaluacion: 'home',
+    sw_dialog: {
+      Value: false,
+      Title: '',
+      Subtitle: '',
+      contieneImagen: false,
+      Image: '',
+      Paragraph: ''
     },
-    
-    continue: false,
-    token: null,
     modalmessage: {
+      colorThema:'',
       show: false,
-      message: ''
+      message: '',
+      title:'',
+      showregresar:false,
     },
-    NumeroEmpleadoSeleccionado:'',
-    loginwidthjsons:false,
+    continue: false,
+    token: localStorage.getItem('user-token') || '',    
+    status:'',
+    NumeroEmpleadoSeleccionado: '',
+    loginwidthjsons: false,
+    loading:{
+      value:0,
+      show:false
+    },
     loginUser: {
-      userId: '',
-      Name: '',
-      Puesto: '',
-      Shift: '',
-      UserPic: '',
-      Area: '',
-      Job: '',
-      Subordinates: [],
+      userId:localStorage.getItem('userId') || '',
+      Name: localStorage.getItem('Name') || '',
+      Puesto: localStorage.getItem('Puesto') || '',
+      Shift: localStorage.getItem('Shift') || '',
+      UserPic: localStorage.getItem('UserPic') || '',
+      Area: localStorage.getItem('Area') || '', 
+      isRH:localStorage.getItem('isRH') || true,
+      isSupervisor:localStorage.getItem('isSupervisor') || false,
+      allowEvaluation:localStorage.getItem('allowEvaluation') || false,
+      descriptionPeriod:localStorage.getItem('descriptionPeriod') || '',
+      minPeriod:localStorage.getItem('minPeriod') || '',
+      maxPeriod:localStorage.getItem('maxPeriod') || '',
+      minYear:localStorage.getItem('minYear') || '',
+      maxYear:localStorage.getItem('maxYear') || '',
       empleadoaEvaluarSeleccionado: '',
+      Subordinates:localStorage.getItem('Subordinates') || [],
       empleadoaEvaluar: {
+        ratingEmpleado: 0,
+        puntuacionEmpleado: 0,
         empleadoInfo: '',
         indicatorTress: [],
         indicatorConfig: [],
-        categoryValue: []
+        categoryValue: [],
+        evaluationResult: '',
+        saveUpdateUser: {
+          number: '',        
+          comments: '',
+          feedBack_Comments: '',
+          IndicatorResult: []
+        }
       }
-    }
+     }
   },
   mutations: mutations,
   actions: actions,

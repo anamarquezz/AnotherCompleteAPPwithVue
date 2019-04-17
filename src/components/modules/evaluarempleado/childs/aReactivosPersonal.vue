@@ -1,28 +1,44 @@
 <template>
   <div>
-    <v-toolbar dark color="blue ">
+    <v-toolbar dark color="blue">
       <v-toolbar-title class="white--text ">
-        <h6 class="text-pre-wrap font-weight-bold">{{g_empEvaluar.empleadoInfo.Category}}</h6>
+        <h6 class="text-pre-wrap font-weight-bold title m-3">{{g_empEvaluar.empleadoInfo[0].Category}}</h6>
       </v-toolbar-title>
     </v-toolbar>
 
     <v-layout v-resize="onResize" column style="padding-top:10px" class="text-justify">
-      <v-data-table :headers="headers" :items="g_empEvaluar.indicatorConfig" 
-        :hide-headers="isMobile" :class="{mobile: isMobile}" hide-actions>
+      <v-data-table :headers="headers" :items="g_empEvaluar.indicatorConfig" :hide-headers="isMobile"
+        :class="{mobile: isMobile}" :search="search" :pagination.sync="pagination">
         <template slot="items" slot-scope="props">
           <tr v-if="!isMobile">
-            <td class="miw-3 p-3">{{props.item.Description}} </td>
-            <v-rating v-model="props.item.Result" background-color="orange" color="orange"></v-rating>
+            <td class="miw-3 p-3 font-sizes">{{props.item.Description}} </td>
+            <v-radio-group v-model="props.item.Result" row class="mt-2" @click="ratingReactivo(props.item)">
+              <v-radio label="2" :value="2" color="blue darken-3" ></v-radio>
+              <v-radio label="4" :value="4" color="blue darken-3" ></v-radio>
+              <v-radio label="6" :value="6" color="blue darken-3"></v-radio>
+              <v-radio label="8" :value="8" color="blue darken-3" ></v-radio>
+              <v-radio label="10" :value="10"  color="blue darken-3" ></v-radio>
+            </v-radio-group>
+            <!--  <v-rating v-model="props.item.Result" background-color="orange" color="orange"  v-on="ratingReactivo(props.item)"></v-rating> -->
+
           </tr>
           <tr v-else>
             <td>
               <ul class="flex-content">
-                <li class="d-inline-block text-truncate" style="max-width: 200px;" data-toggle="tooltip"
-                  data-placement="top">
+                <li class="d-inline-block text-truncate " style="max-width: 200px;" data-toggle="tooltip"
+                  data-placement="top ">
                   {{props.item.Description}}
                 </li>
                 <li class="" data-label="Puntuación">
-                  <v-rating v-model="props.item.Result" background-color="orange" color="orange" small></v-rating>
+                  <v-radio-group v-model="props.item.Result" row class="mt-2" @click="ratingReactivo(props.item)">
+              <v-radio label="2" :value="2" color="blue darken-3" ></v-radio>
+              <v-radio label="4" :value="4" color="blue darken-3" ></v-radio>
+              <v-radio label="6" :value="6" color="blue darken-3"></v-radio>
+              <v-radio label="8" :value="8" color="blue darken-3" ></v-radio>
+              <v-radio label="10" :value="10"  color="blue darken-3" ></v-radio>
+            </v-radio-group>
+                 <!-- <v-rating v-model="props.item.Result" background-color="orange" color="orange" small
+                    v-on="ratingReactivo(props.item)"></v-rating>-->
                 </li>
               </ul>
             </td>
@@ -43,7 +59,10 @@
     data() {
       return {
         pagination: {
-          sortBy: 'histodisc'
+          descending: true,
+          page: 1,
+          rowsPerPage: 5, // -1 for All
+          sortBy: 'Description',
         },
         selected: [],
         search: '',
@@ -75,10 +94,16 @@
       },
       toggleAll() {
         if (this.selected.length) this.selected = []
-        else this.selected = this.g_loginUser.Subordinates.slice()           
+        else this.selected = this.g_loginUser.Subordinates.slice()
       },
+      ratingReactivo(item) {
+        var esto = this;
+        esto.$store.dispatch('calculateRating', item);
+
+      }
     }
   }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -90,4 +115,9 @@
     background-color: #1e88e5 !important;
     color: #fff !important;
   }
+
+  .font-sizes {
+    font-size: 17px;
+  }
+
 </style>

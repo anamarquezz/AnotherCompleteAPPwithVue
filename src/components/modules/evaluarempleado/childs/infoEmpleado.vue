@@ -1,63 +1,73 @@
 <template>
-  <div v-resize="onResize">
-    <v-layout v-if="!isMobile">
-     
-        <v-flex xs12>
-          <v-card dark color="blue darken-1" class="white--text">
-            <v-layout>
-              <v-flex xs3>
-                <v-img :src="g_empleadoaEvaluar.Image" class="icondialog rounded-circle mt-4 ml-2"></v-img>
-              </v-flex>
-              <v-flex xs9>
-                <v-card-title primary-title>
-                  <div cla>
-                    <div class="subheading"><b>{{g_empleadoaEvaluar.Name}}, {{g_empleadoaEvaluar.PaternalSurname}}</b> </div>
-                      <div class="subheading">{{g_empleadoaEvaluar.Position}}, {{g_empleadoaEvaluar.Department}}</div>                    
-                    <div class="subheading">Fecha de ingreso {{g_empleadoaEvaluar.AdmissionDateFormat}}</div>
-                  </div>
-                </v-card-title>
-              </v-flex>
-            </v-layout>
-            <v-divider light></v-divider>
-            
-            <v-card-actions class=" font-weith-bold title white black--text "  >            
+  <v-container grid-list v-resize="onResize" class="text-center">
+
+    <div v-if="!isMobile">
+      <v-flex xs12>
+        <v-card dark color="indigo" class="white--text pt-1">
+          <v-flex>
+            <div class=" text-center mt-2">
+              <img class="elevation-5 iconinfo rounded-circle " :src="g_imagen" />
+            </div>
+          </v-flex>
+          <v-divider light></v-divider>
+          <v-flex xs12 class="text-center white">
+         <!--   <v-rating medium v-model="g_userRating" background-color="orange" color="orange" readonly="readonly"
+              class=" ml-xl-5"></v-rating> -->
+          </v-flex>
+          <v-card-actions class="font-weith-bold title white black--text">
+            <v-flex xs12 class=" white" subheading>
+              <div class="subheading p-1 "><h4></h4>
+              </div>
+              <div class="headline p-1 mb-2"><b>#{{g_empleadoaEvaluar.Number}}, </b><b class="">{{g_empleadoaEvaluar.Name}} {{g_empleadoaEvaluar.PaternalSurname}},</b> 
+              </div>
+              <div class="subheading pb-2">Fecha de ingreso  :<b> {{g_empleadoaEvaluar.AdmissionDateFormat}}</b></div>
+              <div class="subheading p-1">Puesto: <b>{{g_empleadoaEvaluar.Position}}</b></div>
+                          <div class="subheading p-1">Salario: <b > ${{g_empleadoaEvaluar.Salary}}</b></div>
+              <div class="subheading p-1">Departamento:<b> {{g_empleadoaEvaluar.Department}}</b></div>
+              <div class="subheading p-1">Planta: <b>{{g_empleadoaEvaluar.Planta}} </b> </div>
+              <div class="subheading p-1">Supervisor: <b>{{g_empleadoaEvaluar.SupervisorName}}, {{g_empleadoaEvaluar.SupervisorPaternalSurname}} </b></div>
+              <div class="subheading p-1">Clasificación:<b> {{g_empleadoaEvaluar.Clasification}}</b></div>
+
+            </v-flex>
             <v-spacer></v-spacer>
-                 <v-rating medium v-model="rating" background-color="orange" color="orange" readonly="readonly" class=" ml-xl-5"></v-rating>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
 
- 
-    </v-layout>
+    </div>
 
-    <v-layout v-else>
-     
-        <v-flex xs12>
-          <v-card dark color="blue darken-1" class="white--text">
-            <v-layout>
-                <v-flex xs3 class="text-center" >
-                </v-flex>
-              <v-flex xs8 class="text-center" >
-                <v-img :src="g_empleadoaEvaluar.Image" class="icondialog rounded-circle  mt-4  ml-xl-2 ml-lg-2 ml-3"></v-img>
-              </v-flex>              
-            </v-layout>
-            <v-divider light></v-divider>
-            <v-flex xs12 class="text-center white" >
-                 <v-rating medium v-model="rating" background-color="orange" color="orange" readonly="readonly" class=" ml-xl-5"></v-rating>
-            </v-flex>          
-            <v-card-actions class=" font-weith-bold title white black--text "  >   
-              <div class="ml-2">
-                    <div class="subheading"><b>{{g_empleadoaEvaluar.Name}}, {{g_empleadoaEvaluar.PaternalSurname}}</b> </div>
-                      <div class="subheading">{{g_empleadoaEvaluar.Position}}, {{g_empleadoaEvaluar.Department}}</div>                    
-                    <div class="subheading">Fecha de ingreso {{g_empleadoaEvaluar.AdmissionDateFormat}}</div>
-                  </div>         
+
+    <div v-else>
+
+      <v-flex xs12>
+        <v-card dark color="indigo" class="white--text pt-1">
+          <v-flex>
+            <div class=" text-center mt-5">
+              <img class="elevation-5 iconinfo rounded-circle " :src="g_imagen" />
+            </div>
+          </v-flex>
+          <v-divider light></v-divider>
+          <v-flex xs12 class="text-center white">
+          <!--  <v-rating medium v-model="g_userRating" background-color="orange" color="orange" readonly="readonly"
+              class=" ml-xl-5"></v-rating> -->
+          </v-flex>
+          <v-card-actions class="font-weith-bold title white black--text">
+            <v-flex xs12 class="text-center white" subheading>
+              <div class="subheading p-1"><b>{{g_empleadoaEvaluar.Name}}, {{g_empleadoaEvaluar.PaternalSurname}}</b>
+              </div>
+              <div class="subheading pb-2">Fecha de ingreso: {{g_empleadoaEvaluar.AdmissionDateFormat}}</div>
+              <div class="subheading p-1">{{g_empleadoaEvaluar.Position}}</div>
+              <div class="subheading p-1"> {{g_empleadoaEvaluar.Department}}</div>
+              <div class="subheading p-1">{{g_empleadoaEvaluar.Clasification}}</div>
+
+            </v-flex>
             <v-spacer></v-spacer>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
 
- 
-    </v-layout>
+
+    </div>
 
     <!--
     <v-layout v-if="!isMobile" wrap class="white">
@@ -126,7 +136,7 @@
       </v-container>
     </v-layout>
     -->
-  </div>
+  </v-container>
 
 
 </template>
@@ -138,8 +148,7 @@
     data() {
       return {
         isMobile: false,
-        readonly:true,
-        rating:5
+        readonly: true
       }
     },
     methods: {
@@ -152,7 +161,13 @@
     },
     computed: {
       g_empleadoaEvaluar() {
-        return this.$store.getters.g_empleadoaEvaluar.empleadoInfo;
+        return this.$store.getters.g_empleadoaEvaluar.empleadoInfo[0];
+      },
+       g_imagen() {
+        return this.$store.getters.g_empleadoaEvaluar.empleadoInfo.Image;
+      },
+      g_userRating() {
+        return this.$store.getters.g_userRating;
       }
     }
   }

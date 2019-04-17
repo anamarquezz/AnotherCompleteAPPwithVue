@@ -14,7 +14,8 @@
             "SupervisorPrettyName": "GOMEZ RUIZ, ALEJANDRO",
             "SupervisorPaternalSurname": "GOMEZ",
             "SupervisorMaternalSurname": "RUIZ",
-            "Category": "PERSONAL GERENCIA / ADMINISTRATIVOS (CON PERSONAL A SU CARGO)"
+            "Category": "PERSONAL GERENCIA / ADMINISTRATIVOS (SIN PERSONAL A SU CARGO)",
+            "AdmissionDateFormat": "01/29/2018"
         },
         "indicatorTress": [
             {
@@ -46,81 +47,121 @@
             {
                 "IndicatorCode": "CALCONF",
                 "Description": "Calidad y confiabilidad: Mantener grado de cumplimiento. Dar seguimiento a tareas con exactitud, esmero y orden en el trabajo ejecutado, con buen nivel de supervisión.\t\t\t\t\t\t\t\t\t\t\t\t\t",
-                "Result": 5
-
-            },
-            {
-                "IndicatorCode": "INIEFI",
-                "Description": "Iniciativa y eficiencia: Habilidad para sugerir y mejorar proyectos y sistemas de trabajo que incrementen la productividad. Siempre alcanzando objetivos y metas programadas con el mínimo de recursos y tiempo disponibles, logrando su optimización.\t\t\t\t\t\t\t\t\t\t\t\t\t",
-                "Result": 5
+                "Result": 5,
+                "Cantidad": null
             },
             {
                 "IndicatorCode": "CONEXP",
                 "Description": "Conocimiento y experiencia: Aplica y utiliza el conocimiento teórico o práctico adquirido a través del estudio y/o la experiencia correspondiente, de manera efectiva.\t\t\t\t\t\t\t\t\t\t\t\t\t",
-                "Result": 5
+                "Result": 4,
+                "Cantidad": null
             },
             {
                 "IndicatorCode": "COOPTRAB",
                 "Description": "Cooperación y trabajo en equipo: Capacidad de trabajar, cooperando en grupos multidisciplinarios. Ser capaz de entender, tener expectativas positivas y comprensión respecto a los demás, aportando y aceptando ideas de otros que conlleven a la consecución de metas y objetivos comunes.\t\t\t\t\t\t\t\t\t\t\t\t\t",
-                "Result": 5
+                "Result": 4,
+                "Cantidad": null
             },
             {
                 "IndicatorCode": "DECMAN",
                 "Description": "Decisiones y manejo de conflictos: Tomar decisiones adecuadas y oportunas, comprendiendo situaciones de conflicto, resolviendo problemas de forma lógica y sistemática.\t\t\t\t\t\t\t\t\t\t\t\t\t",
-                "Result": 5
+                "Result": 4,
+                "Cantidad": null
             },
             {
-                "IndicatorCode": "LIDDIR",
-                "Description": "Liderazgo y dirección: Capaz de confiar a los demás lo que es necesario hacer y lograr que esto se cumpla. Proporcionar dirección a sus empleados, delegar y eliminar los obstáculos para que el trabajo se realice.\t\t\t\t\t\t\t\t\t\t\t\t\t",
-                "Result": 2
-            },
-            {
-                "IndicatorCode": "DESPER",
-                "Description": "Desarrollo de Personal: Promover y lograr el crecimiento profesional en la gente a su cargo. Motivar a su personal. Buscar capacitaciones y/o cursos asi como mejoras para el personal a su mando. \t\t\t\t\t\t\t\t\t\t\t\t\t",
-                "Result": 1
+                "IndicatorCode": "INIEFI",
+                "Description": "Iniciativa y eficiencia: Habilidad para sugerir y mejorar proyectos y sistemas de trabajo que incrementen la productividad. Siempre alcanzando objetivos y metas programadas con el mínimo de recursos y tiempo disponibles, logrando su optimización.\t\t\t\t\t\t\t\t\t\t\t\t\t",
+                "Result": 4,
+                "Cantidad": null
             }
         ],
         "categoryValue": [
             {
-                "CategoryCode": "GER_ADM_CPC",
-                "Formula": "e.Score >= 80 && e.Score <= 90",
-                "Min": 80,
-                "Max": 90,
+                "CategoryCode": "GER_ADM_SPC",
+                "Formula": "e.Score >= 61 && e.Score <= 70",
+                "Min": 61,
+                "Max": 70,
                 "Score": 10,
                 "Descripcion": "Supera las Expectativas"
             },
             {
-                "CategoryCode": "GER_ADM_CPC",
-                "Formula": "e.Score >= 65 && e.Score <= 79",
-                "Min": 65,
-                "Max": 79,
+                "CategoryCode": "GER_ADM_SPC",
+                "Formula": "e.Score >= 51 && e.Score <= 60",
+                "Min": 51,
+                "Max": 60,
                 "Score": 8,
                 "Descripcion": "Cumple con las espectativas"
             },
             {
-                "CategoryCode": "GER_ADM_CPC",
-                "Formula": "e.Score >= 50 && e.Score <= 64",
-                "Min": 50,
-                "Max": 64,
+                "CategoryCode": "GER_ADM_SPC",
+                "Formula": "e.Score >= 41 && e.Score <= 50",
+                "Min": 41,
+                "Max": 50,
                 "Score": 6,
                 "Descripcion": "Cumple la mayoría de las expectativas\r\n"
             },
             {
-                "CategoryCode": "GER_ADM_CPC",
-                "Formula": "e.Score >= 35 && e.Score <= 49",
-                "Min": 35,
-                "Max": 49,
+                "CategoryCode": "GER_ADM_SPC",
+                "Formula": "e.Score >= 31 && e.Score <= 40",
+                "Min": 31,
+                "Max": 40,
                 "Score": 4,
                 "Descripcion": "Cumple parcialmente las expectativas\r\n"
             },
             {
-                "CategoryCode": "GER_ADM_CPC",
-                "Formula": "e.Score >= 18 && e.Score <= 34",
-                "Min": 18,
-                "Max": 34,
+                "CategoryCode": "GER_ADM_SPC",
+                "Formula": "e.Score >= 14 && e.Score <= 30",
+                "Min": 14,
+                "Max": 30,
                 "Score": 2,
                 "Descripcion": "No cumple las expectativas\r\n"
             }
-        ]
+        ],
+        "evaluationResult": {
+            "evaluation_id": 11,
+            "evaluationStatus": "COMPLETADO",
+            "evaluationStatusCode": "COM",
+            "expiration_date": null,
+            "evaluation_date": "2019-03-26T08:24:43.59",
+            "number": 28759,
+            "supervisorNumber": 27045,
+            "year": 2018,
+            "comments": "prueba comentarios",
+            "feedback_comments": null,
+            "feedback_date": null,
+            "result": 80,
+            "indicatorResult": null,
+            "messageResult": "Supera las Expectativas",
+            "signatureInfo": [
+                {
+                    "TypeCode": "EMP",
+                    "TypeDescription": "Empleado",
+                    "Name": "MARQUEZ HERNANDEZ, ANA LIDIA",
+                    "Signature": "",
+                    "Date": "2019-03-27T16:09:55.3"
+                },
+                {
+                    "TypeCode": "GEAR",
+                    "TypeDescription": "Gerente de Area",
+                    "Name": null,
+                    "Signature": "",
+                    "Date": "2019-03-27T16:09:55.3"
+                },
+                {
+                    "TypeCode": "GERH",
+                    "TypeDescription": "Gerencia RH",
+                    "Name": null,
+                    "Signature": "",
+                    "Date": "2019-03-27T16:09:55.3"
+                },
+                {
+                    "TypeCode": "SUP",
+                    "TypeDescription": "Jefe Inmediato/\u000bSup. Gral.",
+                    "Name": "GOMEZ RUIZ, ALEJANDRO",
+                    "Signature": "",
+                    "Date": "2019-03-27T16:09:55.3"
+                }
+            ]
+        }
     }
 }

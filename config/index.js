@@ -30,9 +30,9 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../web_evaluacionDesempeno/index.html'),
+    index: path.resolve(__dirname, '../web_EvalTest/index.html'),
     // Paths
-    assetsRoot: path.resolve(__dirname, '../web_evaluacionDesempeno'), //webstations
+    assetsRoot: path.resolve(__dirname, '../web_EvalTest'), //webstations
     assetsSubDirectory: 'static',
     assetsPublicPath: '',
     /**
