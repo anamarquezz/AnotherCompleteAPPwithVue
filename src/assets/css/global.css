@@ -179,11 +179,7 @@ font-size: 40px;
   color: rgba(0, 0, 0, 0.7)!important;
 }
 
-.v-menu__content {
-  position: fixed !important;
-  top: 700.5px !important;
-  left: 1550px !important;
-}
+
 
 .miw-3{
   min-width: 480px;

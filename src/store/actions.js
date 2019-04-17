@@ -471,6 +471,59 @@ export default {
       });
     }
   },
+  
+  guardarPeriodo: function ({
+    state,
+    commit,
+    dispatch
+  },data) {
+
+    try {
+
+      Vue.http.post("http://localhost:49014/api/evaluation/UpdatePeriod",
+          data, {
+          headers: {
+            Authorization: localStorage.getItem('user-token')
+          },
+        }, {
+          emulateJSON: true
+        }).then(response => {
+          dispatch('set_showMessage', {
+            message: 'Datos Almacenados!!, ' + response.body,
+            title: 'Información',
+            colorThema: 'blue',
+            showregresar: false,
+            show: true
+          });
+          commit('s_Loading', {
+            value: 0,
+            show: false
+          });
+        },
+        response => {
+          commit('s_Loading', {
+            value: 0,
+            show: false
+          });
+          dispatch('set_showMessage', {
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.error,
+            show: true,
+            title: 'Error',
+            showregresar: false,
+            colorThema: 'red'
+          });
+          dispatch("gsw_ui", "login");
+        });
+    } catch (e) {
+      dispatch('set_showMessage', {
+        message: e.message,
+        show: true,
+        title: 'Error',
+        showregresar: false,
+        colorThema: 'red'
+      });
+    }
+  },
 
 
   GetEvaluationEmployee: function ({
@@ -493,6 +546,51 @@ export default {
             commit('calcularRatinguser');
 
           }
+        },
+        response => {
+          commit('s_Loading', {
+            value: 0,
+            show: false
+          });
+          dispatch('set_showMessage', {
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.error,
+            show: true,
+            title: 'Error',
+            showregresar: false,
+            colorThema: 'red'
+          });
+          dispatch("gsw_ui", "login");
+        });
+    } catch (e) {
+      dispatch('set_showMessage', {
+        message: e.message,
+        show: true,
+        title: 'Error',
+        showregresar: false,
+        colorThema: 'red'
+      });
+    }
+  },
+
+  GetPeriods: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
+    commit('set_resetperiods', {
+      List:[]
+    });
+    try {    
+      Vue.http.get("http://localhost:49014/api/evaluation/GetPeriods", {
+        headers: {
+          Authorization: localStorage.getItem('user-token')
+        },
+        progress(e) {       
+        }
+      }).then(response => {
+          commit('set_periods', {
+            List: response.body.EmployeesBySuperviser
+          });
         },
         response => {
           commit('s_Loading', {

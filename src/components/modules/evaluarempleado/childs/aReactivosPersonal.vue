@@ -13,11 +13,11 @@
           <tr v-if="!isMobile">
             <td class="miw-3 p-3 font-sizes">{{props.item.Description}} </td>
             <v-radio-group v-model="props.item.Result" row class="mt-2" @click="ratingReactivo(props.item)">
-              <v-radio label="2" :value="2" color="blue darken-3" ></v-radio>
-              <v-radio label="4" :value="4" color="blue darken-3" ></v-radio>
-              <v-radio label="6" :value="6" color="blue darken-3"></v-radio>
-              <v-radio label="8" :value="8" color="blue darken-3" ></v-radio>
-              <v-radio label="10" :value="10"  color="blue darken-3" ></v-radio>
+              <v-radio label="2" :value="2" color="blue darken-3" :disabled="!g_loginUser.allowEvaluation"></v-radio>
+              <v-radio label="4" :value="4" color="blue darken-3" :disabled="!g_loginUser.allowEvaluation"></v-radio>
+              <v-radio label="6" :value="6" color="blue darken-3" :disabled="!g_loginUser.allowEvaluation"></v-radio>
+              <v-radio label="8" :value="8" color="blue darken-3" :disabled="!g_loginUser.allowEvaluation"></v-radio>
+              <v-radio label="10" :value="10"  color="blue darken-3"  :disabled="!g_loginUser.allowEvaluation"></v-radio>
             </v-radio-group>
             <!--  <v-rating v-model="props.item.Result" background-color="orange" color="orange"  v-on="ratingReactivo(props.item)"></v-rating> -->
 
@@ -31,10 +31,10 @@
                 </li>
                 <li class="" data-label="Puntuación">
                   <v-radio-group v-model="props.item.Result" row class="mt-2" @click="ratingReactivo(props.item)">
-              <v-radio label="2" :value="2" color="blue darken-3" ></v-radio>
-              <v-radio label="4" :value="4" color="blue darken-3" ></v-radio>
-              <v-radio label="6" :value="6" color="blue darken-3"></v-radio>
-              <v-radio label="8" :value="8" color="blue darken-3" ></v-radio>
+              <v-radio label="2" :value="2" color="blue darken-3" :disabled="!g_loginUser.allowEvaluation" ></v-radio>
+              <v-radio label="4" :value="4" color="blue darken-3" :disabled="!g_loginUser.allowEvaluation" ></v-radio>
+              <v-radio label="6" :value="6" color="blue darken-3" :disabled="!g_loginUser.allowEvaluation"></v-radio>
+              <v-radio label="8" :value="8" color="blue darken-3" :disabled="!g_loginUser.allowEvaluation"></v-radio>
               <v-radio label="10" :value="10"  color="blue darken-3" ></v-radio>
             </v-radio-group>
                  <!-- <v-rating v-model="props.item.Result" background-color="orange" color="orange" small
@@ -54,6 +54,13 @@
 </template>
 
 <script>
+
+  import {
+    mapState,
+    mapActions,
+    mapGetters
+  } from 'vuex';
+
   export default {
     name: 'aReactivosPersonal',
     data() {
@@ -81,6 +88,7 @@
       }
     },
     computed: {
+       ...mapGetters(["g_loginUser"]),
       g_empEvaluar() {
         return this.$store.getters.g_loginUser.empleadoaEvaluar;
       },

@@ -35,6 +35,9 @@ export default {
   g_headers(state){
     return   state.loginUser.headersGrid;
   },
+  g_periods:(state, data) =>{
+    return state.datePeriods;  
+  },
 
 
 }

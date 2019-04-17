@@ -7,33 +7,27 @@
         <v-btn color="blue darken-2 mnl-5" dark large @click="RegresarUsuarios()"><b>
             <h4 class="dinline mr-2"><i class="fas fa-arrow-left mt-2"></i></h4>Regresar
           </b>
-          </v-btn>
-            <h6 class="text-pre-wrap font-weight-bold headline ml-5">EVALUACION DE DESEMPEÑO</h6>
+        </v-btn>
+        <h6 class="text-pre-wrap font-weight-bold headline ml-5">EVALUACION DE DESEMPEÑO</h6>
       </div>
     </div>
 
     <v-layout>
       <v-flex xs12 sm8 md8 lg8 xl8>
-
-         <div class="text-right">
+        <div class="text-right">
           <v-btn color="light-blue darken-4" dark large v-on:click="GuardarEvaluacion"><b>Guardar</b></v-btn>
         </div>
         <aHistorialDiciplinario></aHistorialDiciplinario>
         <aReactivosPersonal class="mt-1"></aReactivosPersonal>
-<firmas class="mt-lg-5"></firmas>
-
-         
+        <firmas class="mt-lg-5"></firmas>
       </v-flex>
 
       <v-flex xs12 sm4 md4 lg4 xl4>
-          <infoEmpleado class=""></infoEmpleado>        
-          <expansionlist></expansionlist>
-          <calificacionpuntuacion></calificacionpuntuacion>
-          
-        
-      </v-flex>   
-    </v-layout>   
-
+        <infoEmpleado class=""></infoEmpleado>
+        <expansionlist></expansionlist>
+        <calificacionpuntuacion></calificacionpuntuacion>
+      </v-flex>
+    </v-layout>
   </v-container>
 
 
@@ -68,28 +62,40 @@
     computed: {},
     methods: {
       GuardarEvaluacion: function () {
-        var esto =this;
-       new Promise((resolve, reject) => {
+        var esto = this;
+        new Promise((resolve, reject) => {
           esto.$store.dispatch('saveUpdateUser').then(() =>
-            resolve('listo!!')).catch(err => console.log(err));
-        }).then(()=>{
-              esto.$store.dispatch('backevaluarempleado') 
-           esto.$router.push('/mempleadosaevaluar')
+            resolve('listo!!')
+            ).catch(err => console.log(err));
+        }).then(() => {
+          
+          esto.$store.dispatch('backevaluarempleado').then( () =>{
+              esto.$router.push('/mempleadosaevaluar')
+          })
+         
         });
 
 
       },
       RegresarUsuarios() {
-        var esto = this;   
+        var esto = this;
         new Promise((resolve, reject) => {
           esto.$store.dispatch('GetSubordinateByUser').then(() =>
             resolve('listo!!'),
-               esto.$store.dispatch('backevaluarempleado')      ).catch(err => console.log(err));
+            esto.$store.dispatch('backevaluarempleado')).catch(err => console.log(err));
         }).then((successMessage) => {
-          esto.$router.push('/mempleadosaevaluar');         
+          esto.$router.push('/mempleadosaevaluar');
         });
 
 
+      },
+      GuardarEvaluacion() {
+        var esto = this;
+        new Promise((resolve, reject) => {
+          esto.$store.dispatch('GetSubordinateByUser').then(() =>
+            resolve('listo!!'),
+          ).catch(err => console.log(err));
+        }).then((successMessage) => {});
       }
     }
   }

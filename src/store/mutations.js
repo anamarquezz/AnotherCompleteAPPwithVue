@@ -61,7 +61,7 @@ export default {
     state.loginUser.UserPic = "data:image/png;base64," + data.Image;
     state.loginUser.isRH = true;//data.isRH;
     state.loginUser.isSupervisor = data.isSupervisor,
-    state.loginUser.allowEvaluation = data.allowEvaluation,
+    state.loginUser.allowEvaluation = true //data.allowEvaluation,
     state.loginUser.descriptionPeriod = data.descriptionPeriod,
     state.loginUser.minPeriod = new Date(data.minPeriod).toLocaleDateString(),
     state.loginUser.maxPeriod = new Date(data.maxPeriod).toLocaleDateString(),
@@ -157,6 +157,18 @@ export default {
       state.loginUser.empleadoaEvaluar.saveUpdateUser.comments='';
       state.loginUser.empleadoaEvaluar.IndicatorResult = [];  
 
+  },
+  set_resetperiods:(state) =>{
+    state.datePeriods  = [];
+  },
+  set_periods:(state, data) =>{  
+
+    data.List.forEach(function (element) {
+      element.minDate =  new Date(element.minDate).toISOString().substr(0, 10);
+      element.maxDate =  new Date(element.maxDate).toISOString().substr(0, 10);
+    });
+
+    state.datePeriods = data.List;  
   },
 
   calcularRatinguser: (state, data) => {

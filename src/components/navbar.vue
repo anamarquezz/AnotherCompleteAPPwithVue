@@ -5,7 +5,7 @@
        <v-icon dark>fas fa-bars</v-icon>
      </v-btn>
      <span class="title ml-3 mr-5 ">
-       <h5><b>Evaluación de desempeño, </b><b class="grey--text text--lighten-1">{{loginUser.descriptionPeriod}}, {{loginUser.minPeriod}} - {{loginUser.maxPeriod}}</b></h5>
+       <h6><b>Evaluación de desempeño, </b><b class="grey--text text--lighten-1">{{loginUser.descriptionPeriod}}, {{loginUser.minPeriod}} - {{loginUser.maxPeriod}}</b></h6>
      </span>
      <v-spacer></v-spacer>
      <span class="mr-3">{{loginUser.Name}}</span>

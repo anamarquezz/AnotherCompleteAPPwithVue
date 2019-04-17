@@ -8,11 +8,12 @@ import mhome from '../src/views/mhome.vue';
 import mevaluarempledo from '../src/views/mevaluarempledo.vue';
 import mempleadosevaluadores from '../src/views/mempleadosevaluadores.vue';
 import mevaluadosporsupervisor from '../src/views/mevaluadosporsupervisor.vue';
+import mconfigurarfechas from '../src/views/mconfigurarfechas.vue';
 
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+ // mode: 'history',
   base: process.env.BASE_URL,
   routes: [{
       path: "/", //mean the path of the component
@@ -41,6 +42,11 @@ export default new Router({
       path:'/mempleadosevaluadores/mevaluadosporsupervisor',
       name:'mevaluadosporsupervisor',
       component:mevaluadosporsupervisor
+    },
+    {
+      path:'/mconfigurarfechas',
+      name:'mconfigurarfechas',
+      component:mconfigurarfechas
     }
   ]
 });

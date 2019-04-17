@@ -38,6 +38,7 @@ export default new Vuex.Store({
       value:0,
       show:false
     },
+    datePeriods:[],
     loginUser: {
       userId:localStorage.getItem('userId') || '',
       Name: localStorage.getItem('Name') || '',

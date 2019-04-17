@@ -83,9 +83,10 @@
                   </v-btn>
                 </li>
                 <li class="flex-xs12 mt-4 mb-4" v-if="g_gridby === 'employesScore'">
-                  <v-rating v-model="props.item.Score" background-color="orange" color="orange" readonly="readonly"
+                  <!-- <v-rating v-model="props.item.Score" background-color="orange" color="orange" readonly="readonly"
                     small>
-                  </v-rating>
+                  </v-rating> -->
+                  {{props.item.Score}}
                 </li>
               </ul>
 
@@ -215,4 +216,9 @@
 </script>
 
 <style scoped>
+.v-menu__content {
+  position: fixed !important; 
+ /* top: 500.5px !important;
+  left: 1300px !important; */
+}
 </style>

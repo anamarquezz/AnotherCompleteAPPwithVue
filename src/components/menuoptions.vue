@@ -44,7 +44,7 @@
             text: "home",
             code: "mhome"
           },
-          {  
+          {
             icon: "far fa-list-alt light-blue--text text--darken-2",
             text: "Empleados a Evaluar",
             code: "mempleadosaevaluar"
@@ -59,37 +59,44 @@
 
       }
     },
-    computed: {     
+    computed: {
       ...mapState({
-      drawer: 'drawer',
-      loginUser: 'loginUser'
-    }),
-    
-    
+        drawer: 'drawer',
+        loginUser: 'loginUser'
+      }),
+
+
     },
     props: [],
     methods: {
       opcionmenu(item) {
         var esto = this,
-        metodo='';
-           //this.$store.dispatch("s_Loading", { value: 0, show: true });
-        switch (item.code) { 
-          case 'mempleadosaevaluar':        
-              metodo="GetSubordinateByUser";           
+          metodo = '';
+        //this.$store.dispatch("s_Loading", { value: 0, show: true });
+        switch (item.code) {
+          case 'mempleadosaevaluar':
+            metodo = "GetSubordinateByUser";
+            break;
+            case 'mconfigurarfechas':
+            metodo ="GetPeriods";
             break;
           case 'mempleadosevaluadores':
-            metodo= "GetSummarySubordinates";         
+            metodo = "GetSummarySubordinates";
             break;
           case '#login':
-           metodo= "AUTH_LOGOUT";                            
+            metodo = "AUTH_LOGOUT";
             break;
         }
-        new Promise((resolve, reject) => {
-          esto.$store.dispatch(metodo).then(() =>
-            resolve('listo!!')).catch(err => console.log(err));
-        }).then((successMessage) => {
-          esto.$router.push("/"+ item.code);         
-        });
+        if (metodo == "") {
+          esto.$router.push("/" + item.code);
+        } else {
+          new Promise((resolve, reject) => {
+            esto.$store.dispatch(metodo).then(() =>
+              resolve('listo!!')).catch(err => console.log(err));
+          }).then((successMessage) => {
+            esto.$router.push("/" + item.code);
+          });
+        }
       }
     },
     created: function () {
@@ -100,7 +107,13 @@
           text: "Empleados que estan Evaluando",
           code: "mempleadosevaluadores",
 
+        }, {
+          icon: "fas fa-calendar-alt light-blue--text text--darken-2",
+          text: "Periodo de fechas",
+          code: "mconfigurarfechas",
         });
+
+
       }
     }
 
