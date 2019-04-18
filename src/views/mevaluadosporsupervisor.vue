@@ -5,12 +5,12 @@
 
       <navbar color="grey darken-4" textcolor="white--text"></navbar>
 
-      <v-flex row xs12 md lg3 xl3>
+      <v-flex row xs3 md3 lg3 xl3>
         <menuoptions></menuoptions>
       </v-flex>
 
 
-      <v-flex xs12 md10 lg10 xl0 class="mt-5">
+      <v-flex xs6 md9 lg9 xl9 class="mt-5">
 
         <v-layout class="mt-5">
 

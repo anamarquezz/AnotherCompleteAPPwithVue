@@ -3,7 +3,7 @@
     <v-layout>
       <navbar color="grey darken-4"  textcolor="white--text"></navbar>
 
-      <v-flex roww xs md3 lg3 xl3>
+      <v-flex roww xs6 md3 lg3 xl3>
         <menuoptions></menuoptions>
       </v-flex>
 

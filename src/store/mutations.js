@@ -16,9 +16,7 @@ export default {
   set_token: (state, value) => {
     state.token = value;
   },
-  set_sw_ui: (state, ui) => {
-    state.sw_ui = ui;
-  }, 
+ 
   set_headers: (state, headers) => {
     state.loginUser.headersGrid = headers;
   }, 
@@ -59,14 +57,15 @@ export default {
     state.loginUser.turno = data.turno;
     state.loginUser.Area = data.department;
     state.loginUser.UserPic = "data:image/png;base64," + data.Image;
-    state.loginUser.isRH = true;//data.isRH;
+    state.loginUser.isRH =  true;//data.isRH;
     state.loginUser.isSupervisor = data.isSupervisor,
-    state.loginUser.allowEvaluation = true //data.allowEvaluation,
+    state.loginUser.allowEvaluation = true;//data.allowEvaluation,
     state.loginUser.descriptionPeriod = data.descriptionPeriod,
     state.loginUser.minPeriod = new Date(data.minPeriod).toLocaleDateString(),
     state.loginUser.maxPeriod = new Date(data.maxPeriod).toLocaleDateString(),
     state.loginUser.minYear =  new Date(data.minYear).toLocaleDateString() ,
     state.loginUser.maxYear = new Date(data.maxYear).toLocaleDateString(),  
+    state.loginUser.EvalYear = new Date(data.maxYear).getFullYear(),  
 
     
       localStorage.setItem('userId',state.loginUser.userId);
@@ -83,6 +82,7 @@ export default {
       localStorage.setItem('maxPeriod',state.loginUser.maxPeriod);
       localStorage.setItem('minYear',state.loginUser.minYear);
       localStorage.setItem('maxYear',state.loginUser.maxYear);
+      localStorage.setItem('EvalYear',state.loginUser.EvalYear);
     
   },
 

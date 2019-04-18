@@ -3,7 +3,7 @@
 
      <v-btn flat dark small color="" class="white--text " @click="ondrawer()">
        <v-icon dark>fas fa-bars</v-icon>
-     </v-btn>
+     </v-btn> 
      <span class="title ml-3 mr-5 ">
        <h6><b>Evaluación de desempeño, </b><b class="grey--text text--lighten-1">{{loginUser.descriptionPeriod}}, {{loginUser.minPeriod}} - {{loginUser.maxPeriod}}</b></h6>
      </span>
@@ -28,20 +28,16 @@
      data() {
        return {}
      },
-     computed: mapState([
-       'loginUser'
-     ]),
+     computed:{
+       ...mapState({
+         loginUser:'loginUser',
+         drawer:'drawer'
+       })
+     },
      props: ['color', 'titulobarra', 'textcolor'],
      methods: {
        ondrawer() {
-         var drawer = '';
-         if (!this.drawer) {
-           drawer = true;
-         } else {
-           drawer = false;
-         }
-         var esto = this;
-         this.$store.dispatch('set_drawer', drawer);
+         this.$store.dispatch('set_drawer', this.drawer == false?true:false);        
        }
      }
    }

@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer fixed clipped class="grey lighten-4" app v-model="drawer">
+  <v-navigation-drawer fixed clipped class="grey lighten-4" app v-model="g_drawer">
     <v-list dense class="grey lighten-4">
       <template v-for="(item, i) in items">
         <v-layout row v-if="item.heading" align-center :key="i">
@@ -60,11 +60,14 @@
       }
     },
     computed: {
-      ...mapState({
-        drawer: 'drawer',
+      ...mapState({ 
         loginUser: 'loginUser'
       }),
-
+       g_drawer: {
+        get() { return this.$store.getters.g_drawer; },
+        set(newValue) {  }
+        
+     },     
 
     },
     props: [],
@@ -90,19 +93,21 @@
         if (metodo == "") {
           esto.$router.push("/" + item.code);
         } else {
-          new Promise((resolve, reject) => {
+        
+             esto.$store.dispatch("s_Loading", { value: 0, show: true }),
             esto.$store.dispatch(metodo).then(() =>
-              resolve('listo!!')).catch(err => console.log(err));
-          }).then((successMessage) => {
-            esto.$router.push("/" + item.code);
-          });
+               esto.$router.push("/" + item.code),
+         //    esto.$store.dispatch("s_Loading", { value: 0, show: false })
+             ).catch(err => console.log(err));         
+          
+         
         }
       }
     },
     created: function () {
       var esto = this;
-      if (esto.loginUser.isRH) {
-        esto.items.splice(2, 0, {
+     // if (esto.loginUser.isRH) {
+      esto.items.splice(2, 0, {
           icon: "fa-id-card light-blue--text text--darken-2",
           text: "Empleados que estan Evaluando",
           code: "mempleadosevaluadores",
@@ -114,7 +119,7 @@
         });
 
 
-      }
+    //  }
     }
 
   }

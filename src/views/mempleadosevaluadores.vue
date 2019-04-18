@@ -5,7 +5,7 @@
 
       <navbar color="grey darken-4" textcolor="white--text"></navbar>
 
-      <v-flex row xs12 md lg3 xl3>
+      <v-flex row xs3 md3 lg3 xl3>
         <menuoptions></menuoptions>
       </v-flex>
 
@@ -72,10 +72,10 @@
             {
               text: "Total Evaluados",
               value: "TotalEvaluate"
-            },
+            },                     
             {
               text: "",
-              value: "Actions"
+              value: ""
             }
         ]
       }

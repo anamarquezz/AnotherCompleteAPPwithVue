@@ -3,10 +3,18 @@
 
     <router-view/>
 
-    <v-progress-circular v-if="g_Loading.show && isMobile" :rotate="-100" :size="250" :width="40" :value="value"
+<div class="containersModal"  v-if="g_Loading.show">
+   <v-progress-circular v-if="g_Loading.show && isMobile" :rotate="-100" :size="250" :width="40" :value="value"
       color="blue" class=" display-3 font-weight-bold center possition2 loadingz">
       {{ value }}
     </v-progress-circular>
+
+      <v-progress-circular v-if="g_Loading.show  && !isMobile" :rotate="-100" :size="350" :width="50" :value="value"
+      color="light-blue darken-3" class=" display-3 font-weight-bold possition center">
+      {{ value }}
+    </v-progress-circular>
+</div>
+ 
 
     <mensaje v-if="g_showMessage.show"></mensaje>
   </div>
@@ -55,7 +63,7 @@
           return (this.value = 0)
         }
         this.value += 10
-      }, 1500);
+      }, 1800);
     }
   }
 
@@ -78,8 +86,7 @@
     top: 250px;
     bottom: 0;
     left: 500px;
-    width: 22%;
-
+    width: 22;
   }
 
   .possition2 {

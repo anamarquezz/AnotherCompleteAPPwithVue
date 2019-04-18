@@ -2,9 +2,7 @@ export default {
   get_token(state){
     state.token;
   },
-  gsw_ui(state){
-    return state.sw_ui;
-  }, 
+
   g_loginUser(state){
     return state.loginUser;
   },
@@ -17,9 +15,7 @@ export default {
   g_cDialog(state){
     return state.loginUser.empleadoaEvaluarSeleccionado;
   },
-  gsw_uimainEvaluacion(state){
-    return state.sw_uimainEvaluacion;
-  },
+ 
   g_loginwidthjsons(state){
     return state.loginwidthjsons;
   },
@@ -38,6 +34,9 @@ export default {
   g_periods:(state, data) =>{
     return state.datePeriods;  
   },
+  g_drawer: (state) => {
+    return state.drawer;
+  }
 
 
 }

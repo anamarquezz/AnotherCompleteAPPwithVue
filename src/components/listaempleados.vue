@@ -1,5 +1,5 @@
 <template>
-  <div  >
+  <div  class="dtlayout">
      <v-btn v-if="g_gridby ==='employesScore'" color="blue darken-2 mnl-5" dark large @click="RegresarUsuarios()"><b>
             <h4 class="dinline mr-2"><i class="fas fa-arrow-left mt-2"></i></h4>Regresar
           </b>
@@ -20,7 +20,7 @@
 
     <v-layout v-resize="onResize" column>
       <v-data-table :headers="headers" :items="g_loginUser.Subordinates" :search="search" :custom-filter="customFilter"
-        :pagination.sync="pagination" :rows-per-page-items="pagination.rowsPerPageItems" :hide-headers="isMobile"
+        :pagination.sync="pagination" :rows-per-page-items="pagination.rowsPerPageItems" :hide-headers="isMobile"  
         :class="{mobile: isMobile}">
 
         <template slot="items" slot-scope="props">
@@ -35,10 +35,12 @@
             <td class="" v-if="g_gridby === 'employeetoevaluate'">{{ props.item.Status}}</td>
             <td class="" v-if="g_gridby === 'employeetoevaluateRH'">{{ props.item.Initiated }}</td>
             <td class="" v-if="g_gridby === 'employeetoevaluateRH'">{{ props.item.Completed }}</td>
+             <td class="" v-if="g_gridby === 'employeetoevaluateRH'">{{ props.item.Evaluated }}</td>
             <td class="" v-if="g_gridby === 'employeetoevaluateRH'">{{ props.item.TotalEvaluate }}</td>
             <td class="" v-if="g_gridby === 'employesScore'">
-              <v-rating v-model="props.item.Score" background-color="orange" color="orange" readonly="readonly" medium>
-              </v-rating>
+            <!--  <v-rating v-model="props.item.Score" background-color="orange" color="orange" readonly="readonly" medium>
+              </v-rating> -->
+               {{props.item.Score}}
             </td>
             <td class="" v-if="g_gridby === 'employeetoevaluate'">
               <v-btn v-if="props.item.Status === 'NO INICIADO'" color="indigo darken-4  w-75" class=" mb-2" dark large
@@ -47,7 +49,7 @@
                 <b>EDITAR</b></v-btn>
             </td>
             <td v-if="g_gridby === 'employeetoevaluateRH'">
-              <v-btn color="blue darken-1 w-75 mb-2" dark large @click="Vizualizar(props.item)"><b>Visualizar</b>
+              <v-btn color="blue darken-1 w-75 mb-2" dark large @click="Visualizar(props.item)"><b>Visualizar</b>
               </v-btn>
             </td>
           </tr>
@@ -66,10 +68,13 @@
                 <li class="flex-item mt-2 mb-2" data-label="Initiated" v-if="g_gridby === 'employeetoevaluateRH'">
                   {{props.item.Initiated}}
                 </li>
-                <li class="flex-item mt-2 mb-2" data-label="COMPLETED" v-if="g_gridby === 'employeetoevaluateRH'">
+                <li class="flex-item mt-2 mb-2" data-label="Completed" v-if="g_gridby === 'employeetoevaluateRH'">
                   {{props.item.Completed}}
                 </li>
-                <li class="flex-item mt-2 mb-2" data-label="TOTALEVALUATE" v-if="g_gridby === 'employeetoevaluateRH'">
+                 <li class="flex-item mt-2 mb-2" data-label="Evaluated" v-if="g_gridby === 'employeetoevaluateRH'">
+                  {{props.item.Evaluated}}
+                </li>
+                <li class="flex-item mt-2 mb-2" data-label="TotalEvaluate" v-if="g_gridby === 'employeetoevaluateRH'">
                   {{props.item.TotalEvaluate}}
                 </li>
                 <li class="flex-item mt-4 mb-4" v-if="g_gridby === 'employeetoevaluate'">
@@ -79,10 +84,10 @@
                     <b>Editar</b></v-btn>
                 <li>
                 <li class="flex-item mt-4 mb-4" v-if="g_gridby === 'employeetoevaluateRH'">
-                  <v-btn color="blue darken-2  mb-2" dark large @click="Vizualizar(props.item)"><b>Visualizar</b>
+                  <v-btn color="blue darken-2  mb-2" dark large @click="Visualizar(props.item)"><b>Visualizar</b>
                   </v-btn>
                 </li>
-                <li class="flex-xs12 mt-4 mb-4" v-if="g_gridby === 'employesScore'">
+                <li class="flex-xs12 mt-4 mb-4" v-if="g_gridby === 'employesScore'" data-label="Score">
                   <!-- <v-rating v-model="props.item.Score" background-color="orange" color="orange" readonly="readonly"
                     small>
                   </v-rating> -->
@@ -175,35 +180,32 @@
         }
       },
   
-   Vizualizar(item) {    
-
-         new Promise((resolve, reject) => {
+   Visualizar(item) {    
+      var esto = this;
+        
+            esto.$store.dispatch("s_Loading", { value: 0, show: true }),
           this.$store.dispatch('GetEmployeesBySuperviser',item).then(() =>
-            resolve('listo!!')).catch(err => console.log(err));
-        }).then(()=>{
-           this.$router.push('/mempleadosevaluadores/mevaluadosporsupervisor')
-        });
+           this.$router.push('/mempleadosevaluadores/mevaluadosporsupervisor') ).catch(err => console.log(err));              
+      
+        
 
       },
-      EvaluarEmpleado(empleadoSelectInfo) {    
-     
-        new Promise((resolve, reject) => {
-          this.$store.dispatch('GetEvaluationEmployee',empleadoSelectInfo).then(() =>
-            resolve('listo!!')).catch(err => console.log(err));
-        }).then(()=>{
-           this.$router.push('/mempleadosaevaluar/mevaluarempledo')
-        });
+      EvaluarEmpleado(empleadoSelectInfo) {        
+       var esto= this;
+           esto.$store.dispatch("s_Loading", { value: 0, show: true }),
+          this.$store.dispatch('GetEvaluationEmployee',empleadoSelectInfo).then(() =>           
+            this.$router.push('/mempleadosaevaluar/mevaluarempledo') ).catch(err => console.log(err));
+        
+          
+        
       },
       RegresarUsuarios() {
-        var esto = this;   
-        new Promise((resolve, reject) => {
+        var esto = this;      
+       esto.$store.dispatch("s_Loading", { value: 0, show: true }),
           esto.$store.dispatch('GetSummarySubordinates').then(() =>
-            resolve('listo!!')
-            ).catch(err => console.log(err));
-        }).then((successMessage) => {
-          
-          esto.$router.push('/mempleadosevaluadores');         
-        });
+            esto.$router.push('/mempleadosevaluadores')       
+            ).catch(err => console.log(err));   
+       
       }
     },
     
@@ -216,9 +218,12 @@
 </script>
 
 <style scoped>
-.v-menu__content {
-  position: fixed !important; 
- /* top: 500.5px !important;
-  left: 1300px !important; */
+
+.dtlayout {
+  display: inline-block;
+  width: 100%;
 }
+
+
+
 </style>

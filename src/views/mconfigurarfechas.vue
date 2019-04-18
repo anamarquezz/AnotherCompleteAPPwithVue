@@ -3,21 +3,21 @@
     <v-layout>
       <navbar color="grey darken-4" textcolor="white--text"></navbar>
 
-      <v-flex roww xs md3 lg3 xl3>
+      <v-flex row xs3 md3 lg3 xl3>
         <menuoptions></menuoptions>
       </v-flex>
 
-      <v-flex xs12 md8 lg8 xl8 class="mt-5 " v-if="g_periods.length > 0">
+      <v-flex xs12 md12 lg12 xl12 class="mt-5 " v-if="g_periods.length > 0">
 
         <v-toolbar dark color="light-blue darken-4" class="mt-3 mb-5">
           <v-toolbar-title class="white--text ">
-            <h3 class="text-pre-wrap font-weight-bold text-center">Administrador de Fechas</h3>
+            <h4 class="text-pre-wrap font-weight-bold text-center">Administrador de Fechas</h4>
           </v-toolbar-title>
         </v-toolbar>
 
-        <v-layout row wrap class="mt-3 ml-5" v-for="fechas in g_periods" :key="fechas.code">
+        <v-layout row wrap class="mt-3 ml-lg-5 ml-xl-5" v-for="fechas in g_periods" :key="fechas.code">
 
-          <v-flex xs12 sm12 md12 lg12 xl2 class="ml-3 mt-3">
+          <v-flex xs12 sm12 md13 lg3 xl3 class="ml-3 mt-3">
             <h5 class="text-pre-wrap font-weight-bold">{{fechas.description}}</h5>
           </v-flex>
 
@@ -99,11 +99,9 @@
     methods: {
       guardarfecha(item){
         var esto = this;
-         new Promise((resolve, reject) => {
-            esto.$store.dispatch("guardarPeriodo",item).then(() =>
-              resolve('listo!!')).catch(err => console.log(err));
-          }).then((successMessage) => {            
-          });
+       
+            esto.$store.dispatch("s_Loading", { value: 0, show: true }),
+            esto.$store.dispatch("guardarPeriodo",item);
 
       }
     },

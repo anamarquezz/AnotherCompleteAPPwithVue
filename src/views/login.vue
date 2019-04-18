@@ -65,12 +65,21 @@
         var esto = this;
         if (event.which === 13) {
           if (esto.validLogin()) {
-            //    esto.$store.dispatch('_token', esto.data);.
-                esto.$store.dispatch("s_Loading", { value: 0, show: true });
-            esto.$store.dispatch('AUTH_REQUEST', {
-              username: esto.data.username,
-              password: esto.password
-            }).then(() => esto.$router.push('/mhome')).catch(err => console.log(err));
+              esto.$store.dispatch("s_Loading", { value: 0, show: true });
+           
+          this.$store.dispatch('AUTH_REQUEST', {
+            username: esto.data.username,
+            password: esto.data.password
+          }).then(() =>        
+            esto.$router.push('/mhome')).catch(err => console.log(err));
+        } else {          
+           this.$store.dispatch('set_showMessage', {
+            message: 'Usuario o Contraseña no capturadas, favor de ingresar los datos correspondientes',
+            show: true,
+            title: 'Error',
+            showregresar: false,
+            colorThema: 'red'
+          });        
           }
         }
       },
@@ -81,15 +90,17 @@
            
           this.$store.dispatch('AUTH_REQUEST', {
             username: esto.data.username,
-            password: esto.password
+            password: esto.data.password
           }).then(() => esto.$router.push('/mhome')).catch(err => console.log(err));
         } else {
-          var values = {
-            message: e.InnerException.ExceptionMessage,
-            show: true
-          };
-
-          this.$store.dispatch('set_showMessage', values);
+           esto.$store.dispatch("s_Loading", { value: 0, show: false })
+          this.$store.dispatch('set_showMessage', {
+            message: 'Usuario o Contraseña no capturadas, favor de ingresar los datos correspondientes',
+            show: true,
+            title: 'Error',
+            showregresar: false,
+            colorThema: 'red'
+          });
         }
       },
       onloginjson: function () {

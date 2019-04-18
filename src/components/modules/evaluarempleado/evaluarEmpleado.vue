@@ -8,7 +8,7 @@
             <h4 class="dinline mr-2"><i class="fas fa-arrow-left mt-2"></i></h4>Regresar
           </b>
         </v-btn>
-        <h6 class="text-pre-wrap font-weight-bold headline ml-5">EVALUACION DE DESEMPEÑO</h6>
+        <h6 class="text-pre-wrap font-weight-bold headline ml-5">EVALUACION DE DESEMPEÑO {{g_loginUser.EvalYear}}</h6>
       </div>
     </div>
 
@@ -34,6 +34,12 @@
 </template>
 
 <script>
+ import {
+    mapState,
+    mapActions,
+    mapGetters
+  } from 'vuex';
+
   import infoEmpleado from './childs/infoEmpleado.vue';
   import firmas from './childs/firmas.vue';
 
@@ -59,44 +65,37 @@
     data() {
       return {}
     },
-    computed: {},
+    computed: {
+        ...mapGetters(["g_loginUser"]),
+    },
     methods: {
       GuardarEvaluacion: function () {
-        var esto = this;
-        new Promise((resolve, reject) => {
-          esto.$store.dispatch('saveUpdateUser').then(() =>
-            resolve('listo!!')
-            ).catch(err => console.log(err));
-        }).then(() => {
-          
-          esto.$store.dispatch('backevaluarempleado').then( () =>{
+     var esto=this;
+           esto.$store.dispatch("s_Loading", { value: 0, show: true }),
+          esto.$store.dispatch('saveUpdateUser').then(() =>{   
               esto.$router.push('/mempleadosaevaluar')
-          })
-         
-        });
+          })     
 
 
       },
       RegresarUsuarios() {
+
         var esto = this;
-        new Promise((resolve, reject) => {
+         esto.$store.dispatch("s_Loading", { value: 0, show: true });
           esto.$store.dispatch('GetSubordinateByUser').then(() =>
-            resolve('listo!!'),
-            esto.$store.dispatch('backevaluarempleado')).catch(err => console.log(err));
-        }).then((successMessage) => {
-          esto.$router.push('/mempleadosaevaluar');
-        });
+             esto.$router.push('/mempleadosaevaluar')
+            ).catch(err => console.log(err));     
 
 
       },
-      GuardarEvaluacion() {
+      /*GuardarEvaluacion() {
         var esto = this;
-        new Promise((resolve, reject) => {
+      esto.$store.dispatch("s_Loading", { value: 0, show: true });
           esto.$store.dispatch('GetSubordinateByUser').then(() =>
-            resolve('listo!!'),
+            esto.$router.push('/mempleadosaevaluar')            
           ).catch(err => console.log(err));
-        }).then((successMessage) => {});
-      }
+        
+      }*/
     }
   }
 

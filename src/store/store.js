@@ -46,7 +46,7 @@ export default new Vuex.Store({
       Shift: localStorage.getItem('Shift') || '',
       UserPic: localStorage.getItem('UserPic') || '',
       Area: localStorage.getItem('Area') || '', 
-      isRH:localStorage.getItem('isRH') || true,
+      isRH:localStorage.getItem('isRH') || '',
       isSupervisor:localStorage.getItem('isSupervisor') || false,
       allowEvaluation:localStorage.getItem('allowEvaluation') || false,
       descriptionPeriod:localStorage.getItem('descriptionPeriod') || '',
@@ -54,6 +54,7 @@ export default new Vuex.Store({
       maxPeriod:localStorage.getItem('maxPeriod') || '',
       minYear:localStorage.getItem('minYear') || '',
       maxYear:localStorage.getItem('maxYear') || '',
+      EvalYear:localStorage.getItem('EvalYear') || '',
       empleadoaEvaluarSeleccionado: '',
       Subordinates:localStorage.getItem('Subordinates') || [],
       empleadoaEvaluar: {
