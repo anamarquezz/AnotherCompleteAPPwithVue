@@ -23,7 +23,9 @@
 
           <v-flex xs12 sm5 md4 lg-4 xl3 class="ml-3 mt-2">
             <h5 class="dinline"></h5>
-            <v-menu lazy :close-on-content-click="true" transition="scale-transition" offset-y full-width
+             <date-picker v-if="fechas.code ==='YEAR'" v-model="fechas.minDate" type="year" format="YYYY"  :lang="lang" ></date-picker>
+
+            <v-menu v-if="fechas.code !=='YEAR'"  lazy :close-on-content-click="true" transition="scale-transition" offset-y full-width
               :nudge-right="40" max-width="190px" min-width="290px">
               <v-text-field slot="activator" label="Desde:" v-model="fechas.minDate" prepend-icon="event" readonly>
               </v-text-field>
@@ -37,7 +39,9 @@
           </v-flex>
 
           <v-flex xs12 sm5 md4 lg-4 xl3 class="ml-3 mt-2">
-            <v-menu lazy :close-on-content-click="true" transition="scale-transition" offset-y full-width
+             <date-picker  v-if="fechas.code ==='YEAR'"  v-model="fechas.maxDate" type="year" format="YYYY"  :lang="lang" ></date-picker>
+
+            <v-menu v-if="fechas.code !=='YEAR'" lazy :close-on-content-click="true" transition="scale-transition" offset-y full-width
               :nudge-right="40" max-width="190px" min-width="290px">
               <v-text-field slot="activator" label="Hasta" v-model="fechas.maxDate" prepend-icon="event" readonly>
               </v-text-field>
@@ -48,16 +52,21 @@
                 </template>
               </v-date-picker>
             </v-menu>
-          </v-flex>  
+          </v-flex>
           <v-flex xs12 sm5 md4 lg24 xl2 class="ml-3 mt-1">
-             <v-btn color="light-blue darken-4" dark large v-on:click="guardarfecha(fechas)"><b>Guardar</b></v-btn>    
-          </v-flex>       
-        </v-layout>       
-        
-      </v-flex>           
+            <v-btn color="light-blue darken-4" dark large v-on:click="guardarfecha(fechas)"><b>Guardar</b></v-btn>
+          </v-flex>
+        </v-layout>
+
+       
+
+        <v-layout>
+        </v-layout>
+
+      </v-flex>
     </v-layout>
 
-    
+
   </v-container>
 </template>
 
@@ -68,24 +77,29 @@
     mapGetters
   } from 'vuex';
 
-
+//https://mengxiong10.github.io/vue2-datepicker/demo/index.html
   import navbar from '../components/navbar.vue'
   import menuoptions from '../components/menuoptions.vue'
-
+import DatePicker from 'vue2-datepicker'
   export default {
 
     name: 'mconfigurarfechas',
     components: {
       menuoptions,
-      navbar
+      navbar,
+      DatePicker
     },
     data() {
       return {
-        date: new Date().toISOString().substr(0, 10),
-        datestart: new Date().toISOString().substr(0, 10),
+       date: null,      
         menu: false,
         modal: false,
-        menu2: false
+        menu2: false,
+        lang: {       
+        placeholder: {
+          date: 'Selecciona el año'         
+        }
+      }       
 
       }
     },
@@ -97,18 +111,24 @@
 
     },
     methods: {
-      guardarfecha(item){
+      guardarfecha(item) {
         var esto = this;
-       
-            esto.$store.dispatch("s_Loading", { value: 0, show: true }),
-            esto.$store.dispatch("guardarPeriodo",item);
+
+        esto.$store.dispatch("s_Loading", {
+            value: 0,
+            show: true
+          }),
+          esto.$store.dispatch("guardarPeriodo", item);
 
       }
     },
     created: function () {
-      if (this.token == undefined) {
-        this.$router.push('/#login');
-      }
+      var esto = this;
+     esto.$store.dispatch("s_Loading", {
+          value: 0,
+          show: true
+        }),
+        esto.$store.dispatch('GetPeriods');
     },
   }
 
@@ -117,5 +137,22 @@
 <style scope>
   @import '../assets/css/global.css';
   @import '../assets/css/media_query.css';
+
+
+  .mx-calendar {
+    float: left;
+    color: #fff9f9cf;
+    padding: 6px 12px;
+    font: 18px/1.5 Helvetica Neue, Helvetica, Arial, Microsoft Yahei, sans-serif;
+    background: #000000cf;
+}
+.cell:hover{
+  color: #01579B;
+  font-weight: bold;
+  
+}
+
+
+
 
 </style>

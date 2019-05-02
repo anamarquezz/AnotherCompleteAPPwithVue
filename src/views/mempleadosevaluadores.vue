@@ -9,11 +9,20 @@
         <menuoptions></menuoptions>
       </v-flex>
 
-      <v-flex row md9 lg9 xl9 class="mt-5">
-        <v-layout row class="mt-5">
-         <listaempleados v-if="g_loginUser.Subordinates.length > 0" titletoolbar="Empleados Evaluadores" icontoolbar="fas fa-id-card " colortoolbar="light-blue darken-2" :headers="headers" g_gridby="employeetoevaluateRH">
-         </listaempleados>
-        </v-layout>
+      <v-flex row md11 lg11 xl11 class="mt-5">
+
+        <v-container fluid>
+
+          <v-toolbar dark color="indigo darken-4 white--text">
+            <h4><i class="fas fa-id-card mr-3"></i>Empleados Evaluadores</h4>
+
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <listaempleados from="EVAL" :headers="headers" v-if="g_loginUser.Subordinates.length > 0"
+            :list='g_loginUser.Subordinates'>
+          </listaempleados>
+        </v-container>
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -28,7 +37,7 @@
 
   import listaempleados from '../components/listaempleados.vue'
   import navbar from '../components/navbar.vue'
-   import menuoptions from '../components/menuoptions.vue'
+  import menuoptions from '../components/menuoptions.vue'
 
   export default {
 
@@ -40,68 +49,96 @@
     },
     data() {
       return {
-       headers : [ 
-            {
-              text: "Num Emp",
-              value: "Number"
-            },
-            {
-              text: "Nombre",
-              value: "PrettyName"
-            },
-            {
-              text: "Clasificación",
-              value: "Clasificacion"
-            },
-            {
-              text: "Puesto",
-              value: "Position"
-            },
-            {
-              text: "Iniciado",
-              value: "Initiated"
-            },
-            {
-              text: "Evaluado",
-              value: "Evaluated"
-            },
-            {
-              text: "Completado",
-              value: "Completed"
-            },
-            {
-              text: "Total Evaluados",
-              value: "TotalEvaluate"
-            },                     
-            {
-              text: "",
-              value: ""
-            }
+        headers: [{
+            text: "Num Emp",
+            type: 'text',
+            resize: false,
+            value: "Number"
+          },
+          {
+            text: "Nombre",
+            type: 'text',
+            resize: true,
+            value: "PrettyName"
+          },
+          {
+            text: "Clasificación",
+            type: 'text',
+            resize: false,
+            value: "Clasificacion"
+          },
+          {
+            text: "Puesto",
+            type: 'text',
+            resize: false,
+            value: "Position"
+          },
+          {
+            text: "Iniciado",
+            type: 'text',
+            resize: false,
+            value: "Initiated"
+          },
+          {
+            text: "Evaluado",
+            type: 'text',
+            resize: false,
+            value: "Evaluated"
+          },
+          {
+            text: "Completado",
+            type: 'text',
+            resize: false,
+            value: "Completed"
+          },
+          {
+            text: "Total Evaluados",
+            type: 'text',
+            resize: false,
+            value: "TotalEvaluate"
+          },
+
+          {
+            text: "",
+            type: 'button',
+            btntitle: 'Visualizar',
+            action: "action_visualizarEmpleados",
+            has_condition: false,
+            resize: true,
+            color:'blue darken-3',
+            condition_property: 'Evaluated',              
+            value: ""
+          }
         ]
       }
     },
-  computed: {
-   ...mapGetters(["g_loginUser"]),
-    ...mapState([
-       'token'       
-     ])
-  },
-    methods: {},
-     created: function () {
-        var token = this.token;
-          if(this.token == undefined){
-            this.$router.push('/#login');
-          }
+    computed: {
+      ...mapGetters(["g_loginUser"]),
+      ...mapState([
+        'token'
+      ])
+    },
+    methods: {
+
+    },
+
+    mounted: function () {
+
+      var esto = this;
+      esto.$store.dispatch("s_Loading", {
+          value: 0,
+          show: true
+        }),
+        esto.$store.dispatch('GetSummarySubordinates');
+
     },
   }
 
 </script>
 
 <style scope>
- 
-    @import '../assets/css/global.css';
+  @import '../assets/css/global.css';
 
   @import '../assets/css/media_query.css';
-
 
 </style>

@@ -6,7 +6,7 @@
         <v-card dark color="indigo" class="white--text pt-1">
           <v-flex>
             <div class=" text-center mt-2">
-              <img class="elevation-5 iconinfo rounded-circle " :src="g_imagen" />
+              <img class="elevation-5 iconinfo rounded-circle " :src="g_empleadoaEvaluar.Image" />
             </div>
           </v-flex>
           <v-divider light></v-divider>
@@ -142,6 +142,11 @@
 </template>
 
 <script>
+    import {
+     mapState,
+     mapActions
+   } from 'vuex';
+
   export default {
     name: 'infoEmpleado',
     props: {},
@@ -159,16 +164,12 @@
           this.isMobile = false;
       }
     },
-    computed: {
+    computed: {  
+
       g_empleadoaEvaluar() {
         return this.$store.getters.g_empleadoaEvaluar.empleadoInfo[0];
-      },
-       g_imagen() {
-        return this.$store.getters.g_empleadoaEvaluar.empleadoInfo.Image;
-      },
-      g_userRating() {
-        return this.$store.getters.g_userRating;
-      }
+      } ,
+            
     }
   }
 </script>

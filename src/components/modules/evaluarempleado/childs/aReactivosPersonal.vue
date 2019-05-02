@@ -106,7 +106,9 @@
       },
       ratingReactivo(item) {
         var esto = this;
-        esto.$store.dispatch('calculateRating', item);
+        if(esto.g_loginUser.allowEvaluation){
+          esto.$store.dispatch('calculateRating', item);
+        }
 
       }
     }

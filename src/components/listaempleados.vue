@@ -1,97 +1,116 @@
 <template>
-  <div  class="dtlayout">
-     <v-btn v-if="g_gridby ==='employesScore'" color="blue darken-2 mnl-5" dark large @click="RegresarUsuarios()"><b>
-            <h4 class="dinline mr-2"><i class="fas fa-arrow-left mt-2"></i></h4>Regresar
-          </b>
-          </v-btn>
+  <div class="dtlayout">
+    <!-- <v-btn v-if="g_gridby ==='employesScore'" color="blue darken-2 mnl-5" dark large @click="RegresarUsuarios()"><b>
+        <h4 class="dinline mr-2"><i class="fas fa-arrow-left mt-2"></i></h4>Regresar
+      </b>
+    </v-btn> -->
 
-    <v-toolbar dark :color="colortoolbar ">
-      <v-toolbar-title class="white--text ">{{titletoolbar}}
-      </v-toolbar-title>
+    <v-toolbar light color="" class="" v-if="!hassearch">
+      <h5 v-if="from !='EVAL'"><b>SUPERVISOR : </b>
+        {{g_loginUser.supervisorSeleccionado}}</h5>
       <v-spacer></v-spacer>
-      <h1><i :class="icontoolbar"></i></h1>
-    </v-toolbar>
-    
+      <v-text-field v-if="!isMobile" v-model="search" append-icon="search" label="buscar" single-line hide-details>
+      </v-text-field>
 
-    <v-toolbar light color="" class="">
-      <v-spacer></v-spacer>
-      <v-text-field v-model="search" append-icon="search" label="buscar" single-line hide-details></v-text-field>
+
+      <!--   <download-excel class="btn btn-default ml-3" :data="json_data" :fields="json_fields" worksheet="My Worksheet"
+        name="filename.xls">
+        <img src="../assets/img/excel.png" width="30" />
+        Descargar Excel
+         <i class="fas fa-download "></i> 
+      </download-excel> -->
+
+      <download-excel class="btn btn-default green lighten-4   font-weight-bold title btnhover ml-3" :data="list" :fields="getjsonfields()" worksheet="My Worksheet"
+        :name="excelname">
+        <img src="../assets/img/excel.png" width="30" />
+         Descargar Excel
+        <i class="fas fa-download "></i>
+
+      </download-excel>
+
     </v-toolbar>
 
     <v-layout v-resize="onResize" column>
-      <v-data-table :headers="headers" :items="g_loginUser.Subordinates" :search="search" :custom-filter="customFilter"
-        :pagination.sync="pagination" :rows-per-page-items="pagination.rowsPerPageItems" :hide-headers="isMobile"  
-        :class="{mobile: isMobile}">
+      <v-data-table v-if="list.length > 0" :headers="headers" :items="list" :search="search"
+        :custom-filter="customFilter" :pagination.sync="pagination" :rows-per-page-items="pagination.rowsPerPageItems"
+        :hide-headers="isMobile" :class="{mobile: isMobile}">
 
         <template slot="items" slot-scope="props">
-         <tr v-if="!isMobile">
-            <td class="" v-if="(g_gridby === 'employeetoevaluate') || (g_gridby ==='employesScore')">
-              <img  :src="props.item.Image"
-                class="iconsize rounded-circle mt-1 mb-1 " /></td>
-            <td class=""><b>#{{props.item.Number}}</b> </td>
-            <td class="">{{ props.item.PrettyName }} </td>
-            <td class="">{{ props.item.Clasificacion }}</td>
-            <td class="">{{ props.item.Position}}</td>
-            <td class="" v-if="g_gridby === 'employeetoevaluate'">{{ props.item.Status}}</td>
-            <td class="" v-if="g_gridby === 'employeetoevaluateRH'">{{ props.item.Initiated }}</td>
-            <td class="" v-if="g_gridby === 'employeetoevaluateRH'">{{ props.item.Completed }}</td>
-             <td class="" v-if="g_gridby === 'employeetoevaluateRH'">{{ props.item.Evaluated }}</td>
-            <td class="" v-if="g_gridby === 'employeetoevaluateRH'">{{ props.item.TotalEvaluate }}</td>
-            <td class="" v-if="g_gridby === 'employesScore'">
-            <!--  <v-rating v-model="props.item.Score" background-color="orange" color="orange" readonly="readonly" medium>
-              </v-rating> -->
-               {{props.item.Score}}
-            </td>
-            <td class="" v-if="g_gridby === 'employeetoevaluate'">
-              <v-btn v-if="props.item.Status === 'NO INICIADO'" color="indigo darken-4  w-75" class=" mb-2" dark large
-                @click="EvaluarEmpleado(props.item)"><b>EVALUAR</b></v-btn>
-              <v-btn v-else color="blue darken-3 mb-2 font-bold  w-75" class="" dark large @click="EvaluarEmpleado(props.item)">
-                <b>EDITAR</b></v-btn>
-            </td>
-            <td v-if="g_gridby === 'employeetoevaluateRH'">
-              <v-btn color="blue darken-1 w-75 mb-2" dark large @click="Visualizar(props.item)"><b>Visualizar</b>
+          <tr v-if="!isMobile">
+            <td v-for="h in headers" :key="h.text" class="">
+              <b v-if="h.type ==='text'" class="body-2">
+                {{props.item[h.value]}}
+              </b>
+
+              <v-btn flat icon color="primary" v-if="h.type ==='icon'">
+                <v-icon>{{h.iconbtn}}</v-icon>
               </v-btn>
+
+
+
+              <v-btn v-if="h.type ==='button'" dark large :class="conditioncolor(h,props)" class="w-75 mb-2"
+                @click="metodo(h,props.item)">
+                <b v-if="h.has_condition">{{conditiontext(h,props)}}</b>
+                <b v-else>{{h.btntitle}}</b>
+              </v-btn>
+
+
+              <img v-if="h.type ==='image'" :src="props.item[h.value]" class="iconsize rounded-circle mt-1 mb-1 " />
+
+
+              <v-menu v-if="h.type ==='combo'" lazy :close-on-content-click="true" transition="scale-transition"
+                offset-y full-width :nudge-right="40" max-width="190px" min-width="290px">
+                <v-btn flat icon color="primary" :v-model="h.value" slot="activator">
+                  <v-icon>{{h.iconbtn}}</v-icon>
+                </v-btn>
+                <v-list  style="max-height: 250px">
+                  <v-list-tile v-for="item in listacombo(props.item,h.value)" :key="item[h.valuecombo]" v-model="btn">
+                    <v-list-tile-title class="black--text" @click="metodo(h,item)">
+                      <i class="fas fa-user mr-2 subtitle " style=" z-index:9000"></i>{{ item[h.titlecombo]}}</v-list-tile-title>
+                  </v-list-tile>
+                </v-list>
+              </v-menu>
+
             </td>
           </tr>
           <tr v-else>
             <td>
-              <ul class="flex-content">
-                <li class="flex-item mt-2 mb-2"
-                  v-if="(g_gridby === 'employeetoevaluate') || (g_gridby ==='employesScore')">
-                  <img :src="props.item.Image" class="iconsize rounded-circle" /> </li>
-                <li class="flex-item mt-2 mb-2" data-label="Name">{{ props.item.Name }}</li>
-                <li class="flex-item mt-2 mb-2" data-label="#Number"> # {{ props.item.Number}}</li>
-                <li class="flex-item mb-5" data-label="Position"> {{props.item.Position}} </li>
-                <li class="flex-item mt-2 mb-2 " data-label="Status" v-if="g_gridby === 'employeetoevaluate'">
-                  {{props.item.Status}}
-                </li>
-                <li class="flex-item mt-2 mb-2" data-label="Initiated" v-if="g_gridby === 'employeetoevaluateRH'">
-                  {{props.item.Initiated}}
-                </li>
-                <li class="flex-item mt-2 mb-2" data-label="Completed" v-if="g_gridby === 'employeetoevaluateRH'">
-                  {{props.item.Completed}}
-                </li>
-                 <li class="flex-item mt-2 mb-2" data-label="Evaluated" v-if="g_gridby === 'employeetoevaluateRH'">
-                  {{props.item.Evaluated}}
-                </li>
-                <li class="flex-item mt-2 mb-2" data-label="TotalEvaluate" v-if="g_gridby === 'employeetoevaluateRH'">
-                  {{props.item.TotalEvaluate}}
-                </li>
-                <li class="flex-item mt-4 mb-4" v-if="g_gridby === 'employeetoevaluate'">
-                  <v-btn v-if="props.item.Status !== 'COMPLETADO'" dark large class="indigo darken-4 w-75 mb-2" 
-                    @click="EvaluarEmpleado(props.item)"><b>Evaluar</b></v-btn>
-                  <v-btn v-else color="indigo darken-3 w-75 mb-2 font-bold" dark large @click="EvaluarEmpleado(props.item)">
-                    <b>Editar</b></v-btn>
-                <li>
-                <li class="flex-item mt-4 mb-4" v-if="g_gridby === 'employeetoevaluateRH'">
-                  <v-btn color="blue darken-2  mb-2" dark large @click="Visualizar(props.item)"><b>Visualizar</b>
+              <ul class="flex-content mb-5 ">
+                <li v-for="h in headers" :key="h.text" class=" flex-item mb-3" v-if="h.resize" :data-label="h.text">
+                  <img v-if="h.type ==='image'  && h.resize == true" :src="props.item[h.value]"
+                    class="iconsize rounded-circle mt--10" />
+
+                  <b v-if="h.type ==='text' && h.resize">
+                    {{props.item[h.value]}}
+                  </b>
+
+                  <v-btn flat icon color="primary" v-if="h.type ==='icon' && h.resize" class="mt-3">
+                    <v-icon>{{h.iconbtn}}</v-icon>
                   </v-btn>
-                </li>
-                <li class="flex-xs12 mt-4 mb-4" v-if="g_gridby === 'employesScore'" data-label="Score">
-                  <!-- <v-rating v-model="props.item.Score" background-color="orange" color="orange" readonly="readonly"
-                    small>
-                  </v-rating> -->
-                  {{props.item.Score}}
+
+
+                  <v-btn v-if="h.type ==='button'  && h.resize" dark large :class="conditioncolor(h,props)" class="mt-5"
+                    @click="metodo(h,props.item)">
+                    <b v-if="h.has_condition">{{conditiontext(h,props)}}</b>
+                    <b v-else>{{h.btntitle}}</b>
+                  </v-btn>
+
+
+
+                  <v-menu v-if="h.type ==='combo'" lazy :close-on-content-click="true" transition="scale-transition"
+                    offset-y full-width :nudge-right="40" max-width="190px" min-width="290px">
+                    <v-btn flat icon color="primary" :v-model="h.value" slot="activator">
+                      <v-icon>{{h.iconbtn}}</v-icon>
+                    </v-btn>
+                    <v-list>
+                      <v-list-tile v-for="item in listacombo(props.item,h.value)" :key="item[h.valuecombo]"
+                        v-model="btn">
+                        <v-list-tile-title class="black--text" @click="metodo(h,item)">
+                          <i class="fas fa-user mr-2 subtitle"></i>{{ item[h.titlecombo]}}</v-list-tile-title>
+                      </v-list-tile>
+                    </v-list>
+                  </v-menu>
+
                 </li>
               </ul>
 
@@ -121,21 +140,101 @@
     data() {
       return {
         isMobile: false,
+        color: 'blue darken-3',
+        btn: 'btn',
         search: "",
         pagination: {
           descending: true,
           page: 1,
-          rowsPerPage: 10, 
+          rowsPerPage: 10,
           sortBy: 'name',
           rowsPerPageItems: [10, 50, 100, 150, 200]
-        }
+        },
+        condition_values: {
+          text: '',
+          color: 'indigo darken-4'
+        },
+        json_fields: {
+          'Complete name': 'name',
+          'City': 'city',
+          'Telephone': 'phone.mobile',
+          'Telephone 2': {
+            field: 'phone.landline',
+            callback: (value) => {
+              return `Landline Phone - ${value}`;
+            }
+          },
+        },
+        json_data: [{
+            'name': 'Tony Peña',
+            'city': 'New York',
+            'country': 'United States',
+            'birthdate': '1978-03-15',
+            'phone': {
+              'mobile': '1-541-754-3010',
+              'landline': '(541) 754-3010'
+            }
+          },
+          {
+            'name': 'Thessaloniki',
+            'city': 'Athens',
+            'country': 'Greece',
+            'birthdate': '1987-11-23',
+            'phone': {
+              'mobile': '+1 855 275 5071',
+              'landline': '(2741) 2621-244'
+            }
+          }
+        ],
+        json_meta: [
+          [{
+            'key': 'charset',
+            'value': 'utf-8'
+          }]
+        ],
+
       }
+
     },
-    props: ['titletoolbar', 'icontoolbar', 'colortoolbar', 'headers', 'g_gridby'],
-    computed:{
-    ...mapGetters(["g_loginUser"])
+    props: ['headers', 'list', 'from', 'hassearch','excelname'],
+    computed: {
+      ...mapGetters(["g_loginUser"])
+
     },
     methods: {
+      metodo(h, items) {
+        this.$store.dispatch(h.action, items);
+      },
+      listacombo(items, Nombrearray) {
+        var esto = this;
+        return items[Nombrearray];
+      },
+      conditioncolor(h, props) {
+        if (h.has_condition) {
+
+          var esto = this;
+          return h.conditionvalues[h.conditionvalues.findIndex(el => el.condition === props.item[h
+            .condition_property])].color;
+        } else {
+          return h.color;
+        }
+      },
+      conditiontext(h, props) {
+        var esto = this;
+
+        return h.conditionvalues[h.conditionvalues.findIndex(el => el.condition === props.item[h
+          .condition_property] && h.getconditiontext)].text;
+      },
+      getjsonfields() {
+       var result = {}
+        this.headers.filter(x => x.type == 'text').forEach(h =>
+         result[h.text] = h.value
+        );
+       
+
+       
+        return result;
+      },
 
       onResize() {
         if (window.innerWidth < 910) this.isMobile = true;
@@ -178,52 +277,19 @@
           this.pagination.sortBy = column;
           this.pagination.descending = false;
         }
-      },
-  
-   Visualizar(item) {    
-      var esto = this;
-        
-            esto.$store.dispatch("s_Loading", { value: 0, show: true }),
-          this.$store.dispatch('GetEmployeesBySuperviser',item).then(() =>
-           this.$router.push('/mempleadosevaluadores/mevaluadosporsupervisor') ).catch(err => console.log(err));              
-      
-        
-
-      },
-      EvaluarEmpleado(empleadoSelectInfo) {        
-       var esto= this;
-           esto.$store.dispatch("s_Loading", { value: 0, show: true }),
-          this.$store.dispatch('GetEvaluationEmployee',empleadoSelectInfo).then(() =>           
-            this.$router.push('/mempleadosaevaluar/mevaluarempledo') ).catch(err => console.log(err));
-        
-          
-        
-      },
-      RegresarUsuarios() {
-        var esto = this;      
-       esto.$store.dispatch("s_Loading", { value: 0, show: true }),
-          esto.$store.dispatch('GetSummarySubordinates').then(() =>
-            esto.$router.push('/mempleadosevaluadores')       
-            ).catch(err => console.log(err));   
-       
       }
     },
-    
-      create: function(){
-          var a = this;
-      }
-  }
 
+    mounted: function () {
+      //  console.log(this.list);
+    }
+  }
 
 </script>
 
 <style scoped>
-
-.dtlayout {
-  display: inline-block;
-  width: 100%;
-}
-
-
+ .btnhover:hover{ 
+   color:rgb(17, 138, 81);
+ }
 
 </style>

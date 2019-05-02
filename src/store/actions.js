@@ -8,6 +8,7 @@ var values = {
   message: '',
   show: false
 };
+import router from '../router';
 
 export default {
 
@@ -19,7 +20,7 @@ export default {
       return new Promise((resolve, reject) => { // The Promise used for router redirect in login
         commit('AUTH_REQUEST');
 
-        Vue.http.post("https://intranet.valuout.com/CloverServices/auth/token", {
+        Vue.http.post("http://localhost:49014/auth/token", {
             username: user.username,
             password: "cl0v3r",
             grant_type: "password",
@@ -77,22 +78,9 @@ export default {
     commit,
   }) => {
     return new Promise((resolve, reject) => {      
-      localStorage.removeItem('user-token') // clear your user's token from localstorage
-      localStorage.removeItem('user');
+      localStorage.removeItem('user-token') // clear your user's token from localstorage   
       localStorage.removeItem('userId');
-      localStorage.removeItem('Name');
-      localStorage.removeItem('Puesto');
-      localStorage.removeItem('turno');
-      localStorage.removeItem('UserPic');
-      localStorage.removeItem('Area');
-      localStorage.removeItem('isRH');
-      localStorage.removeItem('isSupervisor');
-      localStorage.removeItem('allowEvaluation');
-      localStorage.removeItem('descriptionPeriod');
-      localStorage.removeItem('minPeriod');
-      localStorage.removeItem('maxPeriod');
-      localStorage.removeItem('minYear');
-      localStorage.removeItem('maxYear');
+     
       commit('s_Loading', { 
         value: 0, 
         show: false 
@@ -108,7 +96,7 @@ export default {
       dispatch
     }, data) {
       try {
-        Vue.http.post("http://localhost:49014/auth/token", {
+        Vue.http.post("ttp://localhost:49014/auth/token", {
             username: data.username,
             password: "cl0v3r",
             grant_type: "password",
@@ -167,23 +155,23 @@ export default {
     dispatch
   }) {
     try {
-      Vue.http.get("https://intranet.valuout.com/CloverServices/api/evaluation/GetEmployeeInfo", {
+      Vue.http.get("http://localhost:49014/api/evaluation/GetEmployeeInfo", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }       
       }).then(response => {
           if (response.body.Employee != "") {
             commit('set_loginUser', response.body.Employee);
-            commit('s_Loading', { 
+           /* commit('s_Loading', { 
               value: 0, 
               show: false 
-            }); 
+            }); */
           
           }
         },
         response => {       
           dispatch('set_showMessage', {
-            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.error,
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.Message,
             show: true,
             title: 'Error',
             showregresar: false,
@@ -240,13 +228,14 @@ export default {
     dispatch
   }, values) {
     try {
-
+      var nombreSup = localStorage.getItem('Name');
       commit('set_SubordinateByUser', {
-        List: []
+        List: [],
+        seleccionado:nombreSup
       });
-      Vue.http.get("https://intranet.valuout.com/CloverServices/api/evaluation/GetSubordinateByUser", {
+      Vue.http.get("http://localhost:49014/api/evaluation/GetSubordinateByUser", {
         params: {
-          number: localStorage.getItem('userId') //27045
+          number: localStorage.getItem('userId') //27045 23781
         },
         headers: {
           Authorization: localStorage.getItem('user-token')
@@ -254,9 +243,13 @@ export default {
         progress(e) {}        
       }).then(response => {
           commit('set_SubordinateByUser', {
-            List: response.body.EmployeSubordinate
-          });
-          commit('backevaluarempleado');
+            List: response.body.EmployeeEvaluated.EmployeSubordinate,
+            seleccionado:nombreSup
+          });         
+          commit('set_DistributionSuperviser',response.body.EmployeeEvaluated.DistributionSuperviser);
+          
+          router.push('/mempleadosaevaluar');
+
           commit('s_Loading', { 
             value: 0, 
             show: false 
@@ -264,7 +257,7 @@ export default {
         },
         response => {         
           dispatch('set_showMessage', {
-            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.error,
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.Message,
             show: true,
             title: 'Error',
             showregresar: false,
@@ -288,6 +281,116 @@ export default {
         show: false 
       }); 
 
+      
+
+    }
+  },
+  GetAllEmployees: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
+    try {
+     
+      commit('set_SubordinateByUser', {
+        List: [],
+        seleccionado:''
+      });
+      Vue.http.get("http://localhost:49014/api/evaluation/GetAllEmployees", {       
+        headers: {
+          Authorization: localStorage.getItem('user-token')
+        },
+        progress(e) {}        
+      }).then(response => {
+          commit('set_SubordinateByUser', {
+            List: response.body.AllEmployees,
+            seleccionado:''
+          });                  
+
+          commit('s_Loading', { 
+            value: 0, 
+            show: false 
+          }); 
+        },
+        response => {         
+          dispatch('set_showMessage', {
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.Message,
+            show: true,
+            title: 'Error',
+            showregresar: false,
+            colorThema: 'red'
+          });      
+          commit('s_Loading', { 
+            value: 0, 
+            show: false 
+          });    
+        });
+    } catch (e) {
+      dispatch('set_showMessage', {
+        message: e.message,
+        show: true,
+        title: 'Error',
+        showregresar: false,
+        colorThema: 'red'
+      });
+      commit('s_Loading', { 
+        value: 0, 
+        show: false 
+      }); 
+    }
+  },
+  //
+
+  
+  GetDistributionAll: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
+    try {
+      commit('GetSummarySubordinates', {
+        List: []
+      });
+      Vue.http.get("http://localhost:49014/api/evaluation/GetDistributionAll", {
+        headers: {
+          Authorization: localStorage.getItem('user-token')
+        }       
+      }).then(response => {
+          commit('GetSummarySubordinates', {
+            List: response.body.Distribution
+          });
+          commit('s_Loading', { 
+            value: 0, 
+            show: false 
+          }); 
+         
+        
+        },
+        response => {         
+          dispatch('set_showMessage', {
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.Message,
+            show: true,
+            title: 'Error',
+            showregresar: false,
+            colorThema: 'red'
+          });         
+          commit('s_Loading', { 
+            value: 0, 
+            show: false 
+          }); 
+        });
+    } catch (e) {
+      dispatch('set_showMessage', {
+        message: e.message,
+        show: true,
+        title: 'Error',
+        showregresar: false,
+        colorThema: 'red'
+      });
+      commit('s_Loading', { 
+        value: 0, 
+        show: false 
+      }); 
     }
   },
 
@@ -298,12 +401,14 @@ export default {
     commit,
     dispatch
   }, values) {
+     var nombreSup = values.PrettyName;
     try {
-      commit('set_SubordinateByUser', {
-        List: []
+      commit('set_SubordinateByUsers', {
+        List: [],
+        seleccionado:''
       });
 
-      Vue.http.get("https://intranet.valuout.com/CloverServices/api/evaluation/GetEmployeesBySuperviser", {
+      Vue.http.get("http://localhost:49014/api/evaluation/GetEmployeesBySuperviser", {
         params: {
           number: values.Number //27045
         },
@@ -311,9 +416,17 @@ export default {
           Authorization: localStorage.getItem('user-token')
         }      
       }).then(response => {
-          commit('set_SubordinateByUser', {
-            List: response.body.EmployeesBySuperviser           
-          });     
+          commit('set_SubordinateByUsers', {
+            List: response.body.EmployeesBySuperviser,
+            seleccionado:nombreSup          
+          });   
+          
+           
+          dispatch('cambiarmenu',{
+            code:'mempleadosevaluadores/mevaluadosporsupervisor'
+          });
+
+
           commit('s_Loading', { 
             value: 0, 
             show: false 
@@ -322,7 +435,7 @@ export default {
         },
         response => {        
           dispatch('set_showMessage', {
-            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.error,
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.Message,
             show: true,
             title: 'Error',
             showregresar: false,
@@ -360,7 +473,7 @@ export default {
       commit('GetSummarySubordinates', {
         List: []
       });
-      Vue.http.get("https://intranet.valuout.com/CloverServices/api/evaluation/GetSummarySubordinates", {
+      Vue.http.get("http://localhost:49014/api/evaluation/GetSummarySubordinates", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }       
@@ -372,10 +485,12 @@ export default {
             value: 0, 
             show: false 
           }); 
+         
+        
         },
         response => {         
           dispatch('set_showMessage', {
-            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.error,
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.Message,
             show: true,
             title: 'Error',
             showregresar: false,
@@ -405,8 +520,8 @@ export default {
     state,
     commit,
     dispatch
-  }) {
-    commit('saveUpdateUser');  
+  },data) {
+    commit('saveUpdateUser',data);  
     dispatch('GuardarInfoEvalUsuario');
   },
 
@@ -420,7 +535,7 @@ export default {
 
     try {
 
-      Vue.http.post("https://intranet.valuout.com/CloverServices/api/evaluation/UpdatateEvaluation",
+      Vue.http.post("http://localhost:49014/api/evaluation/UpdatateEvaluation",
         state.loginUser.empleadoaEvaluar.saveUpdateUser, {
           headers: {
             Authorization: localStorage.getItem('user-token')
@@ -428,22 +543,30 @@ export default {
         }, {
           emulateJSON: true
         }).then(response => {
+          if(response.body.resultInfo.Valid){
           dispatch('set_showMessage', {
-            message: 'Datos Almacenados!!, ' + response.body,
+            message: 'Datos Almacenados!!, ' + response.body.resultInfo.Message,
             title: 'Información',
             colorThema: 'blue',
             showregresar: false,
             show: true
           });         
-          commit('backevaluarempleado');
-          commit('s_Loading', { 
-            value: 0, 
-            show: false 
-          }); 
+          commit('backevaluarempleado');       
+
+          dispatch('GetSubordinateByUser');
+        }else{
+          dispatch('set_showMessage', {
+            message: response.body.resultInfo.Message,
+            title: 'Información',
+            colorThema: 'blue',
+            showregresar: false,
+            show: false
+          });         
+        }
         },
         response => {         
           dispatch('set_showMessage', {
-            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.error,
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.Message,
             show: true,
             title: 'Error',
             showregresar: false,
@@ -473,7 +596,7 @@ export default {
 
     try {
 
-      Vue.http.post("https://intranet.valuout.com/CloverServices/api/evaluation/UpdatePeriod",
+      Vue.http.post("http://localhost:49014/api/evaluation/UpdatePeriod",
           data, {
           headers: {
             Authorization: localStorage.getItem('user-token')
@@ -495,7 +618,7 @@ export default {
         },
         response => {       
           dispatch('set_showMessage', {
-            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.error,
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.Message,
             show: true,
             title: 'Error',
             showregresar: false,
@@ -528,7 +651,7 @@ export default {
     dispatch
   }, data) {
     try {
-      Vue.http.get("https://intranet.valuout.com/CloverServices/api/evaluation/GetEvaluationEmployee", {
+      Vue.http.get("http://localhost:49014/api/evaluation/GetEvaluationEmployee", {
         params: {
           number: data.Number
         },
@@ -540,17 +663,18 @@ export default {
             response.body.EmployeeInfo.empleadoInfo.Image = data.Image;
             commit('set_EmployeeInfo', response.body.EmployeeInfo);
             commit('calcularRatinguser');
+            
+            dispatch('cambiarmenu',{
+              code:'mempleadosaevaluar/mevaluarempledo'
+            });
 
-            commit('s_Loading', { 
-              value: 0, 
-              show: false 
-            });    
+           
 
           }
         },
         response => {        
           dispatch('set_showMessage', {
-            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.error,
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.Message,
             show: true,
             title: 'Error',
             showregresar: false,
@@ -586,7 +710,7 @@ export default {
       List:[]
     });
     try {    
-      Vue.http.get("https://intranet.valuout.com/CloverServices/api/evaluation/GetPeriods", {
+      Vue.http.get("http://localhost:49014/api/evaluation/GetPeriods", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         },
@@ -603,7 +727,7 @@ export default {
         },
         response => {         
           dispatch('set_showMessage', {
-            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.error,
+            message: response.body == "" ? "Problemas con la conexión a internet" : response.body.Message,
             show: true,
             title: 'Error',
             showregresar: false,
@@ -631,6 +755,32 @@ export default {
   },
   //JSON
 
+  action_evaluarEmpleado: function({
+    state,
+    commit, 
+    dispatch
+  },data){
+    var esto= this;
+    dispatch("s_Loading", {
+      value: 0,
+      show: true
+    });
+    dispatch('GetEvaluationEmployee',data);
+  },
+  action_visualizarEmpleados: function({
+    state,
+    commit, 
+    dispatch
+  },data){
+    
+    dispatch("s_Loading", {
+      value: 0,
+      show: true
+    }),
+    dispatch('GetEmployeesBySuperviser',data);
+
+
+  },
   backevaluarempleado: function ({ 
     commit    
   }) {
@@ -659,7 +809,6 @@ export default {
   }, values) {
     commit('s_Loading', values);
   },
-
 
   set_loginwidthjsons: function ({
     state,
@@ -727,6 +876,10 @@ export default {
     dispatch
   }, item) {
     router.push('/' + item.code);
+    commit('s_Loading', { 
+      value: 0, 
+      show: false 
+    });    
   },
 
   set_drawer({

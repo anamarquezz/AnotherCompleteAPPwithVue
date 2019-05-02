@@ -9,23 +9,16 @@
         <menuoptions></menuoptions>
       </v-flex>
 
-
-      <v-flex xs6 md11 lg11 xl11 class="mt-5">
-
-        <v-container fluid >
-          <v-btn color="blue darken-2" dark large @click="RegresarUsuarios()"><b>
-              <h4 class="dinline mr-2"><i class="fas fa-arrow-left mt-2"></i></h4>Regresar
-            </b>
-          </v-btn>
+      <v-flex row xs12 md11 lg11 xl11 class="mt-5">
+         <v-container fluid class="mt-5">
           <v-toolbar dark color="indigo darken-4 white--text">
-            <h5><i class="fas fa-users mr-3"></i>Empleados Evaluados por el Supervisor</h5>
-
-            <v-spacer></v-spacer>          
+            <h4><i class="fa fa-users mr-3"></i>Todos los empleados</h4>
+            <v-spacer></v-spacer>            
           </v-toolbar>
-          <listaempleados :headers="headers" v-if="g_loginUser.Subordinatesbyuser.length > 0"  excelname="empleadosporsupervisor.xls"
-            :list='g_loginUser.Subordinatesbyuser'>
-          </listaempleados>
+         <listaempleados  from="EVAL"  :headers="headers" v-if="g_loginUser.Subordinates.length > 0"  :list='g_loginUser.Subordinates'  excelname="todoslosempleados.xls" >
+          </listaempleados> 
         </v-container>
+       
       </v-flex>
     </v-layout>
   </v-container>
@@ -38,13 +31,14 @@
     mapGetters
   } from 'vuex';
 
+
   import listaempleados from '../components/listaempleados.vue'
   import navbar from '../components/navbar.vue'
   import menuoptions from '../components/menuoptions.vue'
 
   export default {
 
-    name: 'mevaluadosporsupervisor',
+    name: 'mtodosempleados',
     components: {
       menuoptions,
       navbar,
@@ -52,14 +46,16 @@
     },
     data() {
       return {
-        headers: [{
-            text: '',
-            type: 'image',
-            value: "Image",
-            resize: true
-          }, {
+        headers: [
+          {
+            text:'',
+            type: 'icon',
+            iconbtn:'fas fa-user',
+             resize: true
+          },
+          {
             text: "Num Emp",
-            type:'text',
+            type: 'text',
             value: "Number",
             resize: false
           },
@@ -80,19 +76,20 @@
             type: 'text',
             value: "Position",
             resize: false
-          }, {
-            text: "Estatus",
+          },
+          {
+            text: "Status",
             type: 'text',
-            value: 'Status',
+            value: "Status",
             resize: false
           },
           {
-            text: "Evaluacion",
+            text: "Evaluación",
             type: 'text',
             value: "Score",
             resize: false
-          }
-        ]
+          }         
+        ],
       }
     },
     computed: {
@@ -101,17 +98,14 @@
         'token'
       ])
     },
-    methods: {
-       RegresarUsuarios(){
-         var esto = this;       
-          esto.$store.dispatch('cambiarmenu',{
-            code:'mempleadosevaluadores'
-          });
-      }
-    },
+    methods: {},
     created: function () {
-      if (this.g_loginUser.Subordinatesbyuser.length == 0)
-        this.$router.push("/mempleadosevaluadores");
+      var esto = this;
+      esto.$store.dispatch("s_Loading", {
+          value: 0,
+          show: true
+        }),
+        esto.$store.dispatch('GetAllEmployees');
     },
   }
 
@@ -121,5 +115,7 @@
   @import '../assets/css/global.css';
 
   @import '../assets/css/media_query.css';
+
+  
 
 </style>

@@ -20,7 +20,12 @@ export default new Vuex.Store({
       Subtitle: '',
       contieneImagen: false,
       Image: '',
-      Paragraph: ''
+      Paragraph: '',
+      component:{
+        type:'expansion',
+        data:{        
+        }
+      }
     },
     modalmessage: {
       colorThema:'',
@@ -38,25 +43,29 @@ export default new Vuex.Store({
       value:0,
       show:false
     },
+   
     datePeriods:[],
     loginUser: {
       userId:localStorage.getItem('userId') || '',
-      Name: localStorage.getItem('Name') || '',
+      Name:localStorage.getItem('Name') || '', 
       Puesto: localStorage.getItem('Puesto') || '',
       Shift: localStorage.getItem('Shift') || '',
       UserPic: localStorage.getItem('UserPic') || '',
       Area: localStorage.getItem('Area') || '', 
-      isRH:localStorage.getItem('isRH') || '',
+      isRH: localStorage.getItem('isRH') || '',
       isSupervisor:localStorage.getItem('isSupervisor') || false,
-      allowEvaluation:localStorage.getItem('allowEvaluation') || false,
-      descriptionPeriod:localStorage.getItem('descriptionPeriod') || '',
-      minPeriod:localStorage.getItem('minPeriod') || '',
-      maxPeriod:localStorage.getItem('maxPeriod') || '',
-      minYear:localStorage.getItem('minYear') || '',
-      maxYear:localStorage.getItem('maxYear') || '',
-      EvalYear:localStorage.getItem('EvalYear') || '',
+      allowEvaluation: localStorage.getItem('allowEvaluation') || false,
+      descriptionPeriod:localStorage.getItem('descriptionPeriod') ||'',
+      minPeriod:localStorage.getItem('minPeriod') ||'',
+      maxPeriod:localStorage.getItem('maxPeriod') ||'',
+      minYear:localStorage.getItem('minYear') ||'',
+      maxYear:localStorage.getItem('maxYear') ||'',
+      EvalYear:localStorage.getItem('EvalYear') ||'',
       empleadoaEvaluarSeleccionado: '',
-      Subordinates:localStorage.getItem('Subordinates') || [],
+      supervisorSeleccionado:localStorage.getItem('supervisorSeleccionado') ||'', 
+      Subordinates: [],
+      Subordinatesbyuser:[],
+      DistributionSuperviser:[],
       empleadoaEvaluar: {
         ratingEmpleado: 0,
         puntuacionEmpleado: 0,

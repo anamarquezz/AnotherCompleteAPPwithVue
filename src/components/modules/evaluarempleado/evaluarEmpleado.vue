@@ -19,12 +19,45 @@
         </div>
         <aHistorialDiciplinario></aHistorialDiciplinario>
         <aReactivosPersonal class="mt-1"></aReactivosPersonal>
-        <firmas class="mt-lg-5"></firmas>
+
+        <v-layout wrap class="text-center">
+
+          <v-flex xs12 sm6 md6 lg6 xl6 class=" mr-2">
+            <v-toolbar dark color="blue">
+              <v-toolbar-title class="white--text ">
+                Comentarios Evaluador
+              </v-toolbar-title>
+            </v-toolbar>
+            <v-textarea v-model="comments" id="textareaComment" box name="input-7-4" label="Retroalimentación por parte del evaluador"
+              class="" color="blue" :value="g_empleadoaEvaluar.saveUpdateUser.comments" :disabled="!g_loginUser.allowEvaluation">
+            </v-textarea>
+          </v-flex>
+          <v-flex xs12 sm5 mdl5 lg6 xl5 class="ml-5 ">
+            <v-toolbar dark color="blue">
+              <v-toolbar-title class="white--text ">
+                Comentarios Empleado
+              </v-toolbar-title>
+            </v-toolbar>
+
+            <v-textarea v-model="feedback_comments" id="textareaFeedback" box name="input-7-4" label="Comentarios por parte del empleado."
+              :value="g_empleadoaEvaluar.saveUpdateUser.feedBack_Comments" class="" color="blue" :disabled="!g_loginUser.allowEvaluation">
+            </v-textarea>
+          </v-flex>
+        </v-layout>
+       
       </v-flex>
 
       <v-flex xs12 sm4 md4 lg4 xl4>
         <infoEmpleado class=""></infoEmpleado>
-        <expansionlist></expansionlist>
+        <v-container>
+          <v-toolbar color="light-blue darken-4 " dark>
+            <v-toolbar-title class="ml-1">Escala General de Calificacion</v-toolbar-title>
+            <v-spacer></v-spacer>
+          </v-toolbar>
+          <expansionlist :list="g_loginUser.empleadoaEvaluar.categoryValue " headertitle="ValueDefinition"
+            subtitletext1="Evaluación" subtitletext2="Score" subtitletext3="Min" subtitletext4="Max"
+            cardtext="Descripcion"></expansionlist>
+        </v-container>
         <calificacionpuntuacion></calificacionpuntuacion>
       </v-flex>
     </v-layout>
@@ -34,14 +67,13 @@
 </template>
 
 <script>
- import {
+  import {
     mapState,
     mapActions,
     mapGetters
   } from 'vuex';
 
   import infoEmpleado from './childs/infoEmpleado.vue';
-  import firmas from './childs/firmas.vue';
 
   import expansionlist from '../../elemento/expansionlist.vue'
 
@@ -53,9 +85,7 @@
   export default {
     name: 'evaluarEmpleado',
     components: {
-
-      infoEmpleado,
-      firmas,
+      infoEmpleado,  
       aHistorialDiciplinario,
       aReactivosPersonal,
       calificacionpuntuacion,
@@ -63,29 +93,36 @@
       expansionlist
     },
     data() {
-      return {}
+      return {
+        comments:'',
+        feedback_comments:''
+      }
     },
     computed: {
-        ...mapGetters(["g_loginUser"]),
+      ...mapGetters(["g_loginUser", "g_empleadoaEvaluar"]),
     },
     methods: {
       GuardarEvaluacion: function () {
-     var esto=this;
-           esto.$store.dispatch("s_Loading", { value: 0, show: true }),
-          esto.$store.dispatch('saveUpdateUser').then(() =>{   
-              esto.$router.push('/mempleadosaevaluar')
-          })     
+        var esto = this;
+        esto.$store.dispatch("s_Loading", {
+            value: 0,
+            show: true
+          }),
+          esto.$store.dispatch('saveUpdateUser',{
+            comments:esto.comments,
+            feedback_comments:esto.feedback_comments
+          });
 
 
       },
       RegresarUsuarios() {
 
         var esto = this;
-         esto.$store.dispatch("s_Loading", { value: 0, show: true });
-          esto.$store.dispatch('GetSubordinateByUser').then(() =>
-             esto.$router.push('/mempleadosaevaluar')
-            ).catch(err => console.log(err));     
-
+        esto.$store.dispatch("s_Loading", {
+          value: 0,
+          show: true
+        });
+        esto.$store.dispatch('GetSubordinateByUser');
 
       },
       /*GuardarEvaluacion() {
@@ -96,6 +133,11 @@
           ).catch(err => console.log(err));
         
       }*/
+
+    },
+    created: function () {
+      if (this.g_loginUser.empleadoaEvaluar.empleadoInfo.length < 0)
+        this.$router.push("/mempleadosaevaluar");
     }
   }
 

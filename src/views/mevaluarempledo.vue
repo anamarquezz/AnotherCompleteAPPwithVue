@@ -47,9 +47,8 @@ import evaluarempleado from "../components/modules/evaluarempleado/evaluaremplea
     },
     methods: {},
      created: function () {       
-          if(this.token == undefined){
-            this.$router.push('/#login');
-          }
+         if (this.g_loginUser.empleadoaEvaluar.empleadoInfo.length == 0)
+        this.$router.push("/mempleadosaevaluar");
     },
   }
 

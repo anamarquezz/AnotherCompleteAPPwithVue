@@ -9,11 +9,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
 
+
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue';
 import VueResource from 'vue-resource';
 import vuex from 'vuex';
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+import JsonExcel from 'vue-json-excel'
 
 import routerv from 'vue-router'
 
@@ -22,6 +24,7 @@ Vue.use(VueResource);
 Vue.use(vuex);
 Vue.use(Vuetify)
 Vue.use(routerv);
+Vue.component('downloadExcel', JsonExcel);
 
 
 

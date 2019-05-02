@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="h-100p" v-resize="onResize">
-
+    <v-app>
     <router-view/>
 
 <div class="containersModal"  v-if="g_Loading.show">
@@ -17,6 +17,8 @@
  
 
     <mensaje v-if="g_showMessage.show"></mensaje>
+    <cdialog v-if="gsw_dialog.Value"></cdialog>
+    </v-app>
   </div>
 </template>
 
@@ -29,10 +31,13 @@
     mapGetters
   } from 'vuex';
   import mensaje from './components/elemento/mensaje.vue';
+    import cdialog from './components/elemento/cdialog.vue';
+  
   export default {
     name: 'App',
     components: { 
-       mensaje
+       mensaje,
+       cdialog
     },
     data() {
       return {
@@ -42,7 +47,7 @@
       }
     },
        computed: {       
-            ...mapGetters(["g_Loading","g_showMessage"]),
+            ...mapGetters(["g_Loading","g_showMessage","gsw_dialog"]),
             
     }, 
     beforeDestroy() {

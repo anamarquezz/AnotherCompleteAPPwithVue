@@ -76,17 +76,8 @@
         var esto = this,
           metodo = '';
         //this.$store.dispatch("s_Loading", { value: 0, show: true });
-        switch (item.code) {
-          case 'mempleadosaevaluar':
-            metodo = "GetSubordinateByUser";
-            break;
-            case 'mconfigurarfechas':
-            metodo ="GetPeriods";
-            break;
-          case 'mempleadosevaluadores':
-            metodo = "GetSummarySubordinates";
-            break;
-          case '#login':
+        switch (item.code) {         
+            case '#login':                 
             metodo = "AUTH_LOGOUT";
             break;
         }
@@ -116,6 +107,11 @@
           icon: "fas fa-calendar-alt light-blue--text text--darken-2",
           text: "Periodo de fechas",
           code: "mconfigurarfechas",
+        },
+         {
+          icon: "far fa-list-alt light-blue--text text--darken-2",
+          text: "Todos los empleados a evaluar",
+          code: "mtodosempleados",
         });
 
 

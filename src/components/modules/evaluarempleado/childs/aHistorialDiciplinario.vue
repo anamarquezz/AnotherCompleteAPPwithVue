@@ -4,19 +4,32 @@
 
     <v-toolbar dark color="blue ">
       <v-toolbar-title class="white--text ">
-        <h6 class="text-pre-wrap font-weight-bold title"> DESEMPEÑO A EVALUAR</h6>
+        <h6 class="text-pre-wrap font-weight-bold title"> DESEMPEÑO A EVALUAR</h6>       
       </v-toolbar-title>
+       <v-spacer></v-spacer>
+      <h6 class="text-pre-wrap font-weight-bold title">  PERIODO: {{g_loginUser.minYear}} - {{g_loginUser.maxYear}}</h6>
     </v-toolbar>
 
-    <v-layout v-resize="onResize" column style="padding-top:10px" class="text-justify">
+    <v-layout v-resize="onResize" column  class="text-justify">
+          <v-toolbar light="" color="">
+      <v-toolbar-title class="white--text ">          
+      </v-toolbar-title>
+      <h5><b class="  deep-orange--text text--accent-2 mr-1">NOTA!!  </b> Estos campos no se pueden modificar</h5>
+       <v-spacer></v-spacer>
+
+    </v-toolbar>
       <v-data-table :headers="headers" :items="g_loginUser.empleadoaEvaluar.indicatorTress" :pagination.sync="pagination"
         :hide-headers="isMobile" :class="{mobile: isMobile}" hide-actions>
         <template slot="items" slot-scope="props">
           <tr v-if="!isMobile">
-            <td class="miw-3  p-3 font-sizes"><b>{{props.item.Description}}</b>, <i> periodo: {{g_loginUser.minYear}} - {{g_loginUser.maxYear}}</i></td>
+            <td class="miw-3  p-3 font-sizes"><b>{{props.item.Description}}</b>,</td>
 
-            <v-radio-group v-model="props.item.Result" row class="mt-2">
-              <v-radio :label="''+i" :value="i" v-for="i in props.item.Result" :key="i" color="grey lighten-1" readonly="readonly"></v-radio>
+             <v-radio-group v-model="props.item.Result" row class="mt-2">
+              <v-radio label="1" :value="1" color="grey lighten-1" readonly="readonly"></v-radio>
+              <v-radio label="2" :value="2" color="grey lighten-1" readonly="readonly"></v-radio>
+              <v-radio label="3" :value="3" color="grey lighten-1" readonly="readonly"></v-radio>
+              <v-radio label="4" :value="4" color="grey lighten-1" readonly="readonly"></v-radio>
+              <v-radio label="5" :value="5"  color="grey lighten-1" readonly="readonly"></v-radio>
             </v-radio-group>
 
             <!-- <v-rating  v-model="props.item.Result" background-color="orange" color="orange" readonly="readonly"></v-rating> -->
