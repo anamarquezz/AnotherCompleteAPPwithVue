@@ -30,7 +30,7 @@ export default new Router({
       name: 'mempleadosaevaluar',
       component: mempleadosaevaluar
     },{
-      path:'/mempleadosaevaluar/mevaluarempledo',
+      path:'/mevaluarempledo',
       name: 'mevaluarempledo',
       component:mevaluarempledo
     },

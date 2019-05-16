@@ -3,11 +3,11 @@
     <v-layout>
       <navbar color="grey darken-4"  textcolor="white--text"></navbar>
 
-      <v-flex roww xs6 md3 lg3 xl3>
+      <v-flex roww xs1 md1 lg3 xl3>
         <menuoptions></menuoptions>
       </v-flex>
 
-      <v-flex row xs12 md9 lg9 xl9 class="mt-5">
+      <v-flex row xs12 md12 lg9 xl9 class="mt-5">
         <v-layout row class="mt-5">
          <evaluarempleado v-if="g_loginUser.empleadoaEvaluar.indicatorTress.length > 0"> </evaluarempleado>
         </v-layout>

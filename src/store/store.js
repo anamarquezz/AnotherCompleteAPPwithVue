@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
-import actions from './actions';
+import actions from './actionsprueba';
 import mutations from './mutations'
 import getters from './getters'
 
@@ -12,6 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     drawer:true,
+    isregresar: localStorage.getItem('isregresar')||'false',
     sw_ui: 'login',   
     sw_uimainEvaluacion: 'home',
     sw_dialog: {
@@ -53,8 +54,9 @@ export default new Vuex.Store({
       UserPic: localStorage.getItem('UserPic') || '',
       Area: localStorage.getItem('Area') || '', 
       isRH: localStorage.getItem('isRH') || '',
-      isSupervisor:localStorage.getItem('isSupervisor') || false,
-      allowEvaluation: localStorage.getItem('allowEvaluation') || false,
+      allowESign: localStorage.getItem('allowESign') || '',
+      isSupervisor:localStorage.getItem('isSupervisor') || "false",
+      allowEvaluation: localStorage.getItem('allowEvaluation') || "false",
       descriptionPeriod:localStorage.getItem('descriptionPeriod') ||'',
       minPeriod:localStorage.getItem('minPeriod') ||'',
       maxPeriod:localStorage.getItem('maxPeriod') ||'',
@@ -67,6 +69,9 @@ export default new Vuex.Store({
       Subordinatesbyuser:[],
       DistributionSuperviser:[],
       empleadoaEvaluar: {
+       
+        isloginfirmaEva:false,
+        isloginfirmaEmp:false,
         ratingEmpleado: 0,
         puntuacionEmpleado: 0,
         empleadoInfo: '',
@@ -74,11 +79,14 @@ export default new Vuex.Store({
         indicatorConfig: [],
         categoryValue: [],
         evaluationResult: '',
+        signatureInfo:[],
         saveUpdateUser: {
           number: '',        
           comments: '',
           feedBack_Comments: '',
-          IndicatorResult: []
+          IndicatorResult: [],
+          nombreEvaluador : '',
+          nombreEmpleado : '',
         }
       }
      }

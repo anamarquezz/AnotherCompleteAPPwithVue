@@ -11,7 +11,7 @@
 
         <v-toolbar dark color="light-blue darken-4" class="mt-3 mb-5">
           <v-toolbar-title class="white--text ">
-            <h4 class="text-pre-wrap font-weight-bold text-center">Administrador de Fechas</h4>
+            <h4 class="text-pre-wrap font-weight-bold text-center">Calendario</h4>
           </v-toolbar-title>
         </v-toolbar>
 
@@ -106,7 +106,7 @@ import DatePicker from 'vue2-datepicker'
     computed: {
       ...mapGetters(["g_loginUser", "g_periods"]),
       ...mapState([
-        'token'
+        'token'      
       ]),
 
     },

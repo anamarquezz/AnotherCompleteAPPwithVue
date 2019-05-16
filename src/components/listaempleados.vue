@@ -20,11 +20,12 @@
          <i class="fas fa-download "></i> 
       </download-excel> -->
 
-      <download-excel class="btn btn-default green lighten-4   font-weight-bold title btnhover ml-3" :data="list" :fields="getjsonfields()" worksheet="My Worksheet"
-        :name="excelname">
+
+      <download-excel class="btn btn-default green lighten-4   font-weight-bold title btnhover ml-3" :data="list"
+        :fields="getjsonfields()" worksheet="My Worksheet" :name="excelname">
         <img src="../assets/img/excel.png" width="30" />
-         Descargar Excel
-        <i class="fas fa-download "></i>
+        Descargar Excel
+        <i class="fas fa-download"></i>
 
       </download-excel>
 
@@ -33,7 +34,22 @@
     <v-layout v-resize="onResize" column>
       <v-data-table v-if="list.length > 0" :headers="headers" :items="list" :search="search"
         :custom-filter="customFilter" :pagination.sync="pagination" :rows-per-page-items="pagination.rowsPerPageItems"
-        :hide-headers="isMobile" :class="{mobile: isMobile}">
+        :hide-headers="isMobile" :class="{mobile: isMobile}" class="elevation-1">
+      <template slot="headerCell" slot-scope="props">
+          <v-tooltip bottom>
+            <template slot="activator">
+              <span>
+                {{ props.header.text }}
+              </span>
+            </template>
+            <span v-if="props.header.tooltip != null">
+              {{ props.header.tooltip }}
+            </span>
+             <span v-else>
+              {{ props.header.text }}
+            </span>
+          </v-tooltip>
+        </template>
 
         <template slot="items" slot-scope="props">
           <tr v-if="!isMobile">
@@ -63,10 +79,11 @@
                 <v-btn flat icon color="primary" :v-model="h.value" slot="activator">
                   <v-icon>{{h.iconbtn}}</v-icon>
                 </v-btn>
-                <v-list  style="max-height: 250px">
+                <v-list style="max-height: 250px">
                   <v-list-tile v-for="item in listacombo(props.item,h.value)" :key="item[h.valuecombo]" v-model="btn">
                     <v-list-tile-title class="black--text" @click="metodo(h,item)">
-                      <i class="fas fa-user mr-2 subtitle " style=" z-index:9000"></i>{{ item[h.titlecombo]}}</v-list-tile-title>
+                      <i class="fas fa-user mr-2 subtitle " style=" z-index:9000"></i>{{ item[h.titlecombo]}}
+                    </v-list-tile-title>
                   </v-list-tile>
                 </v-list>
               </v-menu>
@@ -148,7 +165,8 @@
           page: 1,
           rowsPerPage: 10,
           sortBy: 'name',
-          rowsPerPageItems: [10, 50, 100, 150, 200]
+          rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000]
+
         },
         condition_values: {
           text: '',
@@ -196,7 +214,7 @@
       }
 
     },
-    props: ['headers', 'list', 'from', 'hassearch','excelname'],
+    props: ['headers', 'list', 'from', 'hassearch', 'excelname'],
     computed: {
       ...mapGetters(["g_loginUser"])
 
@@ -226,13 +244,13 @@
           .condition_property] && h.getconditiontext)].text;
       },
       getjsonfields() {
-       var result = {}
+        var result = {}
         this.headers.filter(x => x.type == 'text').forEach(h =>
-         result[h.text] = h.value
+          result[h.text] = h.value
         );
-       
 
-       
+
+
         return result;
       },
 
@@ -288,8 +306,11 @@
 </script>
 
 <style scoped>
- .btnhover:hover{ 
-   color:rgb(17, 138, 81);
- }
+  .btnhover:hover {
+    color: rgb(17, 138, 81);
+  }
 
+  table.v-table tbody td:first-child, table.v-table tbody td:not(:first-child), table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child), table.v-table thead td:first-child, table.v-table thead td:not(:first-child), table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
+    padding: 0px 13px !important;
+}
 </style>

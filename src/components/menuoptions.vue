@@ -13,16 +13,37 @@
           </v-flex>
         </v-layout>
         <v-divider dark v-else-if="item.divider" class="my-3" :key="i"></v-divider>
-        <v-list-tile :key="i" v-else @click="opcionmenu(item)">
+        <v-list-group v-else-if="item.children" v-model="item.model" :key="item.text"
+          :prepend-icon="item.model ? item.icon : item['icon-alt']" append-icon="">
+          <v-list-tile slot="activator">
+            <v-list-tile-content>
+              <v-list-tile-title>
+                {{ item.text }}
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile v-for="(child, i) in item.children" :key="i" @click="opcionmenu(item.children[i])" class="ml-4">
+            <v-list-tile-action v-if="child.icon">
+              <v-icon>{{ child.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                {{ child.text }}
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list-group>
+        <v-list-tile v-else @click="opcionmenu(item)" :key="item.text">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title class="black--text">
+            <v-list-tile-title>
               {{ item.text }}
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
       </template>
     </v-list>
   </v-navigation-drawer>
@@ -40,34 +61,25 @@
     data() {
       return {
         items: [{
-            icon: "fas fa-home light-blue--text text--darken-2",
-            text: "home",
-            code: "mhome"
-          },
-          {
-            icon: "far fa-list-alt light-blue--text text--darken-2",
-            text: "Empleados a Evaluar",
-            code: "mempleadosaevaluar"
-          },
-
-          {
-            icon: "fas fa-sign-out-alt fa-rotate-180 light-blue--text text--darken-2",
-            text: "Cerrar sesión",
-            code: "#login"
-          }
-        ]
+          icon: "fas fa-home light-blue--text text--darken-2",
+          text: "home",
+          code: "mhome"
+        }]
 
       }
     },
     computed: {
-      ...mapState({ 
+      ...mapState({
         loginUser: 'loginUser'
       }),
-       g_drawer: {
-        get() { return this.$store.getters.g_drawer; },
-        set(newValue) {  }
-        
-     },     
+      g_drawer: {
+        get() {
+          return this.$store.getters.g_drawer;
+        },
+        set(newValue) {}
+
+      },
+
 
     },
     props: [],
@@ -76,46 +88,81 @@
         var esto = this,
           metodo = '';
         //this.$store.dispatch("s_Loading", { value: 0, show: true });
-        switch (item.code) {         
-            case '#login':                 
+        switch (item.code) {
+          case '#login':
             metodo = "AUTH_LOGOUT";
+            break
+          case 'mevaluarempledo':
+
+            this.$store.dispatch('GetEvaluationEmployee', {
+              Number: esto.loginUser.userId
+            });
+            this.$store.dispatch('set_regresar', false);
             break;
         }
-        if (metodo == "") {
-          esto.$router.push("/" + item.code);
-        } else {
-        
-             esto.$store.dispatch("s_Loading", { value: 0, show: true }),
-            esto.$store.dispatch(metodo).then(() =>
-               esto.$router.push("/" + item.code),
-         //    esto.$store.dispatch("s_Loading", { value: 0, show: false })
-             ).catch(err => console.log(err));         
-          
-         
+        if (item.code != 'expand') {
+          if (metodo == "") {
+
+            esto.$router.push("/" + item.code);
+          } else {
+
+            esto.$store.dispatch("s_Loading", {
+                value: 0,
+                show: true
+              }),
+              esto.$store.dispatch(metodo).then(() =>
+                esto.$router.push("/" + item.code),
+                //    esto.$store.dispatch("s_Loading", { value: 0, show: false })
+              ).catch(err => console.log(err));
+          }
+
         }
       }
     },
-    created: function () {
+    mounted: function () {
       var esto = this;
-     // if (esto.loginUser.isRH) {
-      esto.items.splice(2, 0, {
-          icon: "fa-id-card light-blue--text text--darken-2",
-          text: "Empleados que estan Evaluando",
-          code: "mempleadosevaluadores",
-
+      if (esto.loginUser.isSupervisor == "true") {
+        esto.items.splice(esto.items.length, 0, {
+          icon: "far fa-list-alt light-blue--text text--darken-2",
+          text: "Empleados a evaluar",
+          code: "mempleadosaevaluar"
+        });
+      }
+      if (esto.loginUser.isRH == "true") {
+        esto.items.splice(esto.items.length, 0, {
+          icon: 'keyboard_arrow_up',
+          'icon-alt': 'keyboard_arrow_down',
+          text: "Reportes",
+          code: "expand",
+          model: false,
+          children: [{
+            icon: "fa-id-card light-blue--text text--darken-2",
+            text: "Gerentes/Sup. Generales",
+            code: "mempleadosevaluadores"
+          }, {
+            icon: "far fa-list-alt light-blue--text text--darken-2",
+            text: "Plantilla Activa",
+            code: "mtodosempleados"
+          }]
         }, {
           icon: "fas fa-calendar-alt light-blue--text text--darken-2",
-          text: "Periodo de fechas",
-          code: "mconfigurarfechas",
-        },
-         {
-          icon: "far fa-list-alt light-blue--text text--darken-2",
-          text: "Todos los empleados a evaluar",
-          code: "mtodosempleados",
+          text: "Calendario",
+          code: "mconfigurarfechas"
         });
 
+      }
 
-    //  }
+
+      esto.items.splice(esto.items.length, 0, {
+        icon: "far fa-list-alt light-blue--text text--darken-2",
+        text: "Personal a Evaluar",
+        code: "mevaluarempledo"
+      }, {
+        icon: "fas fa-sign-out-alt fa-rotate-180 light-blue--text text--darken-2",
+        text: "Cerrar sesión",
+        code: "#login"
+      })
+
     }
 
   }

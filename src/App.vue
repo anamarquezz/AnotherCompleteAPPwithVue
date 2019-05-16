@@ -67,8 +67,10 @@
         if (!this.g_Loading.show) {
           return (this.value = 0)
         }
+        if(this.value < 100){
         this.value += 10
-      }, 1800);
+        }
+      }, 2000);
     }
   }
 

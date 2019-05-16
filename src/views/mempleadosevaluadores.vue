@@ -11,14 +11,14 @@
 
       <v-flex row md11 lg11 xl11 class="mt-5">
 
-        <v-container fluid>
+      <v-container fluid>
 
           <v-toolbar dark color="indigo darken-4 white--text">
-            <h4><i class="fas fa-id-card mr-3"></i>Empleados Evaluadores</h4>
+            <h4><i class="fas fa-id-card mr-3"></i>Gerentes/Sup. Generales</h4>
 
             <v-spacer></v-spacer>
           </v-toolbar>
-          <listaempleados from="EVAL" :headers="headers" v-if="g_loginUser.Subordinates.length > 0"
+          <listaempleados from="EVAL" :headers="headers" v-if="g_loginUser.Subordinates.length > 0" excelname="supervisoresaevaluar.xls"
             :list='g_loginUser.Subordinates'>
           </listaempleados>
         </v-container>
@@ -73,30 +73,43 @@
             resize: false,
             value: "Position"
           },
+           {
+            text: "Número de Empleados",
+            type: 'text',
+            resize: false,
+            value: "TotalEvaluate",
+            tooltip:'Total Epleados a Evaluar'          
+          },
+           {
+            text: "No Iniciados",
+            type: 'text',
+            resize: false,
+            value: "NoIniciados",
+             tooltip:'Numero de Empleados que no se ha iniciado su evaluación'
+          },
           {
             text: "Iniciado",
             type: 'text',
             resize: false,
-            value: "Initiated"
+            value: "Initiated",
+            tooltip:'Numero de Empleados que ya se inició su evaluación pero que aun faltan puntos por califica'
           },
-          {
-            text: "Evaluado",
-            type: 'text',
-            resize: false,
-            value: "Evaluated"
-          },
-          {
+           {
             text: "Completado",
             type: 'text',
             resize: false,
-            value: "Completed"
+            value: "Completed",
+              tooltip:'Numero de Empleados que ya se terminaron de evaluar y está pendiente su retroalimentación'
           },
           {
-            text: "Total Evaluados",
+            text: "Terminado",
             type: 'text',
             resize: false,
-            value: "TotalEvaluate"
+            value: "Evaluated",
+              tooltip:' Numero de Empleados con el proceso finalizado (evaluación, retroalimentación y firmas)'
           },
+         
+         
 
           {
             text: "",

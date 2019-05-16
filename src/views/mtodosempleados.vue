@@ -10,15 +10,18 @@
       </v-flex>
 
       <v-flex row xs12 md11 lg11 xl11 class="mt-5">
-         <v-container fluid class="mt-5">
+        <v-container fluid class="mt-5">
           <v-toolbar dark color="indigo darken-4 white--text">
-            <h4><i class="fa fa-users mr-3"></i>Todos los empleados</h4>
-            <v-spacer></v-spacer>            
+            <h4><i class="fa fa-users mr-3"></i>Plantilla Activa</h4>
+            <v-spacer></v-spacer>
           </v-toolbar>
-         <listaempleados  from="EVAL"  :headers="headers" v-if="g_loginUser.Subordinates.length > 0"  :list='g_loginUser.Subordinates'  excelname="todoslosempleados.xls" >
-          </listaempleados> 
-        </v-container>
+          <listaempleados from="EVAL" :headers="headers" v-if="g_loginUser.Subordinates.length > 0"
+            :list='g_loginUser.Subordinates' excelname="todoslosempleados.xls">
+          </listaempleados>
+
        
+        </v-container>
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -47,12 +50,12 @@
     data() {
       return {
         headers: [
-          {
-            text:'',
-            type: 'icon',
-            iconbtn:'fas fa-user',
-             resize: true
-          },
+          /*   {
+               text:'',
+               type: 'icon',
+               iconbtn:'fas fa-user',
+                resize: true
+             },*/
           {
             text: "Num Emp",
             type: 'text',
@@ -78,6 +81,18 @@
             resize: false
           },
           {
+            text: "Departamento",
+            type: 'text',
+            value: "Department",
+            resize: false
+          },
+          {
+            text: "Supervisor",
+            type: 'text',
+            value: "SupervisorPrettyName",
+            resize: false
+          },
+          {
             text: "Status",
             type: 'text',
             value: "Status",
@@ -88,7 +103,7 @@
             type: 'text',
             value: "Score",
             resize: false
-          }         
+          }
         ],
       }
     },
@@ -115,7 +130,5 @@
   @import '../assets/css/global.css';
 
   @import '../assets/css/media_query.css';
-
-  
 
 </style>

@@ -59,9 +59,10 @@ export default {
     state.loginUser.turno = data.turno;
     state.loginUser.Area = data.department;
     state.loginUser.UserPic = "data:image/png;base64," + data.Image;
-    state.loginUser.isRH = true; //data.isRH;
-    state.loginUser.isSupervisor = data.isSupervisor;
-    state.loginUser.allowEvaluation = data.allowEvaluation;
+    state.loginUser.isRH =data.userId == 28759?"true":data.isRH +"";// data.isRH + "",//
+    state.loginUser.allowESign = data.allowESign+'';
+    state.loginUser.isSupervisor = data.isSuperviser+"";
+    state.loginUser.allowEvaluation = data.allowEvaluation +"";
     state.loginUser.descriptionPeriod = data.descriptionPeriod;
     state.loginUser.minPeriod = new Date(data.minPeriod).toLocaleDateString();
     state.loginUser.maxPeriod = new Date(data.maxPeriod).toLocaleDateString();
@@ -78,6 +79,7 @@ export default {
     localStorage.setItem('UserPic', state.loginUser.UserPic);
     localStorage.setItem('Area', state.loginUser.Area);
     localStorage.setItem('isRH', state.loginUser.isRH);
+    localStorage.setItem('allowESign', state.loginUser.allowESign); 
     localStorage.setItem('isSupervisor', state.loginUser.isSupervisor);
     localStorage.setItem('allowEvaluation', state.loginUser.allowEvaluation);
     localStorage.setItem('descriptionPeriod', state.loginUser.descriptionPeriod);
@@ -86,6 +88,12 @@ export default {
     localStorage.setItem('minYear', state.loginUser.minYear);
     localStorage.setItem('maxYear', state.loginUser.maxYear);
     localStorage.setItem('EvalYear', state.loginUser.EvalYear);
+
+    if(state.loginUser.isSupervisor == 'true'){    
+      localStorage.setItem('isregresar', true +'');
+    }else{
+      localStorage.setItem('isregresar', false+'');
+    }
 
   },
 
@@ -140,9 +148,14 @@ export default {
 
 
     state.loginUser.empleadoaEvaluar.evaluationResult = data.evaluationResult;
+    state.loginUser.empleadoaEvaluar.saveUpdateUser.nombreEvaluador = "";
+    state.loginUser.empleadoaEvaluar.saveUpdateUser.nombreEmpleado = "";
+    state.loginUser.empleadoaEvaluar.isloginfirmaEmp = false;
+    state.loginUser.empleadoaEvaluar.isloginfirmaEva = false;
     if (data.evaluationResult != null) {
       state.loginUser.empleadoaEvaluar.saveUpdateUser.feedBack_Comments = data.evaluationResult.feedback_comments;
       state.loginUser.empleadoaEvaluar.saveUpdateUser.comments = data.evaluationResult.comments;
+      state.loginUser.empleadoaEvaluar.signatureInfo = data.evaluationResult.signatureInfo;
     }
 
     state.loginUser.empleadoaEvaluar.saveUpdateUser.number = data.empleadoInfo[0].Number;
@@ -226,9 +239,15 @@ export default {
     state.loginUser.empleadoaEvaluar.ratingEmpleado = (state.loginUser.empleadoaEvaluar.categoryValue[index].Score);
     state.loginUser.empleadoaEvaluar.puntuacionEmpleado = sumReactivos;
   },
-
-
-
+  set_nombreFirmeEmpleado:(state,data) => {
+    if(data.por == "SUP"){
+      state.loginUser.empleadoaEvaluar.saveUpdateUser.nombreEvaluador = data.datos.cname;
+      state.loginUser.empleadoaEvaluar.isloginfirmaEva = true;
+    }else{
+      state.loginUser.empleadoaEvaluar.saveUpdateUser.nombreEmpleado = data.datos.cname;
+      state.loginUser.empleadoaEvaluar.isloginfirmaEmp = true;
+    }
+  },
   saveUpdateUser: (state, data) => {
     // Actualizar la suma  de los result  
 
@@ -252,6 +271,9 @@ export default {
 
   set_drawer: (state, value) => {
     state.drawer = value;
+  },
+  set_regresar:(state, value) =>{
+    state.isregresar = value;
   }
 
 }

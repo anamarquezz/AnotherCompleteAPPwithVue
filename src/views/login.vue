@@ -70,8 +70,9 @@
           this.$store.dispatch('AUTH_REQUEST', {
             username: esto.data.username,
             password: esto.data.password
-          }).then(() =>        
-            esto.$router.push('/mhome')).catch(err => console.log(err));
+          });
+          
+
         } else {          
            this.$store.dispatch('set_showMessage', {
             message: 'Usuario o Contraseña no capturadas, favor de ingresar los datos correspondientes',

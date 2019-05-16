@@ -7,15 +7,19 @@ import router from '../src/router.js'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
+//import 'material-design-icons-iconfont/dist/material-design-icons.css'
+//import '@mdi/font/css/materialdesignicons.css' //
 
-
+//import '../src/assets/css/material-design-icons.css';
+//import '../src/assets/css/fontawesome.css';
+//import '@fortawesome/fontawesome-free/css/all.css' 
 
 import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue';
 import VueResource from 'vue-resource';
 import vuex from 'vuex';
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
-import JsonExcel from 'vue-json-excel'
+import JsonExcel from 'vue-json-excel' 
 
 import routerv from 'vue-router'
 

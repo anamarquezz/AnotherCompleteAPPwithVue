@@ -7,7 +7,7 @@
         <h6 class="text-pre-wrap font-weight-bold title"> DESEMPEÑO A EVALUAR</h6>       
       </v-toolbar-title>
        <v-spacer></v-spacer>
-      <h6 class="text-pre-wrap font-weight-bold title">  PERIODO: {{g_loginUser.minYear}} - {{g_loginUser.maxYear}}</h6>
+  
     </v-toolbar>
 
     <v-layout v-resize="onResize" column  class="text-justify">
@@ -93,8 +93,7 @@ import { mapGetters } from 'vuex';
       }
     },
      computed: {       
-            ...mapGetters(["g_loginUser"]),
-            
+            ...mapGetters(["g_loginUser"]),                   
     }, 
     methods: {
       onResize() {
@@ -134,7 +133,8 @@ import { mapGetters } from 'vuex';
       }
     },
     mounted: function () {
-     var a = this;
+     var esto = this;
+       esto.headers[0].text = 'Historial Disciplinario, ' + esto.g_loginUser.minYear + " - " + esto.g_loginUser.maxYear;
     }
   }
 
