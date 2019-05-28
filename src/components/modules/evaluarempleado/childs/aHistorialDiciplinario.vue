@@ -24,7 +24,7 @@
           <tr v-if="!isMobile">
             <td class="miw-3  p-3 font-sizes"><b>{{props.item.Description}}</b>,</td>
 
-             <v-radio-group v-model="props.item.Result" row class="mt-2">
+             <v-radio-group v-model="props.item.Result" row class="mt-2">          
               <v-radio label="1" :value="1" color="grey lighten-1" readonly="readonly"></v-radio>
               <v-radio label="2" :value="2" color="grey lighten-1" readonly="readonly"></v-radio>
               <v-radio label="3" :value="3" color="grey lighten-1" readonly="readonly"></v-radio>
@@ -32,7 +32,7 @@
               <v-radio label="5" :value="5"  color="grey lighten-1" readonly="readonly"></v-radio>
             </v-radio-group>
 
-            <!-- <v-rating  v-model="props.item.Result" background-color="orange" color="orange" readonly="readonly"></v-rating> -->
+          <!--        <v-rating  v-model="props.item.Result" background-color="orange" color="orange" ></v-rating> -->
           </tr>
           <tr v-else>
             <td>

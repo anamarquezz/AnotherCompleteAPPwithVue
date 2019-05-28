@@ -4,7 +4,7 @@
     <div class="row mb-3">
       <div class="row">
         <div class="col text-left"></div>
-        <v-btn v-if="isregresar == 'true'" color="light-blue darken-4 mnl-5" dark large @click="RegresarUsuarios()"><b>
+        <v-btn  color="light-blue darken-4 mnl-5" dark large @click="RegresarUsuarios()"><b>
             <h4 class="dinline mr-2"><i class="fas fa-arrow-left mt-2"></i></h4>Regresar
           </b>
         </v-btn>
@@ -24,6 +24,7 @@
 
           <v-flex xs12 sm5 md5 lg5 xl5 class="mr-2">
             <v-toolbar dark color="blue">
+              <h3><i class="fas fa-comments"></i></h3>
               <v-toolbar-title class="white--text ">
                 Comentarios Evaluador
               </v-toolbar-title>
@@ -35,6 +36,7 @@
           </v-flex>
           <v-flex xs12 sm5 mdl5 lg6 xl5 class="ml-5 ">
             <v-toolbar dark color="blue">
+              <h3><i class="fas fa-comments"></i></h3>
               <v-toolbar-title class="white--text ">
                 Comentarios Empleado
               </v-toolbar-title>
@@ -46,46 +48,140 @@
             </v-textarea>
           </v-flex>
         </v-layout>
-        <v-layout wrap class="text-center" >
-          <v-flex xs12 sm5 md5 lg5 xl5 class="mt-4 mr-2">
-            <v-toolbar dark color="light-blue darken-4">
-              <i class="fas fa-file-signature"></i>
+
+        <v-layout wrap class="text-center">
+          <v-flex xs11 class="mr-2 mt-5">
+            <v-toolbar dark color="grey darken-2">
+              <h3><i class="fas fa-signature"></i></h3>
               <v-toolbar-title class="white--text ">
-                Firma Evaluador
+                Firmas
               </v-toolbar-title>
             </v-toolbar>
-            <h4 class="mt-3" v-if="g_loginUser.empleadoaEvaluar.isloginfirmaEva">{{g_empleadoaEvaluar.saveUpdateUser.nombreEvaluador}}</h4>
-            <v-form ref="form"  v-if="!g_loginUser.empleadoaEvaluar.isloginfirmaEva">               
-              <v-text-field :disabled="g_loginUser.allowESign == 'false'" class="m-3" outline label="Usuario" v-model="usevaluador" prepend-icon="fas fa-user"  :rules="validarcampos"  ></v-text-field>
-              <v-text-field :disabled="g_loginUser.allowESign == 'false'" class="m-3" outline label="Contraseña" type="password"  @keyup.enter.native="firma('SUP')"  v-model="contravaluador" prepend-icon="fas fa-key"  :rules="validarcampos" ></v-text-field>
-              <v-btn color="indigo darken-2" dark large @click="firma('SUP')" :disabled="disabledEval"><b>
-                  <h4 class="dinline"></h4>  Firmar
-                </b>
-              </v-btn>           
-            </v-form>
           </v-flex>
-          <v-flex xs12 sm5 md5 lg5 xl5 class="ml-5 " mt-4>
+
+          <v-flex xs12 sm5 md5 lg5 xl5 class="mr-2 mt-3">
             <v-toolbar dark color="light-blue darken-4">
-              <i class="fas fa-file-signature"></i>
+              <h3><i class="fas fa-user-edit"></i></h3>
               <v-toolbar-title class="white--text ">
-                Firma Empleado
-              </v-toolbar-title> 
+              {{g_loginUser.empleadoaEvaluar.signatureInfo[3].TypeDescription }}
+              </v-toolbar-title>
             </v-toolbar>
-             <h4 class="mt-3" v-if="g_loginUser.empleadoaEvaluar.isloginfirmaEmp"  >{{g_empleadoaEvaluar.saveUpdateUser.nombreEmpleado}}</h4>
-            <v-form ref="form" v-if="!g_loginUser.empleadoaEvaluar.isloginfirmaEmp"> 
-                
-              <v-text-field :disabled="g_loginUser.allowESign == 'false'" class="m-3" outline label="Usuario" v-model="useEmpleado" prepend-icon="fas fa-user" :rules="validarcampos" ></v-text-field>
-              <v-text-field :disabled="g_loginUser.allowESign == 'false'" class="m-3" outline label="Contraseña" type="password"  @keyup.enter.native="firma('EMP')"  v-model="contraEmpleador" prepend-icon="fas fa-key"  :rules="validarcampos"></v-text-field>
-               <v-btn color="indigo darken-2" dark large @click="firma('EMP')"   :disabled="disabledEmp"><b>
-                  <h4 class="dinline"></h4>  Firmar
+            <h4 class="mt-3" v-if="g_loginUser.empleadoaEvaluar.signatureInfo[3].IsSignature">
+              {{g_loginUser.empleadoaEvaluar.signatureInfo[3].Name}}
+            </h4>
+            <v-form ref="form" v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[3].IsSignature">
+              <v-text-field :disabled="!g_loginUser.descriptionPeriod == 'Evaluación'" class="m-3" outline
+                label="Usuario" v-model="usuario" prepend-icon="fas fa-user" :rules="validarcampos"></v-text-field>
+              <v-text-field :disabled="!g_loginUser.descriptionPeriod == 'Evaluación'" class="m-3" outline
+                label="Contraseña" type="password" @keyup.enter.native="firma('SUP')" v-model="contrasena"
+                prepend-icon="fas fa-key" :rules="validarcampos"></v-text-field>
+              <v-btn color="indigo darken-2" dark large @click="firma('SUP')" :disabled="disabledEval"><b>
+                  <h4 class="dinline"></h4> Firmar
                 </b>
               </v-btn>
-             
             </v-form>
           </v-flex>
 
+
+          <v-flex xs12 sm5 md5 lg5 xl5 class="ml-5 mt-3">
+            <v-toolbar dark color="light-blue darken-4">
+              <h3><i class="fas fa-user-tie"></i></h3>
+              <v-toolbar-title class="white--text ">
+               {{g_loginUser.empleadoaEvaluar.signatureInfo[1].TypeDescription }}
+              </v-toolbar-title>
+            </v-toolbar>
+            <h4 v-if="g_loginUser.empleadoaEvaluar.signatureInfo[1].IsSignature">
+                {{g_loginUser.empleadoaEvaluar.signatureInfo[1].Name}}</h4>
+            <v-form ref="form" v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[1].IsSignature">
+              <v-text-field :disabled="!g_loginUser.descriptionPeriod == 'Evaluación'" class="m-3" outline
+                label="Usuario" v-model="usuario" prepend-icon="fas fa-user" :rules="validarcampos"></v-text-field>
+              <v-text-field :disabled="!g_loginUser.descriptionPeriod == 'Evaluación'" class="m-3" outline
+                label="Contraseña" type="password" @keyup.enter.native="firma('SUP')" v-model="contrasena"
+                prepend-icon="fas fa-key" :rules="validarcampos"></v-text-field>
+              <v-btn color="indigo darken-2" dark large @click="firma('GER')" :disabled="disabledGer"><b>
+                  <h4 class="dinline"></h4> Firmar
+                </b>
+              </v-btn>
+            </v-form>
+          </v-flex>
+
+
+
         </v-layout>
-      
+        <v-layout wrap class="text-center">
+          <v-flex xs12 sm5 md5 lg5 xl5 class="mr-2 mt-5">
+            <v-toolbar dark color="light-blue darken-4 mt-4">
+              <h3><i class="fas fa-user-tie"></i></h3>
+              <v-toolbar-title class="white--text ">
+                {{g_loginUser.empleadoaEvaluar.signatureInfo[2].TypeDescription }}
+              </v-toolbar-title>
+            </v-toolbar>
+            <h4 v-if="g_loginUser.empleadoaEvaluar.signatureInfo[2].IsSignature">
+                {{g_loginUser.empleadoaEvaluar.signatureInfo[2].TypeDescription }}</h4>
+            <v-form ref="form" v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[2].IsSignature">
+              <v-text-field :disabled="g_loginUser.descriptionPeriod == 'Evaluación'" class="m-3" outline
+                label="Usuario" v-model="usuario" prepend-icon="fas fa-user" :rules="validarcampos"></v-text-field>
+              <v-text-field :disabled="g_loginUser.descriptionPeriod == 'Evaluación'" class="m-3" outline
+                label="Contraseña" type="password" @keyup.enter.native="firma('SUP')" v-model="contrasena"
+                prepend-icon="fas fa-key" :rules="validarcampos"></v-text-field>
+              <v-btn color="indigo darken-2" dark large @click="firma('RH')" :disabled="disabledRH"><b>
+                  <h4 class="dinline"></h4> Firmar
+                </b>
+              </v-btn>
+            </v-form>
+
+
+
+          </v-flex>
+
+
+          <v-flex xs12 sm5 md5 lg5 xl5 class="ml-5">
+            <!-- :disabled="g_loginUser.descriptionPeriod == 'Evaluación'"  -->
+            <v-switch  v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature" id="switchchange" v-model="eshuella" class="font-weight-bold" @change="changefirmahuella"
+              label="Firmar: Active Directory/ Huella"></v-switch>
+
+            <v-flex v-if="eshuella">
+              <h4 class="light-blue--text text--darken-3"  v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature">Favor de colocar tu huella en el dispositivo</h4>
+              <i class="fontsihuella mt-3 fas fa-fingerprint "></i>
+              <h4 class="mt-3" v-if="g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature">
+                <i class="fas fa-fingerprint "></i>
+                {{g_loginUser.empleadoaEvaluar.signatureInfo[0].Name}}</h4>
+            </v-flex>
+            <v-flex v-else>
+              <br v-if="g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature">
+              <v-toolbar dark color="light-blue darken-4 mt-5" v-if="g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature">
+                <h3><i class="fas fa-user"></i></h3>
+                <v-toolbar-title class="white--text ">
+                  Firma Empleado
+                </v-toolbar-title>
+              </v-toolbar>
+               <v-toolbar  v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature" dark color="light-blue darken-4">
+                <h3><i class="fas fa-user"></i></h3>
+                <v-toolbar-title class="white--text ">
+                  Firma Empleado
+                </v-toolbar-title>
+              </v-toolbar>
+              <h4 class="mt-3" v-if="g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature">
+                {{g_loginUser.empleadoaEvaluar.signatureInfo[0].Name}}</h4>
+              <v-form ref="form" v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature">
+                <v-text-field class="m-3" outline label="Usuario" v-model="usuario" prepend-icon="fas fa-user"
+                  :rules="validarcampos"></v-text-field>
+                <v-text-field class="m-3" outline label="Contraseña" type="password" @keyup.enter.native="firma('EMP')"
+                  v-model="contrasena" prepend-icon="fas fa-key" :rules="validarcampos"></v-text-field>
+                <v-btn color="indigo darken-2" dark large @click="firma('EMP')" :disabled="disabledEmp"><b>
+                    <h4 class="dinline"></h4> Firmar
+                  </b>
+                </v-btn>
+
+              </v-form>
+            </v-flex>
+
+
+
+          </v-flex>
+        </v-layout>
+
+
       </v-flex>
 
       <v-flex xs12 sm4 md4 lg4 xl4>
@@ -123,9 +219,20 @@
 
   import calificacionpuntuacion from './childs/calificacionpuntuacion.vue';
 
+
+  import '../../../assets/js/jquery-1.6.4.js'
+  import '../../../assets/js/jquery.signalR.js';
+
+
+
+
+
+
+
   export default {
     name: 'evaluarEmpleado',
     components: {
+
       infoEmpleado,
       aHistorialDiciplinario,
       aReactivosPersonal,
@@ -135,31 +242,42 @@
     },
     data() {
       return {
+        eshuella: false,
+        findIP: '',
+        validhuella: false,
         comments: '',
         feedback_comments: '',
+        myHub: '',
+        proxy: '',
+        connection: '',
 
-        usevaluador: '',
-        contravaluador: '',
-        useEmpleado: '',
-        contraEmpleador: ''
+
+       usuario:'',
+       contrasena:''
       }
     },
-    computed: {    
+    computed: {
       ...mapState({
-        isregresar:'isregresar'
+        isregresar: 'isregresar'
       }),
       ...mapGetters(["g_loginUser", "g_empleadoaEvaluar"]),
       validarcampos() {
-        return [              
-           v => !!v || 'El campo es requerido'
+        return [
+          v => !!v || 'El campo es requerido'
         ];
-      },  
-       disabledEval() {
+      },
+      disabledEval() {
         return !(this.usevaluador != "" && this.contravaluador != "");
       },
       disabledEmp() {
         return !(this.useEmpleado != "" && this.contraEmpleador != "");
-      }    
+      },
+      disabledGer() {
+        return !(this.useGer != "" && this.contraGer != "");
+      },
+      disabledRH() {
+        return !(this.useRH != "" && this.contraRH != "");
+      }
     },
     methods: {
       GuardarEvaluacion: function () {
@@ -185,17 +303,59 @@
         esto.$store.dispatch('GetSubordinateByUser');
 
       },
-      firma(por){   
-        if(!this.disabledEval || !this.disabledEmp) {  
-          var Num = this.g_empleadoaEvaluar.signatureInfo[this.g_empleadoaEvaluar.signatureInfo.findIndex(el => el.TypeCode == por )].Number;        
+      firma(por) {
+        var esto = this;
+        if (!this.disabledEval || !this.disabledEmp) {
+          var Num = this.g_empleadoaEvaluar.signatureInfo[this.g_empleadoaEvaluar.signatureInfo.findIndex(el => el
+            .TypeCode == por)].Number;
 
-        var datos = por == "SUP" ? { usuario : this.usevaluador, contrasena : this.contravaluador, por : por, extra:Num } 
-        : { usuario : this.useEmpleado, contrasena : this.contraEmpleador, por : por,extra:Num };
-     
+          var datos = {
+            usuario: esto.usuario,
+            contrasena: esto.contrasena,
+            extra : Num,
+            firmapor: por,
+            validby:'usuarioncontrasena'
+          };
 
-         this.$store.dispatch('firmas', datos);
+
+          this.$store.dispatch('firmas', datos);
+         
         }
-      },   
+      },
+      changefirmahuella() {
+        var esto = this;
+        if(esto.eshuella){
+
+        esto.findIP.then(ip => {
+          esto.proxy.invoke('SetMachineNameGroup', ip);
+          esto.proxy.invoke('SendEmployeeNum', ip, esto.g_empleadoaEvaluar.empleadoInfo[0].Number);
+          
+          esto.$store.dispatch("s_Loading", {
+            value: 0,
+            show:false,
+            showlinear:  true
+          });
+
+        }).catch(e => console.error(e));
+        }
+      },
+      validfirma(valid){
+        var esto = this;
+
+        if(valid){
+
+          esto.g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature = true;
+          esto.$store.dispatch("s_Loading", {
+            value: 0,
+            show:false,
+            showlinear:  false
+          });
+           esto.$store.dispatch("set_validhuella",'');
+          esto.$store.dispatch('set_signaturepor', 'EMP');
+        }else{           
+        }
+         esto.$store.dispatch("set_validhuella",'Invalida');
+      }
       /*GuardarEvaluacion() {
         var esto = this;
       esto.$store.dispatch("s_Loading", { value: 0, show: true });
@@ -204,11 +364,68 @@
           ).catch(err => console.log(err));
         
       }*/
-
     },
-    created: function () {
-      if (this.g_loginUser.empleadoaEvaluar.empleadoInfo.length < 0)
-        this.$router.push("/mempleadosaevaluar");
+    mounted() {
+      var esto = this;
+
+      if (esto.g_loginUser.empleadoaEvaluar.empleadoInfo.length < 0)
+        esto.$router.push("/mempleadosaevaluar");
+
+
+
+      /*   var myHub = $.hubConnection("http://localhost:49014/signalr", {
+           useDefaultPath: true
+         });
+         var proxy = myHub.createHubProxy('finger');
+         myHub.start({
+           transport: 'longPolling',
+         });
+
+         esto.proxy = proxy;
+         //proxy.invoke('SetMachineNameGroup', ipMachine);
+
+         proxy.on('ReceiveFingerPrint', function (msg) {
+           console.log(msg);
+         });*/
+          
+            esto.$store.dispatch("set_validhuella",'');
+
+      var findIP = new Promise(r => {
+        var w = window,
+          a = new(w.RTCPeerConnection || w.mozRTCPeerConnection || w.webkitRTCPeerConnection)({
+            iceServers: []
+          }),
+          b = () => {};
+        a.createDataChannel("");
+        a.createOffer(c => a.setLocalDescription(c, b, b), b);
+        a.onicecandidate = c => {
+          try {
+            c.candidate.candidate.match(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g)
+              .forEach(r)
+          } catch (e) {}
+        }
+      });
+      esto.findIP = findIP;
+
+      var connection = $.hubConnection('http://localhost:49014/signalr');
+      var proxy = connection.createHubProxy('finger');
+      esto.proxy = proxy;
+      // receives broadcast messages from a hub function, called "broadcastMessage"
+      proxy.on('ReceiveFingerPrint', function (valid) {
+        esto.$store.dispatch("set_validhuella",'');
+       esto.validfirma(valid);         
+      });
+
+      // atempt connection, and handle errors
+      connection.start({
+          jsonp: true
+        })
+        .done(function () {
+          //console.log('Now connected, connection ID=' + connection.id);
+        })
+        .fail(function () {
+          //console.log('Could not connect');
+        });
     }
   }
 
@@ -218,10 +435,14 @@
 <style scoped>
   @import '../../../assets/css/global.css';
   @import '../../../assets/css/media_query.css';
-/*=
+  /*=
   .theme--dark.v-toolbar {
     background-color: #1e88e5 !important;
     color: #fff !important;
   }*/
+
+  .fontsihuella {
+    font-size: 4em;
+  }
 
 </style>

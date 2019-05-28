@@ -1,43 +1,54 @@
 <template>
   <div id="app" class="h-100p" v-resize="onResize">
     <v-app>
-    <router-view/>
+      <router-view />
 
-<div class="containersModal"  v-if="g_Loading.show">
-   <v-progress-circular v-if="g_Loading.show && isMobile" :rotate="-100" :size="250" :width="40" :value="value"
-      color="blue" class=" display-3 font-weight-bold center possition2 loadingz">
-      {{ value }}
-    </v-progress-circular>
+      <div class="containersModal" v-if="g_Loading.show || g_Loading.showlinear">
+        <v-progress-circular v-if="g_Loading.show && isMobile" :rotate="-100" :size="250" :width="40" :value="value"
+          color="blue" class=" display-3 font-weight-bold center possition2 loadingz">
+          {{ value }}
+        </v-progress-circular>
 
-      <v-progress-circular v-if="g_Loading.show  && !isMobile" :rotate="-100" :size="350" :width="50" :value="value"
-      color="light-blue darken-3" class=" display-3 font-weight-bold possition center">
-      {{ value }}
-    </v-progress-circular>
-</div>
- 
 
-    <mensaje v-if="g_showMessage.show"></mensaje>
-    <cdialog v-if="gsw_dialog.Value"></cdialog>
+
+        <v-progress-circular v-if="g_Loading.show  && !isMobile" :rotate="-100" :size="350" :width="50" :value="value"
+          color="light-blue darken-3" class=" display-3 font-weight-bold possition center">
+          {{ value }}
+        </v-progress-circular>
+
+          <div v-if="g_Loading.showlinear" class="possition3">
+                <h1  class=" indigo--text"> <i class="fontsihuella mt-3 fas fa-fingerprint"></i>
+      Favor de colocar tu huella en el dispositivo,</h1><h1 v-if="validhuella !='' " class=" ml-5 mt-4 red--text">Huella invalida, intenta de nuevo</h1>
+          </div>
+       
+
+         <v-progress-linear v-if="g_Loading.showlinear" class="possition2"  :indeterminate="true"></v-progress-linear>
+
+      </div>
+
+
+      <mensaje v-if="g_showMessage.show"></mensaje>
+      <cdialog v-if="gsw_dialog.Value"></cdialog>
     </v-app>
   </div>
 </template>
 
 <script>
-  
-
   import {
     mapState,
     mapActions,
     mapGetters
   } from 'vuex';
+
+
   import mensaje from './components/elemento/mensaje.vue';
-    import cdialog from './components/elemento/cdialog.vue';
-  
+  import cdialog from './components/elemento/cdialog.vue';
+
   export default {
     name: 'App',
-    components: { 
-       mensaje,
-       cdialog
+    components: {
+      mensaje,
+      cdialog
     },
     data() {
       return {
@@ -46,10 +57,11 @@
         isMobile: false,
       }
     },
-       computed: {       
-            ...mapGetters(["g_Loading","g_showMessage","gsw_dialog"]),
-            
-    }, 
+    computed: {
+      ...mapGetters(["g_Loading", "g_showMessage", "gsw_dialog"]),
+      ...mapState(['validhuella'])
+
+    },
     beforeDestroy() {
       clearInterval(this.interval);
 
@@ -67,14 +79,15 @@
         if (!this.g_Loading.show) {
           return (this.value = 0)
         }
-        if(this.value < 100){
-        this.value += 10
+        if (this.value < 100) {
+          this.value += 10
         }
       }, 2000);
     }
   }
 
 </script>
+
 
 <style scoped>
   @import './assets/css/global.css';
@@ -104,6 +117,8 @@
     left: 100px;
 
   }
+  
+  
 
   .loadingz {
     z-index: 10;

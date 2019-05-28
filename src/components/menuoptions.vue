@@ -62,7 +62,7 @@
       return {
         items: [{
           icon: "fas fa-home light-blue--text text--darken-2",
-          text: "home",
+          text: "Inicio",
           code: "mhome"
         }]
 
@@ -124,7 +124,7 @@
       if (esto.loginUser.isSupervisor == "true") {
         esto.items.splice(esto.items.length, 0, {
           icon: "far fa-list-alt light-blue--text text--darken-2",
-          text: "Empleados a evaluar",
+          text: "Mi plantilla",
           code: "mempleadosaevaluar"
         });
       }
@@ -148,16 +148,22 @@
           icon: "fas fa-calendar-alt light-blue--text text--darken-2",
           text: "Calendario",
           code: "mconfigurarfechas"
+        },
+       {
+          icon: "fas fa-user-cog light-blue--text text--darken-2",
+          text: "Mantenimiento/ Evaluadores",
+          code: "mmantenimientosupervisores"
         });
 
       }
 
 
-      esto.items.splice(esto.items.length, 0, {
+      esto.items.splice(esto.items.length, 0,
+       /*{
         icon: "far fa-list-alt light-blue--text text--darken-2",
         text: "Personal a Evaluar",
         code: "mevaluarempledo"
-      }, {
+      }*/ {
         icon: "fas fa-sign-out-alt fa-rotate-180 light-blue--text text--darken-2",
         text: "Cerrar sesión",
         code: "#login"

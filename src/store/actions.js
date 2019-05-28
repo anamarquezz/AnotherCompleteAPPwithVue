@@ -1,8 +1,9 @@
 /* http://localhost:49014
-http://10.2.16.98:82// 
+"http://10.2.16.98:82/
     https://intranet.valuout.com/CloverServices/
 */
 
+var url = "http://localhost:49014";
 import Vue from 'vue'
 var values = {
   message: '',
@@ -19,8 +20,7 @@ export default {
     try {
       return new Promise((resolve, reject) => { // The Promise used for router redirect in login
         commit('AUTH_REQUEST');
-
-        Vue.http.post("http://10.2.16.98:82/auth/token", {
+        Vue.http.post(url + "/auth/token", {
             username: user.username,
             password: "cl0v3r",
             grant_type: "password",
@@ -96,7 +96,7 @@ export default {
     dispatch
   }) {
     try {
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetEmployeeInfo", {
+      Vue.http.get(url + "/api/evaluation/GetEmployeeInfo", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }
@@ -133,7 +133,7 @@ export default {
         List: [],
         seleccionado: nombreSup
       });
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetSubordinateByUser", {
+      Vue.http.get(url + "/api/evaluation/GetSubordinateByUser", {
         params: {
           number: localStorage.getItem('userId') //27045 23781
         },
@@ -146,6 +146,8 @@ export default {
             List: response.body.EmployeeEvaluated.EmployeSubordinate,
             seleccionado: nombreSup
           });
+          commit('set_SuperviserSummary', response.body.EmployeeEvaluated.SuperviserSummary);
+          commit('set_AllUserSupervisers', response.body.EmployeeEvaluated.AllUserSupervisers);
           commit('set_DistributionSuperviser', response.body.EmployeeEvaluated.DistributionSuperviser);
 
           router.push('/mempleadosaevaluar');
@@ -157,7 +159,7 @@ export default {
         },
         response => {
           dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.Message);
-        });     
+        });
     } catch (e) {
       dispatch('errorResponse', e.message);
     }
@@ -173,7 +175,7 @@ export default {
         List: [],
         seleccionado: ''
       });
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetAllEmployees", {
+      Vue.http.get(url + "/api/evaluation/GetAllEmployees", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         },
@@ -208,7 +210,7 @@ export default {
       commit('GetSummarySubordinates', {
         List: []
       });
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetDistributionAll", {
+      Vue.http.get(url + "/api/evaluation/GetDistributionAll", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }
@@ -238,14 +240,14 @@ export default {
     commit,
     dispatch
   }, values) {
-    var nombreSup = values.PrettyName;
+    // var nombreSup = values.PrettyNamePrettyName;
     try {
       commit('set_SubordinateByUsers', {
         List: [],
         seleccionado: ''
       });
 
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetEmployeesBySuperviser", {
+      Vue.http.get(url + "/api/evaluation/GetEmployeesBySuperviser", {
         params: {
           number: values.Number //27045
         },
@@ -255,7 +257,7 @@ export default {
       }).then(response => {
           commit('set_SubordinateByUsers', {
             List: response.body.EmployeesBySuperviser,
-            seleccionado: nombreSup
+            seleccionado: values
           });
 
 
@@ -290,7 +292,7 @@ export default {
       commit('GetSummarySubordinates', {
         List: []
       });
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetSummarySubordinates", {
+      Vue.http.get(url + "/api/evaluation/GetSummarySubordinates", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }
@@ -332,7 +334,7 @@ export default {
 
     try {
 
-      Vue.http.post("http://10.2.16.98:82/api/evaluation/UpdatateEvaluation",
+      Vue.http.post(url + "/api/evaluation/UpdatateEvaluation",
         state.loginUser.empleadoaEvaluar.saveUpdateUser, {
           headers: {
             Authorization: localStorage.getItem('user-token')
@@ -383,7 +385,7 @@ export default {
 
     try {
 
-      Vue.http.post("http://10.2.16.98:82/api/evaluation/UpdatePeriod",
+      Vue.http.post(url + "/api/evaluation/UpdatePeriod",
         data, {
           headers: {
             Authorization: localStorage.getItem('user-token')
@@ -418,7 +420,7 @@ export default {
     dispatch
   }, data) {
     try {
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetEvaluationEmployee", {
+      Vue.http.get(url + "/api/evaluation/GetEvaluationEmployee", {
         params: {
           number: data.Number
         },
@@ -428,7 +430,8 @@ export default {
       }).then(response => {
           if (response.body.EmployeeInfo != "") {
             response.body.EmployeeInfo.empleadoInfo.Image = data.Image;
-            commit('set_EmployeeInfo', response.body.EmployeeInfo);
+
+            commit('set_EmployeeInfo', response.body.EmployeeInfo.empleadoInfo.length > 0 ? response.body.EmployeeInfo : []);
             commit('calcularRatinguser');
 
             dispatch('cambiarmenu', {
@@ -453,14 +456,14 @@ export default {
       List: []
     });
     try {
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetPeriods", {
+      Vue.http.get(url + "/api/evaluation/GetPeriods", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         },
         progress(e) {}
       }).then(response => {
           commit('set_periods', {
-            List: response.body.EmployeesBySuperviser
+            List: response.body.PeriodInfo
           });
           commit('s_Loading', {
             value: 0,
@@ -471,7 +474,7 @@ export default {
           dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.Message);
         });
     } catch (e) {
-     dispatch('errorResponse', e.message);
+      dispatch('errorResponse', e.message);
     }
   },
   //JSON
@@ -480,25 +483,28 @@ export default {
     state,
     commit,
     dispatch
-  }, datos){
+  }, datos) {
     try {
-      Vue.http.get("http://10.2.16.98:82/api/util/UserInActiveDirectory", {
+      Vue.http.get(url + "/api/util/UserInActiveDirectory", {
         params: {
           usuario: datos.usuario,
-          contrasena:datos.contrasena,
-          extra:datos.extra
+          contrasena: datos.contrasena,
+          extra: datos.extra,
+          validby: 'usuarioncontrasena'
         },
         headers: {
           Authorization: localStorage.getItem('user-token')
         },
         progress(e) {}
       }).then(response => {
-        if(response.body.userInfo.Valid){
-          commit('set_nombreFirmeEmpleado',{datos:response.body.userInfo.Data[0], por:datos.por})          
-        }else{
-          dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.userInfo.Message);
-        }
-        commit('s_Loading', {
+          if (response.body.userInfo.Valid) {
+            commit('set_userValidado', response.body.userInfo.Valid);
+            commit('set_signaturepor', datos.firmapor);
+
+          } else {
+            dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.userInfo.Message);
+          }
+          commit('s_Loading', {
             value: 0,
             show: false
           });
@@ -507,10 +513,127 @@ export default {
           dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.Message);
         });
     } catch (e) {
-     dispatch('errorResponse', e.message);
+      dispatch('errorResponse', e.message);
     }
   },
 
+  validUser: function ({
+    state,
+    commit,
+    dispatch
+  }, datos) {
+    try {
+      Vue.http.get(url + "/api/util/UserInActiveDirectory", {
+        params: {
+          usuario: datos.usuario,
+          contrasena: datos.contrasena,
+          extra: datos.extra,
+          validby: 'usuariocode'
+        },
+        headers: {
+          Authorization: localStorage.getItem('user-token')
+        },
+        progress(e) {}
+      }).then(response => {
+          if (response.body.userInfo.Valid) {
+            commit('set_nombreInput', {
+              Nombre: response.body.userInfo.Data[0].cname,
+              By: datos.by
+            });
+          } else {
+            commit('set_nombreInput', {
+              Nombre: response.body.userInfo.Message,
+              By: datos.by
+            });
+            // dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.userInfo.Message);
+          }
+          commit('s_Loading', {
+            value: 0,
+            show: false
+          });
+        },
+        response => {
+          dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.Message);
+        });
+    } catch (e) {
+      dispatch('errorResponse', e.message);
+    }
+  },
+  GetConfiguracionEvaluadores({
+    commit,
+    dispatch
+  }) {
+    try {
+      Vue.http.get(url + "/api/evaluation/GetConfigEvaluation", {
+        params: {},
+        headers: {
+          Authorization: localStorage.getItem('user-token')
+        },
+        progress(e) {}
+      }).then(response => {
+          if (response.body.ConfigEvaluation != "") {
+            commit('set_listaManteniEValua', response.body.ConfigEvaluation)
+          } else {
+            dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.userInfo.Message);
+          }
+          commit('s_Loading', {
+            value: 0,
+            show: false
+          });
+        },
+        response => {
+          dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.Message);
+        });
+    } catch (e) {
+      dispatch('errorResponse', e.message);
+    }
+  },
+
+  GuardarConfiguracionEvaluadores({
+    commit,
+    dispatch
+  }, datos) {
+    try {
+      Vue.http.post(url + "/api/evaluation/UpdateConfigEvaluation", {
+        number_approval: datos.number_approval,
+        number_evaluator: datos.number_evaluator,
+        number_evaluated: datos.number_evaluated,
+        active: datos.active == undefined ? 0 : 1
+      }, {
+
+        headers: {
+          Authorization: localStorage.getItem('user-token')
+        },
+        progress(e) {}
+      }).then(response => {
+          if (response.body.ConfigEvaluation.Valid) {
+            dispatch('set_showMessage', {
+              message: response.body.ConfigEvaluation.Message,
+              title: 'Información',
+              colorThema: 'blue',
+              showregresar: false,
+              show: true
+            });
+            dispatch("s_Loading", {
+              value: 0,
+              show: true
+            });
+            dispatch('GetConfiguracionEvaluadores');
+          } else {
+            dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.ConfigEvaluation.Message);
+          }
+          commit('s_Loading', {
+            value: 0,
+            show: false
+          });
+        },
+        response => {
+          dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.Message);
+        });
+    } catch (e) {
+      dispatch('errorResponse', e.message);
+    }
+  },
   action_evaluarEmpleado: function ({
     state,
     commit,
@@ -537,6 +660,13 @@ export default {
 
 
   },
+  set_signaturepor({
+    commit
+  }, por) {
+    commit('set_signaturepor', por);
+  },
+
+
   backevaluarempleado: function ({
     commit
   }) {
@@ -667,7 +797,23 @@ export default {
     }
   },
 
-  set_regresar:(state, value) =>{
+  set_regresar: (state, value) => {
     state.isregresar = value;
+  },
+  set_validhuella: function ({
+    commit
+  }, value) {
+    commit('set_validhuella', value);
+  },
+  set_nombreInput: function ({
+    state,
+    commit,
+    dispatch
+  }, datos) {
+    commit('set_nombreInput', {
+      Nombre: datos.Nombre,
+      By: datos.By
+    });
   }
+
 }

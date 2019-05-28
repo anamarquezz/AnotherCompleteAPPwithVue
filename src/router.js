@@ -10,6 +10,8 @@ import mempleadosevaluadores from '../src/views/mempleadosevaluadores.vue';
 import mevaluadosporsupervisor from '../src/views/mevaluadosporsupervisor.vue';
 import mconfigurarfechas from '../src/views/mconfigurarfechas.vue';
 import mtodosempleados from '../src/views/mtodosempleados.vue'
+import mmantenimientosupervisores from '../src/views/mmantenimientosupervisores'
+
 Vue.use(Router)
 
 export default new Router({
@@ -52,6 +54,12 @@ export default new Router({
       path:'/mtodosempleados',
       name:'mtodosempleados',
       component:mtodosempleados
+    },
+    {
+      path:'/mmantenimientosupervisores',
+      name:'mmantenimientosupervisores',
+      component:mmantenimientosupervisores
+
     }
     
   ]

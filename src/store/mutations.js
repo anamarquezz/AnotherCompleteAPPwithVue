@@ -26,6 +26,7 @@ export default {
   s_Loading(state, data) {
     state.loading.value = data.value;
     state.loading.show = data.show;
+    state.loading.showlinear = data.showlinear;
   },
   set_showMessage: (state, values) => {
     state.modalmessage.message = values.message;
@@ -59,10 +60,11 @@ export default {
     state.loginUser.turno = data.turno;
     state.loginUser.Area = data.department;
     state.loginUser.UserPic = "data:image/png;base64," + data.Image;
-    state.loginUser.isRH =data.userId == 28759?"true":data.isRH +"";// data.isRH + "",//
-    state.loginUser.allowESign = data.allowESign+'';
-    state.loginUser.isSupervisor = data.isSuperviser+"";
-    state.loginUser.allowEvaluation = data.allowEvaluation +"";
+    state.loginUser.isRH = data.userId == 28759 ? "true" : data.isRH + ""; // data.isRH + "",//
+    state.loginUser.allowESign = data.allowESign + '';
+    state.loginUser.isSupervisor = data.isSuperviser + "";
+    state.loginUser.position = data.position + "";
+    state.loginUser.allowEvaluation = data.allowEvaluation + "";
     state.loginUser.descriptionPeriod = data.descriptionPeriod;
     state.loginUser.minPeriod = new Date(data.minPeriod).toLocaleDateString();
     state.loginUser.maxPeriod = new Date(data.maxPeriod).toLocaleDateString();
@@ -73,13 +75,14 @@ export default {
 
     localStorage.setItem('userId', state.loginUser.userId);
     localStorage.setItem('Name', state.loginUser.Name);
-    localStorage.setItem('supervisorSeleccionado',  state.supervisorSeleccionado);
+    localStorage.setItem('supervisorSeleccionado', state.supervisorSeleccionado);
     localStorage.setItem('Puesto', state.loginUser.Puesto);
     localStorage.setItem('turno', state.loginUser.turno);
     localStorage.setItem('UserPic', state.loginUser.UserPic);
     localStorage.setItem('Area', state.loginUser.Area);
     localStorage.setItem('isRH', state.loginUser.isRH);
-    localStorage.setItem('allowESign', state.loginUser.allowESign); 
+    localStorage.setItem('position', state.loginUser.position);
+    localStorage.setItem('allowESign', state.loginUser.allowESign);
     localStorage.setItem('isSupervisor', state.loginUser.isSupervisor);
     localStorage.setItem('allowEvaluation', state.loginUser.allowEvaluation);
     localStorage.setItem('descriptionPeriod', state.loginUser.descriptionPeriod);
@@ -89,10 +92,10 @@ export default {
     localStorage.setItem('maxYear', state.loginUser.maxYear);
     localStorage.setItem('EvalYear', state.loginUser.EvalYear);
 
-    if(state.loginUser.isSupervisor == 'true'){    
-      localStorage.setItem('isregresar', true +'');
-    }else{
-      localStorage.setItem('isregresar', false+'');
+    if (state.loginUser.isSupervisor == 'true') {
+      localStorage.setItem('isregresar', true + '');
+    } else {
+      localStorage.setItem('isregresar', false + '');
     }
 
   },
@@ -106,16 +109,26 @@ export default {
     });
     state.loginUser.supervisorSeleccionado = data.seleccionado;
     localStorage.setItem('supervisorSeleccionado', state.loginUser.supervisorSeleccionado);
-
-
+  },
+  set_SuperviserSummary: (state, data) => {
+    state.loginUser.SuperviserSummary = data;
+  },
+  set_AllUserSupervisers: (state, data) => {
+    state.loginUser.AllUserSupervisers = data;
+    state.loginUser.AllUserSupervisers.forEach(function (element) {
+      if (element.Image != undefined) {
+        element.Image = "data:image/png;base64," + element.Image;
+      }
+    });
   },
   set_SubordinateByUsers: (state, data) => {
     state.loginUser.Subordinatesbyuser = data.List;
     state.loginUser.Subordinatesbyuser.forEach(function (element) {
       element.Image = "data:image/png;base64," + element.Image;
-    });   
-    state.loginUser.supervisorSeleccionado = data.seleccionado;
-    localStorage.setItem('supervisorSeleccionado', state.loginUser.supervisorSeleccionado );    
+    });
+    state.loginUser.supervisorSeleccionado = data.seleccionado.PrettyName;
+    state.loginUser.position = data.seleccionado.Position;
+    localStorage.setItem('supervisorSeleccionado', state.loginUser.supervisorSeleccionado);
   },
   set_DistributionSuperviser: (state, data) => {
     state.loginUser.DistributionSuperviser = data;
@@ -130,17 +143,24 @@ export default {
 
   set_EmployeeInfo: (state, data) => {
     state.loginUser.empleadoaEvaluar.empleadoInfo = data.empleadoInfo;
-    state.loginUser.empleadoaEvaluar.empleadoInfo.forEach(function (element) {
-      element.Image = "data:image/png;base64," + element.Image;
-    });
+    if (data.empleadoInfo.length > 0) {
+      state.loginUser.empleadoaEvaluar.empleadoInfo.forEach(function (element) {
+        element.Image = "data:image/png;base64," + element.Image;
+      });
+
+
+      state.loginUser.empleadoaEvaluar.indicatorTressResult = data.indicatorTress.reduce(function (tot, record) {
+        return tot + record.Result;
+      }, 0);
+
+
+    }
 
     state.loginUser.empleadoaEvaluar.indicatorTress = data.indicatorTress;
-    state.loginUser.empleadoaEvaluar.indicatorTress.SumResult = data.indicatorTress.reduce(function (tot, record) {
-      return tot + record.Result;
-    }, 0);
+
 
     state.loginUser.empleadoaEvaluar.indicatorConfig = data.indicatorConfig;
-    state.loginUser.empleadoaEvaluar.indicatorConfig.SumResult = data.indicatorConfig.reduce(function (tot, record) {
+    state.loginUser.empleadoaEvaluar.indicatorConfigResult = data.indicatorConfig.reduce(function (tot, record) {
       return tot + record.Result;
     }, 0);
 
@@ -177,10 +197,10 @@ export default {
     state.loginUser.empleadoaEvaluar.empleadoInfo = {};
 
     state.loginUser.empleadoaEvaluar.indicatorTress = [];
-    state.loginUser.empleadoaEvaluar.indicatorTress.SumResult = 0;
+    state.loginUser.empleadoaEvaluar.indicatorTressResult = 0;
 
     state.loginUser.empleadoaEvaluar.indicatorConfig = [];
-    state.loginUser.empleadoaEvaluar.indicatorConfig.SumResult = 0;
+    state.loginUser.empleadoaEvaluar.indicatorConfigResult = 0;
 
     state.loginUser.empleadoaEvaluar.categoryValue = [];
 
@@ -217,14 +237,14 @@ export default {
         state.loginUser.empleadoaEvaluar.indicatorConfig[state.loginUser.empleadoaEvaluar.indicatorConfig.findIndex(el => el.IndicatorCode === data.IndicatorCode)].Cantidad = data.Result;
         state.loginUser.empleadoaEvaluar.indicatorConfig[state.loginUser.empleadoaEvaluar.indicatorConfig.findIndex(el => el.IndicatorCode === data.IndicatorCode)].Result = data.Result;
 
-        state.loginUser.empleadoaEvaluar.indicatorConfig.SumResult = state.loginUser.empleadoaEvaluar.indicatorConfig.reduce(function (tot, record) {
+        state.loginUser.empleadoaEvaluar.indicatorConfigResult = state.loginUser.empleadoaEvaluar.indicatorConfig.reduce(function (tot, record) {
           return tot + record.Cantidad;
         }, 0);
       }
     }
 
     //Sacar la suma de los reactivos de indicatorTress e indicatorConfig
-    var sumReactivos = state.loginUser.empleadoaEvaluar.indicatorConfig.SumResult + state.loginUser.empleadoaEvaluar.indicatorTress.SumResult;
+    var sumReactivos = state.loginUser.empleadoaEvaluar.indicatorConfigResult + state.loginUser.empleadoaEvaluar.indicatorTressResult;
 
     //Obtener el score de acuerdo a la condicion de max y minimo que contiene cada indicador
     //var score = state.loginUser.empleadoaEvaluar.categoryValue[state.loginUser.empleadoaEvaluar.categoryValue.findIndex(dato => dato.Min >= sumReactivos && dato.Max <= sumReactivos)].Score;    
@@ -239,14 +259,8 @@ export default {
     state.loginUser.empleadoaEvaluar.ratingEmpleado = (state.loginUser.empleadoaEvaluar.categoryValue[index].Score);
     state.loginUser.empleadoaEvaluar.puntuacionEmpleado = sumReactivos;
   },
-  set_nombreFirmeEmpleado:(state,data) => {
-    if(data.por == "SUP"){
-      state.loginUser.empleadoaEvaluar.saveUpdateUser.nombreEvaluador = data.datos.cname;
-      state.loginUser.empleadoaEvaluar.isloginfirmaEva = true;
-    }else{
-      state.loginUser.empleadoaEvaluar.saveUpdateUser.nombreEmpleado = data.datos.cname;
-      state.loginUser.empleadoaEvaluar.isloginfirmaEmp = true;
-    }
+  set_nombreFirmeEmpleado: (state, value) => {
+    state.loginUser.empleadoaEvaluar.firmaValida = value;
   },
   saveUpdateUser: (state, data) => {
     // Actualizar la suma  de los result  
@@ -272,8 +286,55 @@ export default {
   set_drawer: (state, value) => {
     state.drawer = value;
   },
-  set_regresar:(state, value) =>{
+  set_regresar: (state, value) => {
     state.isregresar = value;
+  },
+  set_validhuella: (state, value) => {
+    state.validhuella = value;
+  },
+  set_signaturepor: (state, por) => {
+    state.loginUser.empleadoaEvaluar.signatureInfo[state.loginUser.empleadoaEvaluar.signatureInfo.findIndex(el => el
+      .TypeCode == por)].IsSignature = true;
+
+    state.loginUser.empleadoaEvaluar.saveUpdateUser.signatureInfo = state.loginUser.empleadoaEvaluar.signatureInfo;
+  },
+  set_nombreInput: (state, datos) => {
+    state.loginUser[datos.By] = datos.Nombre;
+  },
+  set_listaManteniEValua: (state, list) => {
+    state.listamantenimientoevaluadores = list;
+    /*
+    var listaMantenimiento = [];
+    
+    var listgerent = [...new Set(list.map((esc) => esc.number_approval))];
+
+    listgerent.forEach(function (element){
+      var  gerente={
+        NumEmp:'',
+        Nombre:'',
+        Evaluadores:[
+          {
+          NumEmp:'',
+          Nombre:'',
+          Empleados:[]
+          }]
+      };
+
+      gerente.NumEmp = element.number_approval;
+      gerente.Nombre = element.Nombre;      
+      var sup = state.listamantenimientoevaluadores.filter(evalu => eval.number_approval == element.number_approval);
+      
+      sup.forEach(function (element){
+        gerente.Evaluadores.NumEmp = element.number_evaluator;
+        gerente.Evaluadores.Nombre = element.Nombre;
+        gerente.Evaluadores.Empleados= state.listamantenimientoevaluadores.filter(evalu => eval.number_approval == element.number_approval);
+      });
+      listaMantenimiento.push(gerente);     
+    });
+
+    state.expandlist = listaMantenimiento;
+*/
   }
+
 
 }

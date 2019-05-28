@@ -26,7 +26,7 @@
                 <span class="title font-weight-bold">Periodo de Revisión de Personal Asignado
                 </span>
               </v-card-title>
-              <v-card-text class="title"> {{g_periods}}
+              <v-card-text class="title"> 
                 Durante este periodo Gerentes y/o Sup. Generales deberán revisar que les aparezca el personal que
                 físicamente tienen en sus áreas. En caso de presentarse diferencias (personal faltante y/o mal asignado)
                 mandar un correo con los cambios requeridos.
@@ -41,7 +41,8 @@
             <v-card class="mx-auto">
               <v-card-title class="title">
                 <v-icon class="text-center fonticonsize indigo--text text--lighten-1">fas fa-lock</v-icon>
-                <h5 class="ml-3 mt-4 font-weight-bold"> {{periodorevision}} </h5>
+                <h5 class="ml-3 mt-4 font-weight-bold"> {{periodorevision}}  </h5><h1 class="ml-3 mt-4 "><i v-if="g_periods.length > 0 && g_periods[0].finalized" class="fas fa-check-square green--text"></i></h1>
+
               </v-card-title>
               <v-card-actions class="">
               </v-card-actions>
@@ -72,7 +73,7 @@
             <v-card class="mx-auto" color="">
               <v-card-title class="title">
                 <v-icon class="text-center fonticonsize pink--text text--lighten-2">fas fa-laptop</v-icon>
-                <h5 class="ml-3 mt-4 font-weight-bold">{{periodoevaluacion}} </h5>
+                <h5 class="ml-3 mt-4 font-weight-bold">{{periodoevaluacion}} </h5> <h1 class="ml-3 mt-4 "><i v-if="g_periods.length > 0 && g_periods[1].finalized" class="fas fa-check-square green--text"></i></h1>
               </v-card-title>
               <v-card-actions class="">
               </v-card-actions>
@@ -98,7 +99,7 @@
             <v-card class="mx-auto" color="">
               <v-card-title class="title">
                 <v-icon class="text-center fonticonsize light-blue--text text-darken-2">fas fa-calendar-check</v-icon>
-                <h5 class="ml-3 mt-4 ">{{periodorevisionRH}} </h5>
+                <h5 class="ml-3 mt-4 ">{{periodorevisionRH}} </h5> <h1 class="ml-3 mt-4 "><i v-if="g_periods.length > 0 && g_periods[2].finalized" class="fas fa-check-square green--text"></i></h1>
               </v-card-title>
               <v-card-actions class="">
               </v-card-actions>
@@ -113,7 +114,7 @@
                 <span class="title">Periodo de Retroalimentación 
                 </span>
               </v-card-title>
-              <v-card-text class="title">
+              <v-card-text class="title">{{g_periodos}}
             Durante este lapso se debe enterar al empleado de los resultados en cada uno de los puntos que conforman la evaluación, dando pie a que ellos expresen su punto de vista al respecto.
               </v-card-text>
               <v-card-actions class="orange darken-1">
@@ -125,7 +126,7 @@
             <v-card class="mx-auto" color="">
               <v-card-title class="">
                 <v-icon class="text-center fonticonsize orange--text text--darken-1">fas fa-user-friends</v-icon>
-                <h5 class="ml-3 mt-4">{{periodoretro}}  </h5>
+                <h5 class="ml-3 mt-4">{{periodoretro}}  </h5> <h1 class="ml-3 mt-4 "><i v-if="g_periods.length > 0 && g_periods[3].finalized" class="fas fa-check-square green--text"></i></h1>
               </v-card-title>
               <v-card-actions class="">
               </v-card-actions>
@@ -183,7 +184,7 @@
         periodorevision:'',
         periodoevaluacion:'',
         periodorevisionRH:'',
-        periodoretro:'',
+        periodoretro:'',      
         months : ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Deciembre"],      
         headersDistribucion: [{
             text: "",
@@ -240,9 +241,9 @@
       }
     },
     computed: {
-      ...mapGetters(["g_loginUser"]),
-       g_periods(){ 
-         var periods  = this.$store.getters.g_periods;
+      ...mapGetters(["g_loginUser",'g_periods']),
+       g_periodos(){               
+         var periods=this.$store.getters.g_periods;
          if(periods.length > 0){
               this.periodorevision   = 'Del '+ (new Date(periods[0].minDate).getDate() + 1) + ' al  '+ ( new Date(periods[0].maxDate).getDate() + 1) + ' de ' + this.months[new Date(periods[0].maxDate).getMonth()]; 
               this.periodoevaluacion = 'Del '+ (new Date(periods[1].minDate).getDate() + 1) + ' al  '+ ( new Date(periods[1].maxDate).getDate() + 1) + ' de ' + this.months[new Date(periods[1].maxDate).getMonth()]; 

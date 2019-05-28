@@ -1,8 +1,9 @@
 /* http://localhost:49014
-http://10.2.16.98:82// 
+"http://10.2.16.98:82/
     https://intranet.valuout.com/CloverServices/
 */
 
+var url="http://localhost:49014";
 import Vue from 'vue'
 var values = {
   message: '',
@@ -20,7 +21,7 @@ export default {
       return new Promise((resolve, reject) => { // The Promise used for router redirect in login
         commit('AUTH_REQUEST');
 
-        Vue.http.post("http://10.2.16.98:82/auth/token", {
+        Vue.http.post(url+"/auth/token", {
             username: user.username,
             password: "cl0v3r",
             grant_type: "password",
@@ -96,7 +97,7 @@ export default {
     dispatch
   }) {
     try {
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetEmployeeInfo", {
+      Vue.http.get(url+"/api/evaluation/GetEmployeeInfo", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }
@@ -133,7 +134,7 @@ export default {
         List: [],
         seleccionado: nombreSup
       });
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetSubordinateByUser", {
+      Vue.http.get(url+"/api/evaluation/GetSubordinateByUser", {
         params: {
           number: localStorage.getItem('userId') //27045 23781
         },
@@ -173,7 +174,7 @@ export default {
         List: [],
         seleccionado: ''
       });
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetAllEmployees", {
+      Vue.http.get(url+"/api/evaluation/GetAllEmployees", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         },
@@ -208,7 +209,7 @@ export default {
       commit('GetSummarySubordinates', {
         List: []
       });
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetDistributionAll", {
+      Vue.http.get(url+"/api/evaluation/GetDistributionAll", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }
@@ -245,7 +246,7 @@ export default {
         seleccionado: ''
       });
 
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetEmployeesBySuperviser", {
+      Vue.http.get(url+"/api/evaluation/GetEmployeesBySuperviser", {
         params: {
           number: values.Number //27045
         },
@@ -290,7 +291,7 @@ export default {
       commit('GetSummarySubordinates', {
         List: []
       });
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetSummarySubordinates", {
+      Vue.http.get(url+"/api/evaluation/GetSummarySubordinates", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }
@@ -332,7 +333,7 @@ export default {
 
     try {
 
-      Vue.http.post("http://10.2.16.98:82/api/evaluation/UpdatateEvaluation",
+      Vue.http.post(url+"/api/evaluation/UpdatateEvaluation",
         state.loginUser.empleadoaEvaluar.saveUpdateUser, {
           headers: {
             Authorization: localStorage.getItem('user-token')
@@ -383,7 +384,7 @@ export default {
 
     try {
 
-      Vue.http.post("http://10.2.16.98:82/api/evaluation/UpdatePeriod",
+      Vue.http.post(url+"/api/evaluation/UpdatePeriod",
         data, {
           headers: {
             Authorization: localStorage.getItem('user-token')
@@ -418,7 +419,7 @@ export default {
     dispatch
   }, data) {
     try {
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetEvaluationEmployee", {
+      Vue.http.get(url+"/api/evaluation/GetEvaluationEmployee", {
         params: {
           number: data.Number
         },
@@ -453,7 +454,7 @@ export default {
       List: []
     });
     try {
-      Vue.http.get("http://10.2.16.98:82/api/evaluation/GetPeriods", {
+      Vue.http.get(url+"/api/evaluation/GetPeriods", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         },
@@ -482,7 +483,7 @@ export default {
     dispatch
   }, datos){
     try {
-      Vue.http.get("http://10.2.16.98:82/api/util/UserInActiveDirectory", {
+      Vue.http.get(url+"/api/util/UserInActiveDirectory", {
         params: {
           usuario: datos.usuario,
           contrasena:datos.contrasena,

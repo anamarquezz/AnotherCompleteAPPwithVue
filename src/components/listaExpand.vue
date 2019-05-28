@@ -21,7 +21,8 @@
       </download-excel> -->
 
 
-      <download-excel v-if="excelname != ''" class="btn btn-default green lighten-4   font-weight-bold title btnhover ml-3" :data="list"
+      <download-excel v-if="excelname != ''"
+        class="btn btn-default green lighten-4   font-weight-bold title btnhover ml-3" :data="list"
         :fields="getjsonfields()" worksheet="My Worksheet" :name="excelname">
         <img src="../assets/img/excel.png" width="30" />
         Descargar Excel
@@ -33,9 +34,9 @@
 
     <v-layout v-resize="onResize" column>
       <v-data-table :dark="dark" v-if="list.length > 0" :headers="headers" :items="list" :search="search"
-        :custom-filter="customFilter" :pagination.sync="pagination" :rows-per-page-items="pagination.rowsPerPageItems"
+        :custom-filter="customFilter" :pagination.sync="pagination" :rows-per-page-items="pagination.rowsPerPageItems" :expand="expand"    item-key="number_approval"
         :hide-headers="isMobile" :class="{mobile: isMobile}" class="elevation-1">
-      <template slot="headerCell" slot-scope="props">
+        <template slot="headerCell" slot-scope="props">
           <v-tooltip bottom>
             <template slot="activator">
               <span>
@@ -45,15 +46,15 @@
             <span v-if="props.header.tooltip != null">
               {{ props.header.tooltip }}
             </span>
-             <span v-else>
+            <span v-else>
               {{ props.header.text }}
             </span>
           </v-tooltip>
         </template>
-``
+        ``
         <template slot="items" slot-scope="props">
-          <tr v-if="!isMobile" class="grey lighten-4">
-            <td v-for="h in headers" :key="h.text" class="text-center ">
+          <tr v-if="!isMobile" class="grey lighten-4" @click="props.expanded = !props.expanded; selected = props.item">
+            <td v-for="h in headers" :key="h.text" class="text-center " >
 
               <b v-if="h.type ==='text'" class="font-size-17 black--text">
                 {{props.item[h.value]}}
@@ -135,6 +136,13 @@
             </td>
           </tr>
         </template>
+
+        <template slot="expand" slot-scope="props">
+            <listaempleados :headers="headers" v-if="expandlist.length > 0"
+                :list='expandlist' excelname="gerentesupervisoresEvaluadores.xls">
+          </listaempleados>
+
+        </template>
         <v-alert slot="no-results" :value="true" color="red lighten-1" icon="warning ">
           Your search for "{{ search }}" found no results.
         </v-alert>
@@ -153,11 +161,18 @@
     mapGetters
   } from 'vuex';
 
+  import listaempleados from '../components/listaempleados.vue'
+
   export default {
-    name: "listaempleados",
+    name: "listaExpand",
+    components:{
+        listaempleados,
+    },
     data() {
-      return {      
+      return {
+          selected: {},
         isMobile: false,
+         expand: false,
         color: 'blue darken-3',
         btn: 'btn',
         search: "",
@@ -166,62 +181,21 @@
           page: 1,
           rowsPerPage: 10,
           sortBy: 'name',
-          rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000,3000,5000]
+          rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
         },
         condition_values: {
           text: '',
           color: 'indigo darken-4'
-        },
-        json_fields: {
-          'Complete name': 'name',
-          'City': 'city',
-          'Telephone': 'phone.mobile',
-          'Telephone 2': {
-            field: 'phone.landline',
-            callback: (value) => {
-              return `Landline Phone - ${value}`;
-            }
-          },
-        },
-        json_data: [{
-            'name': 'Tony Peña',
-            'city': 'New York',
-            'country': 'United States',
-            'birthdate': '1978-03-15',
-            'phone': {
-              'mobile': '1-541-754-3010',
-              'landline': '(541) 754-3010'
-            }
-          },
-          {
-            'name': 'Thessaloniki',
-            'city': 'Athens',
-            'country': 'Greece',
-            'birthdate': '1987-11-23',
-            'phone': {
-              'mobile': '+1 855 275 5071',
-              'landline': '(2741) 2621-244'
-            }
-          }
-        ],
-        json_meta: [
-          [{
-            'key': 'charset',
-            'value': 'utf-8'
-          }]
-        ],
-
+        },   
       }
-
     },
-    props: ['headers', 'list', 'from','dark', 'hassearch','haspagination', 'excelname'],
+    props: ['headers', 'list', 'from', 'dark', 'hassearch', 'haspagination', 'excelname'],
     computed: {
       ...mapGetters(["g_loginUser"])
 
     },
     methods: {
       metodo(h, items) {
-        this.search = '';
         this.$store.dispatch(h.action, items);
       },
       listacombo(items, Nombrearray) {
@@ -311,10 +285,19 @@
     color: rgb(17, 138, 81);
   }
 
-  table.v-table tbody td:first-child, table.v-table tbody td:not(:first-child), table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child), table.v-table thead td:first-child, table.v-table thead td:not(:first-child), table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
+  table.v-table tbody td:first-child,
+  table.v-table tbody td:not(:first-child),
+  table.v-table tbody th:first-child,
+  table.v-table tbody th:not(:first-child),
+  table.v-table thead td:first-child,
+  table.v-table thead td:not(:first-child),
+  table.v-table thead th:first-child,
+  table.v-table thead th:not(:first-child) {
     padding: 0px 13px !important;
-}
-.table.v-table thead th {   
+  }
+
+  .table.v-table thead th {
     font-size: 18px !important;
-}
+  }
+
 </style>

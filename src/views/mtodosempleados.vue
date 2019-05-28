@@ -59,48 +59,56 @@
           {
             text: "Num Emp",
             type: 'text',
+            align: 'center',
             value: "Number",
             resize: false
           },
           {
             text: "Nombre",
             type: 'text',
+            align: 'center',
             value: "PrettyName",
             resize: true
           },
           {
             text: "Clasificación",
             type: 'text',
+            align: 'center',
             value: "Clasificacion",
             resize: false
           },
           {
             text: "Puesto",
             type: 'text',
+            align: 'center',
             value: "Position",
             resize: false
           },
           {
             text: "Departamento",
             type: 'text',
+            align: 'center',
             value: "Department",
             resize: false
           },
           {
             text: "Supervisor",
             type: 'text',
+            align: 'center',
             value: "SupervisorPrettyName",
             resize: false
           },
           {
             text: "Status",
             type: 'text',
+            align: 'center',
             value: "Status",
             resize: false
           },
           {
             text: "Evaluación",
             type: 'text',
+            align: 'center',
             value: "Score",
             resize: false
           }

@@ -1,27 +1,91 @@
 <template>
   <v-container fluid>
     <v-layout>
-      <navbar color="grey darken-4" textcolor="white--text"></navbar>
+      <navbar color="grey darken-3" textcolor="white--text"></navbar>
       <v-flex row xs3 md3 lg3 xl3>
         <menuoptions></menuoptions>
       </v-flex>
-      <v-flex row xs11 md11 lg11 xl11 >
+      <v-flex row xs11 md11 lg11 xl11>
+
+
+
         <v-container fluid class="mt-5">
-          <v-toolbar dark color="indigo darken-4 white--text">
-            <h4><i class="far fa-list-alt mr-3"></i>Empleados a evaluar</h4>
-            <v-spacer></v-spacer>            
-          </v-toolbar>
-         <listaempleados :headers="headers" v-if="g_loginUser.Subordinates.length > 0"  :list='g_loginUser.Subordinates' excelname="empleadosEvaluadores.xls" >
-          </listaempleados> 
+          <v-tabs centered color="grey darken-2" dark icons-and-text>
+            <v-tabs-slider color="blue"></v-tabs-slider>
+
+            <v-tab href="#tab-1">
+              Mi Plantilla
+              <v-icon>ar fa-list-alt</v-icon>
+            </v-tab>
+
+            <v-tab href="#tab-2" v-if="g_loginUser.AllUserSupervisers.length > 0">
+              Plantila Supervisores
+              <v-icon>far fa-list-alt</v-icon>
+            </v-tab>
+
+            <v-tab href="#tab-3">
+              Escala de distribución
+              <v-icon>far fa-list-alt</v-icon>
+            </v-tab>
+
+
+            <v-tab-item :value="'tab-1'">
+              <v-container fluid>
+                <v-toolbar dark color="blue darken-3 white--text " text-xs-center>
+                  <h5><i class="fas fa-edit mr-3"></i>Proceso de Evaluaciones</h5>
+                  <v-spacer></v-spacer>
+
+                </v-toolbar>
+                <listaempleados from="EVAL" :headers="headerSumarySupervisor"
+                  v-if="g_loginUser.SuperviserSummary.length > 0" :list='g_loginUser.SuperviserSummary' excelname=''
+                  hassearch=false haspagination=true>
+                </listaempleados>
+              </v-container>
+
+              <v-container fluid>
+                <v-toolbar dark color="blue darken-3 white--text">
+                  <h4><i class="far fa-list-alt mr-3"></i>Mi Plantilla</h4>
+                  <v-spacer></v-spacer>
+                </v-toolbar>
+                <listaempleados :headers="headers" v-if="g_loginUser.Subordinates.length > 0"
+                  :list='g_loginUser.Subordinates' excelname="empleadosEvaluadores.xls" haspagination=false>
+                </listaempleados>
+              </v-container>
+
+            </v-tab-item>
+
+            <v-tab-item :value="'tab-2'" v-if="g_loginUser.AllUserSupervisers.length > 0">
+              <v-container fluid>
+                <v-toolbar dark color="blue darken-3 white--text">
+                  <h4><i class="far fa-list-alt mr-3"></i>Plantila de supervisores</h4>
+                  <v-spacer></v-spacer>
+                </v-toolbar>
+                <listaempleados from="EVAL" :headers="headers" :list='g_loginUser.AllUserSupervisers'
+                  excelname="PantillaSupervisores.xls" haspagination=true>
+                </listaempleados>
+              </v-container>
+            </v-tab-item>
+
+            <v-tab-item :value="'tab-3'">
+              <v-container fluid>
+                <v-toolbar dark color="blue darken-3 white--text">
+                  <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
+                  <v-spacer></v-spacer>
+                </v-toolbar>
+                <listaempleados from="EVAL" :headers="headersDistribucion"
+                  v-if="g_loginUser.DistributionSuperviser.length > 0" :list='g_loginUser.DistributionSuperviser'
+                  excelname="escaladistribuciontodosempleados.xls" haspagination=false>
+                </listaempleados>
+              </v-container>
+            </v-tab-item>
+          </v-tabs>
+
         </v-container>
-          <v-container fluid >
-          <v-toolbar dark color="blue darken-1 white--text">
-            <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
-            <v-spacer></v-spacer>        
-          </v-toolbar>
-         <listaempleados from="EVAL"  :headers="headersDistribucion" v-if="g_loginUser.DistributionSuperviser.length > 0" :list='g_loginUser.DistributionSuperviser' excelname="escaladistribuciontodosempleados.xls" >
-          </listaempleados> 
-      </v-container>
+
+
+
+
+
       </v-flex>
     </v-layout>
 
@@ -56,132 +120,189 @@
     data() {
       return {
         color: 'green lighten-1',
+        tabs: null,
+        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        headerSumarySupervisor: [{
+            text: "Número de Empleados",
+            type: 'text',
+            align: 'center',
+            resize: false,
+            value: "TotalEvaluate",
+            tooltip: 'Total Epleados a Evaluar',
+
+          },
+          {
+            text: "No Iniciados",
+            type: 'text',
+            align: 'center',
+            resize: false,
+            value: "NoIniciados",
+            tooltip: 'Numero de Empleados que no se ha iniciado su evaluación'
+          },
+          {
+            text: "Iniciado",
+            type: 'text',
+            align: 'center',
+            resize: false,
+            value: "Initiated",
+            tooltip: 'Numero de Empleados que ya se inició su evaluación pero que aun faltan puntos por califica'
+          },
+          {
+            text: "Completado",
+            type: 'text',
+            align: 'center',
+            resize: false,
+            value: "Completed",
+            tooltip: 'Numero de Empleados que ya se terminaron de evaluar y está pendiente su retroalimentación'
+          },
+          {
+            text: "Terminado",
+            align: 'center',
+            type: 'text',
+            resize: false,
+            value: "Evaluated",
+            tooltip: ' Numero de Empleados con el proceso finalizado (evaluación, retroalimentación y firmas)'
+          }
+        ],
         headers: [{
             text: ".",
             type: 'image',
+            align: 'center',
             value: "Image",
             resize: true
           },
           {
             text: "Num Emp",
             type: 'text',
+            align: 'center',
             value: "Number",
             resize: false
           },
           {
             text: "Nombre",
             type: 'text',
+            align: 'center',
             value: "PrettyName",
             resize: true
           },
           {
             text: "Clasificación",
             type: 'text',
+            align: 'center',
             value: "Clasificacion",
             resize: true
           },
           {
             text: "Puesto",
             type: 'text',
+            align: 'center',
             value: "Position",
             resize: true
           },
           {
             text: "Status",
             type: 'text',
+            align: 'center',
             value: "Status",
             resize: true
           },
           {
             text: "Evaluación",
             type: 'text',
+            align: 'center',
             value: "Score",
             resize: true
           },
           {
             text: "",
             type: 'button',
+            align: 'left',
             btntitle: 'Evaluar',
             action: "action_evaluarEmpleado",
             has_condition: true,
-            condition_property: 'Status',      
-            getconditiontext:true,     
-            conditionvalues:[
-              {
-              condition :'NO INICIADO',
-              text:'Evaluar',
-              color:'indigo darken-4'
+            condition_property: 'Status',
+            getconditiontext: true,
+            conditionvalues: [{
+                condition: 'NO INICIADO',
+                text: 'Evaluar',
+                color: 'indigo darken-4'
               },
               {
-                condition :'EVALUADO',
-                text:'Editar',
-                color:'blue darken-3'
-              },
-                {
-                condition :'INICIADO',
-                text:'Editar',
-                color:'blue darken-3'
+                condition: 'EVALUADO',
+                text: 'Editar',
+                color: 'blue darken-3'
               },
               {
-                condition :'COMPLETADO',
-                text:'Editar',
-                color:'blue darken-3'
+                condition: 'INICIADO',
+                text: 'Editar',
+                color: 'blue darken-3'
+              },
+              {
+                condition: 'COMPLETADO',
+                text: 'Editar',
+                color: 'blue darken-3'
               }
             ],
             resize: true,
             value: ""
           }
         ],
-        headersDistribucion:[
-          {
+        headersDistribucion: [{
             text: "",
             type: 'text',
+            align: 'center',
             value: "ValueDefinition",
             resize: true
-          },{
+          }, {
             text: "Puntuación",
             type: 'text',
+            align: 'center',
             value: "Puntuation",
             resize: true
           },
-          
+
           {
             text: "% de Distribución",
             type: 'text',
+            align: 'center',
             value: "Percentage",
             resize: true
           },
           {
             text: "Evaluación",
             type: 'text',
+            align: 'center',
             value: "Score",
             resize: true
           },
           {
             text: "Capacidad Maxima",
             type: 'text',
+            align: 'center',
             value: "Quantity",
             resize: true
           },
           {
             text: "Personas Evaluadas",
             type: 'text',
+            align: 'center',
             value: "Evaluated",
             resize: true
           },
           {
             text: "Nombre Personas",
             type: 'combo',
+            align: 'center',
             value: "distributionByEmployee",
-            iconbtn:'fa fa-users',
-            titlecombo:'PrettyName',
-            valuecombo:'Number',  
-            action: "action_evaluarEmpleado",          
+            iconbtn: 'fa fa-users',
+            titlecombo: 'PrettyName',
+            valuecombo: 'Number',
+            action: "action_evaluarEmpleado",
             resize: true
-            
+
           }
-          ]
-       
+        ]
+
       }
     },
     computed: {
@@ -207,9 +328,9 @@
               return el.Score == Score.Score
             }),
             dindex: 'Number',
-            title: 'PrettyName',     
-            subtitle: 'Position',       
-            avatar: 'Image',     
+            title: 'PrettyName',
+            subtitle: 'Position',
+            avatar: 'Image',
           }
         };
 
@@ -233,7 +354,12 @@
 
   @import '../assets/css/media_query.css';
 
-.mr-10{
-  margin-right: 80px
-}
+  .mr-10 {
+    margin-right: 80px
+  }
+
+  a:hover {
+    color: #d1d2d3 !important;
+  }
+
 </style>
