@@ -65,7 +65,7 @@ export default {
     state.loginUser.isSupervisor = data.isSuperviser + "";
     state.loginUser.position = data.position + "";
     state.loginUser.allowEvaluation = data.allowEvaluation + "";
-    state.loginUser.descriptionPeriod = data.descriptionPeriod;
+    state.loginUser.descriptionPeriod = 'Evaluación'; //data.descriptionPeriod;
     state.loginUser.minPeriod = new Date(data.minPeriod).toLocaleDateString();
     state.loginUser.maxPeriod = new Date(data.maxPeriod).toLocaleDateString();
     state.loginUser.minYear = new Date(data.minYear).toLocaleDateString();

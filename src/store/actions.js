@@ -497,8 +497,7 @@ export default {
         },
         progress(e) {}
       }).then(response => {
-          if (response.body.userInfo.Valid) {
-            commit('set_userValidado', response.body.userInfo.Valid);
+          if (response.body.userInfo.Valid) {                    
             commit('set_signaturepor', datos.firmapor);
 
           } else {

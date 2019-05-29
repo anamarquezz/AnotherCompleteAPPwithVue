@@ -157,7 +157,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 @import "../assets/css/global.css";
 @import "../assets/css/media_query.css";
 
