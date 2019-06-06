@@ -410,7 +410,9 @@ export default {
     });
     esto.findIP = findIP;
 
-    var connection = $.hubConnection("http://localhost:49014/signalr");
+    var connection = $.hubConnection(
+      "https://intranet.valuout.com/CloverServices/signalr"
+    );
     var proxy = connection.createHubProxy("finger");
     esto.proxy = proxy;
     // receives broadcast messages from a hub function, called "broadcastMessage"
