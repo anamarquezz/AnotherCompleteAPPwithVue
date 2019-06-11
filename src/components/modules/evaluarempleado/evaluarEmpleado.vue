@@ -427,10 +427,10 @@ export default {
         jsonp: true
       })
       .done(function() {
-        //console.log('Now connected, connection ID=' + connection.id);
+        console.log("Now connected, connection ID=" + connection.id);
       })
       .fail(function() {
-        //console.log('Could not connect');
+        console.log("Could not connect");
       });
   }
 };

@@ -53,7 +53,7 @@
 ``
         <template slot="items" slot-scope="props">
           <tr v-if="!isMobile" class="grey lighten-4">
-            <td v-for="h in headers" :key="h.text" class="text-center ">
+            <td v-for="h in headers" :key="h.text" class="text-center">
 
               <b v-if="h.type ==='text'" class="font-size-17 black--text">
                 {{props.item[h.value]}}
@@ -147,174 +147,197 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapActions,
-    mapGetters
-  } from 'vuex';
+import { mapState, mapActions, mapGetters } from "vuex";
 
-  export default {
-    name: "listaempleados",
-    data() {
-      return {      
-        isMobile: false,
-        color: 'blue darken-3',
-        btn: 'btn',
-        search: "",
-        pagination: {
-          descending: true,
-          page: 1,
-          rowsPerPage: 10,
-          sortBy: 'name',
-          rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000,3000,5000]
-        },
-        condition_values: {
-          text: '',
-          color: 'indigo darken-4'
-        },
-        json_fields: {
-          'Complete name': 'name',
-          'City': 'city',
-          'Telephone': 'phone.mobile',
-          'Telephone 2': {
-            field: 'phone.landline',
-            callback: (value) => {
-              return `Landline Phone - ${value}`;
-            }
-          },
-        },
-        json_data: [{
-            'name': 'Tony Peña',
-            'city': 'New York',
-            'country': 'United States',
-            'birthdate': '1978-03-15',
-            'phone': {
-              'mobile': '1-541-754-3010',
-              'landline': '(541) 754-3010'
-            }
-          },
-          {
-            'name': 'Thessaloniki',
-            'city': 'Athens',
-            'country': 'Greece',
-            'birthdate': '1987-11-23',
-            'phone': {
-              'mobile': '+1 855 275 5071',
-              'landline': '(2741) 2621-244'
-            }
+export default {
+  name: "listaempleados",
+  data() {
+    return {
+      isMobile: false,
+      color: "blue darken-3",
+      btn: "btn",
+      search: "",
+      pagination: {
+        descending: true,
+        page: 1,
+        rowsPerPage: 10,
+        sortBy: "name",
+        rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
+      },
+      condition_values: {
+        text: "",
+        color: "indigo darken-4"
+      },
+      json_fields: {
+        "Complete name": "name",
+        City: "city",
+        Telephone: "phone.mobile",
+        "Telephone 2": {
+          field: "phone.landline",
+          callback: value => {
+            return `Landline Phone - ${value}`;
           }
-        ],
-        json_meta: [
-          [{
-            'key': 'charset',
-            'value': 'utf-8'
-          }]
-        ],
-
-      }
-
-    },
-    props: ['headers', 'list', 'from','dark', 'hassearch','haspagination', 'excelname'],
-    computed: {
-      ...mapGetters(["g_loginUser"])
-
-    },
-    methods: {
-      metodo(h, items) {
-        this.search = '';
-        this.$store.dispatch(h.action, items);
-      },
-      listacombo(items, Nombrearray) {
-        var esto = this;
-        return items[Nombrearray];
-      },
-      conditioncolor(h, props) {
-        if (h.has_condition) {
-
-          var esto = this;
-          return h.conditionvalues[h.conditionvalues.findIndex(el => el.condition === props.item[h
-            .condition_property])].color;
-        } else {
-          return h.color;
         }
       },
-      conditiontext(h, props) {
+      json_data: [
+        {
+          name: "Tony Peña",
+          city: "New York",
+          country: "United States",
+          birthdate: "1978-03-15",
+          phone: {
+            mobile: "1-541-754-3010",
+            landline: "(541) 754-3010"
+          }
+        },
+        {
+          name: "Thessaloniki",
+          city: "Athens",
+          country: "Greece",
+          birthdate: "1987-11-23",
+          phone: {
+            mobile: "+1 855 275 5071",
+            landline: "(2741) 2621-244"
+          }
+        }
+      ],
+      json_meta: [
+        [
+          {
+            key: "charset",
+            value: "utf-8"
+          }
+        ]
+      ]
+    };
+  },
+  props: [
+    "headers",
+    "list",
+    "from",
+    "dark",
+    "hassearch",
+    "haspagination",
+    "excelname"
+  ],
+  computed: {
+    ...mapGetters(["g_loginUser"])
+  },
+  methods: {
+    metodo(h, items) {
+      this.search = "";
+      this.$store.dispatch(h.action, items);
+    },
+    listacombo(items, Nombrearray) {
+      var esto = this;
+      return items[Nombrearray];
+    },
+    conditioncolor(h, props) {
+      if (h.has_condition) {
         var esto = this;
+        return h.conditionvalues[
+          h.conditionvalues.findIndex(
+            el => el.condition === props.item[h.condition_property]
+          )
+        ].color;
+      } else {
+        return h.color;
+      }
+    },
+    conditiontext(h, props) {
+      var esto = this;
 
-        return h.conditionvalues[h.conditionvalues.findIndex(el => el.condition === props.item[h
-          .condition_property] && h.getconditiontext)].text;
-      },
-      getjsonfields() {
-        var result = {}
-        this.headers.filter(x => x.type == 'text').forEach(h =>
-          result[h.text] = h.value
+      return h.conditionvalues[
+        h.conditionvalues.findIndex(
+          el =>
+            el.condition === props.item[h.condition_property] &&
+            h.getconditiontext
+        )
+      ].text;
+    },
+    getjsonfields() {
+      var result = {};
+      this.headers
+        .filter(x => x.type == "text")
+        .forEach(h => (result[h.text] = h.value));
+
+      return result;
+    },
+
+    onResize() {
+      if (window.innerWidth < 910) this.isMobile = true;
+      else this.isMobile = false;
+    },
+    customFilter(items, search, filter) {
+      //this custom filter will do a multi-match separated by a space.
+      //e.g
+
+      if (!search) {
+        return items;
+      } //if the search is empty just return all the items
+
+      function new_filter(val, search) {
+        return (
+          val !== null &&
+          ["undefined", "boolean"].indexOf(typeof val) === -1 &&
+          val
+            .toString()
+            .toLowerCase()
+            .replace(/[^0-9a-zA-Z]+/g, "")
+            .indexOf(search) !== -1
         );
-
-
-
-        return result;
-      },
-
-      onResize() {
-        if (window.innerWidth < 910) this.isMobile = true;
-        else this.isMobile = false;
-      },
-      customFilter(items, search, filter) {
-
-        //this custom filter will do a multi-match separated by a space.
-        //e.g
-
-        if (!search) {
-          return items
-        } //if the search is empty just return all the items
-
-        function new_filter(val, search) {
-          return val !== null && ['undefined', 'boolean'].indexOf(typeof val) === -1 &&
-            val.toString().toLowerCase().replace(/[^0-9a-zA-Z]+/g, "").indexOf(search) !== -1
-        }
-
-        let needleAry = search.toString().toLowerCase().split(" ").filter(x => x);
-        //whenever we encounter a space in our search we will filter for both the first and second word (or third word)
-
-        return items.filter(row => needleAry.every(needle => Object.keys(row).some(key => new_filter(row[key],
-          needle))));
-        //foreach needle in our array cycle through the data (row[key]) in the current row looking for a match.
-        // .some will return true and exit the loop if it finds one it will return false if it doesnt
-        // .every will exit the loop if we dont find a match but will return true if all needles match
-        // .filter the rows on each match
-
-
-      },
-      toggleAll() {
-        if (this.selected.length) this.selected = [];
-        else this.selected = this.desserts.slice();
-      },
-      changeSort(column) {
-        if (this.pagination.sortBy === column) {
-          this.pagination.descending = !this.pagination.descending;
-        } else {
-          this.pagination.sortBy = column;
-          this.pagination.descending = false;
-        }
       }
+
+      let needleAry = search
+        .toString()
+        .toLowerCase()
+        .split(" ")
+        .filter(x => x);
+      //whenever we encounter a space in our search we will filter for both the first and second word (or third word)
+
+      return items.filter(row =>
+        needleAry.every(needle =>
+          Object.keys(row).some(key => new_filter(row[key], needle))
+        )
+      );
+      //foreach needle in our array cycle through the data (row[key]) in the current row looking for a match.
+      // .some will return true and exit the loop if it finds one it will return false if it doesnt
+      // .every will exit the loop if we dont find a match but will return true if all needles match
+      // .filter the rows on each match
     },
-
-    mounted: function () {
-      //  console.log(this.list);
+    toggleAll() {
+      if (this.selected.length) this.selected = [];
+      else this.selected = this.desserts.slice();
+    },
+    changeSort(column) {
+      if (this.pagination.sortBy === column) {
+        this.pagination.descending = !this.pagination.descending;
+      } else {
+        this.pagination.sortBy = column;
+        this.pagination.descending = false;
+      }
     }
-  }
+  },
 
+  mounted: function() {
+    //  console.log(this.list);
+  }
+};
 </script>
 
 <style scoped>
-  .btnhover:hover {
-    color: rgb(17, 138, 81);
-  }
-
-  table.v-table tbody td:first-child, table.v-table tbody td:not(:first-child), table.v-table tbody th:first-child, table.v-table tbody th:not(:first-child), table.v-table thead td:first-child, table.v-table thead td:not(:first-child), table.v-table thead th:first-child, table.v-table thead th:not(:first-child) {
-    padding: 0px 13px !important;
+.btnhover:hover {
+  color: rgb(17, 138, 81);
 }
-.table.v-table thead th {   
-    font-size: 18px !important;
+
+table.v-table tbody td:first-child,
+table.v-table tbody td:not(:first-child),
+table.v-table tbody th:first-child,
+table.v-table tbody th:not(:first-child),
+table.v-table thead td:first-child,
+table.v-table thead td:not(:first-child),
+table.v-table thead th:first-child,
+table.v-table thead th:not(:first-child) {
+  padding: 0px 4px 9px 3px !important;
 }
 </style>

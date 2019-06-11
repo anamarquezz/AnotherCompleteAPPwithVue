@@ -1,12 +1,13 @@
-html,body{
+html,
+body {
   font-family: sans-serif;
 }
 
-.backgroundfondo{
+.backgroundfondo {
   background: #001323;
 }
 
-.backgroundBlue{
+.backgroundBlue {
   background: #6BA2B9;
 }
 
@@ -18,7 +19,7 @@ html,body{
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;  
+  bottom: 0;
   cursor: pointer;
 }
 
@@ -29,20 +30,21 @@ html,body{
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;  
+  bottom: 0;
   cursor: pointer;
   z-index: 10000000000;
-  background-color: #96969678!important;
+  background-color: #96969678 !important;
 }
+
 .centering {
-  float:none;
-  margin:0 auto;
+  float: none;
+  margin: 0 auto;
 }
 
 .banner {
   padding-top: 10px;
   width: 10%;
-  background-image: url(../img/evaluationback.png);  
+  background-image: url(../img/evaluationback.png);
   opacity: .8;
   z-index: 2000;
 }
@@ -59,38 +61,38 @@ html,body{
   z-index: 1002;
 }
 
-.height100{
+.height100 {
   height: 930px;
 }
 
-.topcenter{
- padding-top: 180px;
+.topcenter {
+  padding-top: 180px;
 }
 
-.imgRes{
+.imgRes {
   width: 303px;
-    max-width: 80%;
+  max-width: 80%;
 }
 
-.iconsize{
+.iconsize {
   width: 50px;
   height: 50px;
   border: 1px double #b6b6b6;
 }
 
-.iconmenu{
+.iconmenu {
   width: 50px;
   border: 1px double #b6b6b6;
 }
 
 
-.icondialog{
+.icondialog {
   width: 100px;
   height: 100px;
   border: 1px double #b6b6b6;
 }
 
-.iconinfo{
+.iconinfo {
   width: 150px;
   height: 150px;
   border: 1px double #b6b6b6;
@@ -101,14 +103,15 @@ html,body{
 
 
 
-.backgroundwhite{
+.backgroundwhite {
   background: #e9ecef;
 }
 
-.backgroundfbfbfb{
+.backgroundfbfbfb {
   background: #fbfbfb;
 }
-.colorAzul{
+
+.colorAzul {
   color: #6BA2B9;
 }
 
@@ -129,9 +132,10 @@ html,body{
 
 
 
-.dinline{
+.dinline {
   display: inline;
 }
+
 /*
 .theme--dark.v-toolbar {
   background-color: #3c697b !important;
@@ -140,17 +144,17 @@ html,body{
 */
 
 
-.h-100p{
+.h-100p {
   height: 100%;
 }
 
-.fntsi50px{
-font-size: 40px;
+.fntsi50px {
+  font-size: 40px;
 
 }
 
-.font-size-17{
-  font-size: 17px !important;
+.font-size-17 {
+  font-size: 12px !important;
   font-weight: 300;
 }
 
@@ -166,8 +170,8 @@ font-size: 40px;
 
 
 .theme--dark.v-table thead th {
-   color: rgba(255, 255, 255, 0.945);  
-   background: rgb(77, 77, 77) !important;
+  color: rgba(255, 255, 255, 0.945);
+  background: rgb(77, 77, 77) !important;
   font-weight: bold;
   font-size: 16px;
 }
@@ -178,24 +182,26 @@ font-size: 40px;
 
 .theme--light.v-text-field--outline>.v-input__control>.v-input__slot {
   border: 1px solid rgba(138, 132, 132, 0.54);
-  
+
 }
 
-.theme--light.v-input--is-disabled .v-label, .theme--light.v-input--is-disabled input, .theme--light.v-input--is-disabled {
-  color: rgba(0, 0, 0, 0.7)!important;
+.theme--light.v-input--is-disabled .v-label,
+.theme--light.v-input--is-disabled input,
+.theme--light.v-input--is-disabled {
+  color: rgba(0, 0, 0, 0.7) !important;
 }
 
 
 .theme--light.v-icon.v-icon--disabled {
-  color: rgba(0, 0, 0, 0.7)!important;
+  color: rgba(0, 0, 0, 0.7) !important;
 }
 
 
 
-.miw-3{
+.miw-3 {
   min-width: 480px;
-  max-width:400px;
-  
+  max-width: 400px;
+
 }
 
 
@@ -258,7 +264,7 @@ font-size: 40px;
 [data-title]:hover::before {
   content: attr(data-title);
   position: absolute;
-  left:-35px;
+  left: -35px;
   bottom: 60px;
   display: inline-block;
   padding: 3px 6px;
@@ -270,6 +276,7 @@ font-size: 40px;
   white-space: nowrap;
 
 }
+
 [data-title]:hover::after {
   content: '';
   position: absolute;
@@ -277,9 +284,7 @@ font-size: 40px;
   left: 8px;
   display: inline-block;
   color: #fff;
-  border: 8px solid transparent;	
+  border: 8px solid transparent;
   border-bottom: 8px solid #000;
   background-attachment: pink;
 }
-
-

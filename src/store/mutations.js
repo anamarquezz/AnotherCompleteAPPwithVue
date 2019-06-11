@@ -60,9 +60,9 @@ export default {
     state.loginUser.turno = data.turno;
     state.loginUser.Area = data.department;
     state.loginUser.UserPic = "data:image/png;base64," + data.Image;
-    state.loginUser.isRH = data.userId == 28759 ? "true" : data.isRH + ""; // data.isRH + "",//
+    state.loginUser.isRH = data.userId == 81462 ? "true" : data.isRH + ""; // data.isRH + "",//
     state.loginUser.allowESign = data.allowESign + '';
-    state.loginUser.isSupervisor = data.isSuperviser + "";
+    state.loginUser.isSupervisor = data.userId == 81462 ? "true" : data.isSuperviser + "";
     state.loginUser.position = data.position + "";
     state.loginUser.allowEvaluation = data.allowEvaluation + "";
     state.loginUser.descriptionPeriod = data.descriptionPeriod;
