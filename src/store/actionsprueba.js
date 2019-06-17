@@ -3,7 +3,7 @@
     https://intranet.valuout.com/CloverServices/
 */
 
-var url="http://localhost:49014";
+var url = "http://localhost:49014";
 import Vue from 'vue'
 var values = {
   message: '',
@@ -21,7 +21,7 @@ export default {
       return new Promise((resolve, reject) => { // The Promise used for router redirect in login
         commit('AUTH_REQUEST');
 
-        Vue.http.post(url+"/auth/token", {
+        Vue.http.post(url + "/auth/token", {
             username: user.username,
             password: "cl0v3r",
             grant_type: "password",
@@ -97,7 +97,7 @@ export default {
     dispatch
   }) {
     try {
-      Vue.http.get(url+"/api/evaluation/GetEmployeeInfo", {
+      Vue.http.get(url + "/api/evaluation/GetEmployeeInfo", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }
@@ -134,7 +134,7 @@ export default {
         List: [],
         seleccionado: nombreSup
       });
-      Vue.http.get(url+"/api/evaluation/GetSubordinateByUser", {
+      Vue.http.get(url + "/api/evaluation/GetSubordinateByUser", {
         params: {
           number: localStorage.getItem('userId') //27045 23781
         },
@@ -158,7 +158,7 @@ export default {
         },
         response => {
           dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.Message);
-        });     
+        });
     } catch (e) {
       dispatch('errorResponse', e.message);
     }
@@ -174,7 +174,7 @@ export default {
         List: [],
         seleccionado: ''
       });
-      Vue.http.get(url+"/api/evaluation/GetAllEmployees", {
+      Vue.http.get(url + "/api/evaluation/GetAllEmployees", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         },
@@ -209,7 +209,7 @@ export default {
       commit('GetSummarySubordinates', {
         List: []
       });
-      Vue.http.get(url+"/api/evaluation/GetDistributionAll", {
+      Vue.http.get(url + "/api/evaluation/GetDistributionAll", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }
@@ -246,7 +246,7 @@ export default {
         seleccionado: ''
       });
 
-      Vue.http.get(url+"/api/evaluation/GetEmployeesBySuperviser", {
+      Vue.http.get(url + "/api/evaluation/GetEmployeesBySuperviser", {
         params: {
           number: values.Number //27045
         },
@@ -261,7 +261,8 @@ export default {
 
 
           dispatch('cambiarmenu', {
-            code: 'mempleadosevaluadores/mevaluadosporsupervisor'
+            code: 'mempleadosevaluadores/mevaluadosporsupervisor',
+            show: false
           });
 
 
@@ -291,7 +292,7 @@ export default {
       commit('GetSummarySubordinates', {
         List: []
       });
-      Vue.http.get(url+"/api/evaluation/GetSummarySubordinates", {
+      Vue.http.get(url + "/api/evaluation/GetSummarySubordinates", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         }
@@ -333,7 +334,7 @@ export default {
 
     try {
 
-      Vue.http.post(url+"/api/evaluation/UpdatateEvaluation",
+      Vue.http.post(url + "/api/evaluation/UpdatateEvaluation",
         state.loginUser.empleadoaEvaluar.saveUpdateUser, {
           headers: {
             Authorization: localStorage.getItem('user-token')
@@ -384,7 +385,7 @@ export default {
 
     try {
 
-      Vue.http.post(url+"/api/evaluation/UpdatePeriod",
+      Vue.http.post(url + "/api/evaluation/UpdatePeriod",
         data, {
           headers: {
             Authorization: localStorage.getItem('user-token')
@@ -419,7 +420,7 @@ export default {
     dispatch
   }, data) {
     try {
-      Vue.http.get(url+"/api/evaluation/GetEvaluationEmployee", {
+      Vue.http.get(url + "/api/evaluation/GetEvaluationEmployee", {
         params: {
           number: data.Number
         },
@@ -433,7 +434,8 @@ export default {
             commit('calcularRatinguser');
 
             dispatch('cambiarmenu', {
-              code: 'mevaluarempledo'
+              code: 'mevaluarempledo',
+              show: false
             });
           }
         },
@@ -454,7 +456,7 @@ export default {
       List: []
     });
     try {
-      Vue.http.get(url+"/api/evaluation/GetPeriods", {
+      Vue.http.get(url + "/api/evaluation/GetPeriods", {
         headers: {
           Authorization: localStorage.getItem('user-token')
         },
@@ -472,7 +474,7 @@ export default {
           dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.Message);
         });
     } catch (e) {
-     dispatch('errorResponse', e.message);
+      dispatch('errorResponse', e.message);
     }
   },
   //JSON
@@ -481,25 +483,28 @@ export default {
     state,
     commit,
     dispatch
-  }, datos){
+  }, datos) {
     try {
-      Vue.http.get(url+"/api/util/UserInActiveDirectory", {
+      Vue.http.get(url + "/api/util/UserInActiveDirectory", {
         params: {
           usuario: datos.usuario,
-          contrasena:datos.contrasena,
-          extra:datos.extra
+          contrasena: datos.contrasena,
+          extra: datos.extra
         },
         headers: {
           Authorization: localStorage.getItem('user-token')
         },
         progress(e) {}
       }).then(response => {
-        if(response.body.userInfo.Valid){
-          commit('set_nombreFirmeEmpleado',{datos:response.body.userInfo.Data[0], por:datos.por})          
-        }else{
-          dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.userInfo.Message);
-        }
-        commit('s_Loading', {
+          if (response.body.userInfo.Valid) {
+            commit('set_nombreFirmeEmpleado', {
+              datos: response.body.userInfo.Data[0],
+              por: datos.por
+            })
+          } else {
+            dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.userInfo.Message);
+          }
+          commit('s_Loading', {
             value: 0,
             show: false
           });
@@ -508,7 +513,7 @@ export default {
           dispatch('errorResponse', response.body == "" ? "Problemas con la conexión a internet" : response.body.Message);
         });
     } catch (e) {
-     dispatch('errorResponse', e.message);
+      dispatch('errorResponse', e.message);
     }
   },
 
@@ -635,7 +640,7 @@ export default {
     router.push('/' + item.code);
     commit('s_Loading', {
       value: 0,
-      show: false
+      show: item.show
     });
   },
 
@@ -668,7 +673,7 @@ export default {
     }
   },
 
-  set_regresar:(state, value) =>{
+  set_regresar: (state, value) => {
     state.isregresar = value;
   }
 }

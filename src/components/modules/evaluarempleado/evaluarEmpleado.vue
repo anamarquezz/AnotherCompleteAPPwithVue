@@ -256,7 +256,8 @@ export default {
   },
   computed: {
     ...mapState({
-      isregresar: "isregresar"
+      isregresar: "isregresar",
+      returnto: "returnto"
     }),
     ...mapGetters(["g_loginUser", "g_empleadoaEvaluar"]),
     validarcampos() {
@@ -293,7 +294,14 @@ export default {
         value: 0,
         show: true
       });
-      esto.$store.dispatch("GetSubordinateByUser");
+      if (esto.returnto == "miplantilla") {
+        esto.$store.dispatch("GetSubordinateByUser");
+      } else if ("Gerentes/Sup") {
+        esto.$store.dispatch("cambiarmenu", {
+          code: "mempleadosevaluadores",
+          show: true
+        });
+      }
     },
     firma(por, code) {
       var esto = this;

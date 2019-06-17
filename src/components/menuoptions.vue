@@ -50,131 +50,130 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapActions,
-    mapGetters
-  } from 'vuex';
+import { mapState, mapActions, mapGetters } from "vuex";
 
-  export default {
-    name: 'menuoptions',
-    data() {
-      return {
-        items: [{
+export default {
+  name: "menuoptions",
+  data() {
+    return {
+      items: [
+        {
           icon: "fas fa-home light-blue--text text--darken-2",
           text: "Inicio",
           code: "mhome"
-        }]
-
-      }
-    },
-    computed: {
-      ...mapState({
-        loginUser: 'loginUser'
-      }),
-      g_drawer: {
-        get() {
-          return this.$store.getters.g_drawer;
-        },
-        set(newValue) {}
-
+        }
+      ]
+    };
+  },
+  computed: {
+    ...mapState({
+      loginUser: "loginUser"
+    }),
+    g_drawer: {
+      get() {
+        return this.$store.getters.g_drawer;
       },
-
-
-    },
-    props: [],
-    methods: {
-      opcionmenu(item) {
-        var esto = this,
-          metodo = '';
-        //this.$store.dispatch("s_Loading", { value: 0, show: true });
-        switch (item.code) {
-          case '#login':
-            metodo = "AUTH_LOGOUT";
-            break
-          case 'mevaluarempledo':
-
-            this.$store.dispatch('GetEvaluationEmployee', {
-              Number: esto.loginUser.userId
-            });
-            this.$store.dispatch('set_regresar', false);
-            break;
-        }
-        if (item.code != 'expand') {
-          if (metodo == "") {
-
-            esto.$router.push("/" + item.code);
-          } else {
-
-            esto.$store.dispatch("s_Loading", {
-                value: 0,
-                show: true
-              }),
-              esto.$store.dispatch(metodo).then(() =>
-                esto.$router.push("/" + item.code),
+      set(newValue) {}
+    }
+  },
+  props: [],
+  methods: {
+    opcionmenu(item) {
+      var esto = this,
+        metodo = "";
+      //this.$store.dispatch("s_Loading", { value: 0, show: true });
+      switch (item.code) {
+        case "#login":
+          metodo = "AUTH_LOGOUT";
+          break;
+        case "mevaluarempledo":
+          this.$store.dispatch("GetEvaluationEmployee", {
+            Number: esto.loginUser.userId
+          });
+          this.$store.dispatch("set_regresar", false);
+          break;
+      }
+      if (item.code != "expand") {
+        if (metodo == "") {
+          esto.$router.push("/" + item.code);
+        } else {
+          esto.$store.dispatch("s_Loading", {
+            value: 0,
+            show: true
+          }),
+            esto.$store
+              .dispatch(metodo)
+              .then(
+                () => esto.$router.push("/" + item.code)
                 //    esto.$store.dispatch("s_Loading", { value: 0, show: false })
-              ).catch(err => console.log(err));
-          }
-
+              )
+              .catch(err => console.log(err));
         }
       }
-    },
-    mounted: function () {
-      var esto = this;
-      if (esto.loginUser.isSupervisor == "true") {
-        esto.items.splice(esto.items.length, 0, {
-          icon: "far fa-list-alt light-blue--text text--darken-2",
-          text: "Mi plantilla",
-          code: "mempleadosaevaluar"
-        });
-      }
-      if (esto.loginUser.isRH == "true") {
-        esto.items.splice(esto.items.length, 0, {
-          icon: 'keyboard_arrow_up',
-          'icon-alt': 'keyboard_arrow_down',
+    }
+  },
+  mounted: function() {
+    var esto = this;
+    if (esto.loginUser.isSupervisor == "true") {
+      esto.items.splice(esto.items.length, 0, {
+        icon: "far fa-list-alt light-blue--text text--darken-2",
+        text: "Mi plantilla",
+        code: "mempleadosaevaluar"
+      });
+    }
+    if (esto.loginUser.isRH == "true") {
+      esto.items.splice(
+        esto.items.length,
+        0,
+        {
+          icon: "keyboard_arrow_up",
+          "icon-alt": "keyboard_arrow_down",
           text: "Reportes",
           code: "expand",
           model: false,
-          children: [{
-            icon: "fa-id-card light-blue--text text--darken-2",
-            text: "Gerentes/Sup. Generales",
-            code: "mempleadosevaluadores"
-          }, {
-            icon: "far fa-list-alt light-blue--text text--darken-2",
-            text: "Plantilla Activa",
-            code: "mtodosempleados"
-          }]
-        }, {
+          children: [
+            {
+              icon: "fa-id-card light-blue--text text--darken-2",
+              text: "Gerentes/Sup. Generales",
+              code: "mempleadosevaluadores"
+            },
+            {
+              icon: "far fa-list-alt light-blue--text text--darken-2",
+              text: "Plantilla Activa",
+              code: "mtodosempleados"
+            }
+          ]
+        },
+        {
           icon: "fas fa-calendar-alt light-blue--text text--darken-2",
           text: "Calendario",
           code: "mconfigurarfechas"
         },
-       {
+        {
           icon: "fas fa-user-cog light-blue--text text--darken-2",
           text: "Mantenimiento/ Evaluadores",
           code: "mmantenimientosupervisores"
-        });
+        }
+      );
+    }
 
-      }
-
-
-      esto.items.splice(esto.items.length, 0,
-       /*{
+    esto.items.splice(
+      esto.items.length,
+      0,
+      /*{
         icon: "far fa-list-alt light-blue--text text--darken-2",
         text: "Personal a Evaluar",
         code: "mevaluarempledo"
       }*/ {
-        icon: "fas fa-sign-out-alt fa-rotate-180 light-blue--text text--darken-2",
+        icon:
+          "fas fa-sign-out-alt fa-rotate-180 light-blue--text text--darken-2",
         text: "Cerrar sesión",
         code: "#login"
-      })
-
-    }
-
+      }
+    );
   }
-
+};
 </script>
 
 <style scoped>
-
 </style>

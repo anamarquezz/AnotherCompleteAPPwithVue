@@ -94,272 +94,268 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapActions,
-    mapGetters
-  } from 'vuex';
+import { mapState, mapActions, mapGetters } from "vuex";
 
+import listaempleados from "../components/listaempleados.vue";
+import navbar from "../components/navbar.vue";
+import menuoptions from "../components/menuoptions.vue";
+import escaladistribucion from "../components/escaladistribucion.vue";
 
-  import listaempleados from '../components/listaempleados.vue'
-  import navbar from '../components/navbar.vue'
-  import menuoptions from '../components/menuoptions.vue'
-  import escaladistribucion from '../components/escaladistribucion.vue';
+export default {
+  name: "mempleadosaevaluar",
+  components: {
+    menuoptions,
+    navbar,
+    listaempleados,
+    escaladistribucion
+  },
+  data() {
+    return {
+      color: "green lighten-1",
+      tabs: null,
+      text:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      headerSumarySupervisor: [
+        {
+          text: "Número de Empleados",
+          type: "text",
+          align: "center",
+          resize: false,
+          value: "TotalEvaluate",
+          tooltip: "Total Epleados a Evaluar"
+        },
+        {
+          text: "No Iniciados",
+          type: "text",
+          align: "center",
+          resize: false,
+          value: "NoIniciados",
+          tooltip: "Numero de Empleados que no se ha iniciado su evaluación"
+        },
+        {
+          text: "Iniciado",
+          type: "text",
+          align: "center",
+          resize: false,
+          value: "Initiated",
+          tooltip:
+            "Numero de Empleados que ya se inició su evaluación pero que aun faltan puntos por califica"
+        },
+        {
+          text: "Completado",
+          type: "text",
+          align: "center",
+          resize: false,
+          value: "Completed",
+          tooltip:
+            "Numero de Empleados que ya se terminaron de evaluar y está pendiente su retroalimentación"
+        },
+        {
+          text: "Terminado",
+          align: "center",
+          type: "text",
+          resize: false,
+          value: "Evaluated",
+          tooltip:
+            " Numero de Empleados con el proceso finalizado (evaluación, retroalimentación y firmas)"
+        }
+      ],
+      headers: [
+        {
+          text: ".",
+          type: "image",
+          align: "center",
+          value: "Image",
+          resize: true
+        },
+        {
+          text: "Num Emp",
+          type: "text",
+          align: "center",
+          value: "Number",
+          resize: false
+        },
+        {
+          text: "Nombre",
+          type: "text",
+          align: "center",
+          value: "PrettyName",
+          resize: true
+        },
+        {
+          text: "Clasificación",
+          type: "text",
+          align: "center",
+          value: "Clasificacion",
+          resize: true
+        },
+        {
+          text: "Puesto",
+          type: "text",
+          align: "center",
+          value: "Position",
+          resize: true
+        },
+        {
+          text: "Status",
+          type: "text",
+          align: "center",
+          value: "Status",
+          resize: true
+        },
+        {
+          text: "Evaluación",
+          type: "text",
+          align: "center",
+          value: "Score",
+          resize: true
+        },
+        {
+          text: "",
+          type: "button",
+          align: "left",
+          btntitle: "Evaluar",
+          action: "action_evaluarEmpleado",
+          has_condition: true,
+          condition_property: "Status",
+          getconditiontext: true,
+          conditionvalues: [
+            {
+              condition: "NO INICIADO",
+              text: "Evaluar",
+              color: "indigo darken-4"
+            },
+            {
+              condition: "EVALUADO",
+              text: "Editar",
+              color: "blue darken-3"
+            },
+            {
+              condition: "INICIADO",
+              text: "Editar",
+              color: "blue darken-3"
+            },
+            {
+              condition: "COMPLETADO",
+              text: "Editar",
+              color: "blue darken-3"
+            }
+          ],
+          resize: true,
+          value: ""
+        }
+      ],
+      headersDistribucion: [
+        {
+          text: "",
+          type: "text",
+          align: "center",
+          value: "ValueDefinition",
+          resize: true
+        },
+        {
+          text: "Puntuación",
+          type: "text",
+          align: "center",
+          value: "Puntuation",
+          resize: true
+        },
 
-
-  export default {
-
-    name: 'mempleadosaevaluar',
-    components: {
-      menuoptions,
-      navbar,
-      listaempleados,
-      escaladistribucion
-
-    },
-    data() {
-      return {
-        color: 'green lighten-1',
-        tabs: null,
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-        headerSumarySupervisor: [{
-            text: "Número de Empleados",
-            type: 'text',
-            align: 'center',
-            resize: false,
-            value: "TotalEvaluate",
-            tooltip: 'Total Epleados a Evaluar',
-
-          },
-          {
-            text: "No Iniciados",
-            type: 'text',
-            align: 'center',
-            resize: false,
-            value: "NoIniciados",
-            tooltip: 'Numero de Empleados que no se ha iniciado su evaluación'
-          },
-          {
-            text: "Iniciado",
-            type: 'text',
-            align: 'center',
-            resize: false,
-            value: "Initiated",
-            tooltip: 'Numero de Empleados que ya se inició su evaluación pero que aun faltan puntos por califica'
-          },
-          {
-            text: "Completado",
-            type: 'text',
-            align: 'center',
-            resize: false,
-            value: "Completed",
-            tooltip: 'Numero de Empleados que ya se terminaron de evaluar y está pendiente su retroalimentación'
-          },
-          {
-            text: "Terminado",
-            align: 'center',
-            type: 'text',
-            resize: false,
-            value: "Evaluated",
-            tooltip: ' Numero de Empleados con el proceso finalizado (evaluación, retroalimentación y firmas)'
-          }
-        ],
-        headers: [{
-            text: ".",
-            type: 'image',
-            align: 'center',
-            value: "Image",
-            resize: true
-          },
-          {
-            text: "Num Emp",
-            type: 'text',
-            align: 'center',
-            value: "Number",
-            resize: false
-          },
-          {
-            text: "Nombre",
-            type: 'text',
-            align: 'center',
-            value: "PrettyName",
-            resize: true
-          },
-          {
-            text: "Clasificación",
-            type: 'text',
-            align: 'center',
-            value: "Clasificacion",
-            resize: true
-          },
-          {
-            text: "Puesto",
-            type: 'text',
-            align: 'center',
-            value: "Position",
-            resize: true
-          },
-          {
-            text: "Status",
-            type: 'text',
-            align: 'center',
-            value: "Status",
-            resize: true
-          },
-          {
-            text: "Evaluación",
-            type: 'text',
-            align: 'center',
-            value: "Score",
-            resize: true
-          },
-          {
-            text: "",
-            type: 'button',
-            align: 'left',
-            btntitle: 'Evaluar',
-            action: "action_evaluarEmpleado",
-            has_condition: true,
-            condition_property: 'Status',
-            getconditiontext: true,
-            conditionvalues: [{
-                condition: 'NO INICIADO',
-                text: 'Evaluar',
-                color: 'indigo darken-4'
-              },
-              {
-                condition: 'EVALUADO',
-                text: 'Editar',
-                color: 'blue darken-3'
-              },
-              {
-                condition: 'INICIADO',
-                text: 'Editar',
-                color: 'blue darken-3'
-              },
-              {
-                condition: 'COMPLETADO',
-                text: 'Editar',
-                color: 'blue darken-3'
-              }
-            ],
-            resize: true,
-            value: ""
-          }
-        ],
-        headersDistribucion: [{
-            text: "",
-            type: 'text',
-            align: 'center',
-            value: "ValueDefinition",
-            resize: true
-          }, {
-            text: "Puntuación",
-            type: 'text',
-            align: 'center',
-            value: "Puntuation",
-            resize: true
-          },
-
-          {
-            text: "% de Distribución",
-            type: 'text',
-            align: 'center',
-            value: "Percentage",
-            resize: true
-          },
-          {
-            text: "Evaluación",
-            type: 'text',
-            align: 'center',
-            value: "Score",
-            resize: true
-          },
-          {
-            text: "Capacidad Maxima",
-            type: 'text',
-            align: 'center',
-            value: "Quantity",
-            resize: true
-          },
-          {
-            text: "Personas Evaluadas",
-            type: 'text',
-            align: 'center',
-            value: "Evaluated",
-            resize: true
-          },
-          {
-            text: "Nombre Personas",
-            type: 'combo',
-            align: 'center',
-            value: "distributionByEmployee",
-            iconbtn: 'fa fa-users',
-            titlecombo: 'PrettyName',
-            valuecombo: 'Number',
-            action: "action_evaluarEmpleado",
-            resize: true
-
-          }
-        ]
-
-      }
-    },
-    computed: {
-      ...mapGetters(["g_loginUser"]),
-      ...mapState([
-        'token'
-      ])
-    },
-    methods: {
-      escalaDis(Score) {
-        var esto = this;
-
-        var dialog = {
-          Value: true,
-          Title: " Escala distribucion " + Score.Score + " ",
-          Subtitle: Score.ValueDefinition + "  porcentaje " + Score.Percentage + '%',
-          contieneImagen: false,
-          Image: '',
-          Paragraph: '',
-          component: {
-            type: 'list',
-            list: esto.g_loginUser.Subordinates.filter(function (el) {
-              return el.Score == Score.Score
-            }),
-            dindex: 'Number',
-            title: 'PrettyName',
-            subtitle: 'Position',
-            avatar: 'Image',
-          }
-        };
-
-        this.$store.dispatch('sw_dialog', dialog);
-      }
-    },
-    created() {
+        {
+          text: "% de Distribución",
+          type: "text",
+          align: "center",
+          value: "Percentage",
+          resize: true
+        },
+        {
+          text: "Evaluación",
+          type: "text",
+          align: "center",
+          value: "Score",
+          resize: true
+        },
+        {
+          text: "Capacidad Maxima",
+          type: "text",
+          align: "center",
+          value: "Quantity",
+          resize: true
+        },
+        {
+          text: "Personas Evaluadas",
+          type: "text",
+          align: "center",
+          value: "Evaluated",
+          resize: true
+        },
+        {
+          text: "Nombre Personas",
+          type: "modal",
+          align: "center",
+          value: "distributionByEmployee",
+          iconbtn: "fa fa-users",
+          titlecombo: "PrettyName",
+          valuecombo: "Number",
+          action: "action_evaluarEmpleado",
+          resize: true
+        }
+      ]
+    };
+  },
+  computed: {
+    ...mapGetters(["g_loginUser"]),
+    ...mapState(["token"])
+  },
+  methods: {
+    escalaDis(Score) {
       var esto = this;
-      esto.$store.dispatch("s_Loading", {
-          value: 0,
-          show: true
-        }),
-        esto.$store.dispatch('GetSubordinateByUser');
-    }
-  }
 
+      var dialog = {
+        Value: true,
+        Title: " Escala distribucion " + Score.Score + " ",
+        Subtitle:
+          Score.ValueDefinition + "  porcentaje " + Score.Percentage + "%",
+        contieneImagen: false,
+        Image: "",
+        Paragraph: "",
+        component: {
+          type: "list",
+          list: esto.g_loginUser.Subordinates.filter(function(el) {
+            return el.Score == Score.Score;
+          }),
+          dindex: "Number",
+          title: "PrettyName",
+          subtitle: "Position",
+          avatar: "Image"
+        }
+      };
+
+      this.$store.dispatch("sw_dialog", dialog);
+    }
+  },
+  created() {
+    var esto = this;
+    esto.$store.dispatch("s_Loading", {
+      value: 0,
+      show: true
+    }),
+      esto.$store.dispatch("GetSubordinateByUser");
+    esto.$store.dispatch("set_returnto", "miplantilla");
+  }
+};
 </script>
 
 <style scope>
-  @import '../assets/css/global.css';
+@import "../assets/css/global.css";
 
-  @import '../assets/css/media_query.css';
+@import "../assets/css/media_query.css";
 
-  .mr-10 {
-    margin-right: 80px
-  }
+.mr-10 {
+  margin-right: 80px;
+}
 
-  a:hover {
-    color: #d1d2d3 !important;
-  }
-
+a:hover {
+  color: #d1d2d3 !important;
+}
 </style>

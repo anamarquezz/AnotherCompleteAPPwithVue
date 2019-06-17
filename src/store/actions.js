@@ -3,7 +3,7 @@
     https://intranet.valuout.com/CloverServices/
 */
 
-var url = "https://intranet.valuout.com/CloverServices";
+var url = "http://localhost:49014";
 import Vue from 'vue'
 var values = {
   message: '',
@@ -164,6 +164,35 @@ export default {
       dispatch('errorResponse', e.message);
     }
   },
+  getDistributionbySupervisor: function ({
+    //mevaluadosporsupervisor
+    state,
+    commit,
+    dispatch
+  }, number) {
+    Vue.http.get(url + "/api/evaluation/GetSubordinateByUser", {
+      params: {
+        number: number //27045 23781
+      },
+      headers: {
+        Authorization: localStorage.getItem('user-token')
+      },
+      progress(e) {}
+    }).then(response => {
+      try {
+        commit('set_DistributionSuperviser', response.body.EmployeeEvaluated.DistributionSuperviser);
+
+        commit('s_Loading', {
+          value: 0,
+          show: false
+        });
+
+      } catch (e) {
+        dispatch('errorResponse', e.message);
+      }
+    });
+
+  },
   GetAllEmployees: function ({
     state,
     commit,
@@ -262,14 +291,12 @@ export default {
 
 
           dispatch('cambiarmenu', {
-            code: 'mempleadosevaluadores/mevaluadosporsupervisor'
+            code: 'mempleadosevaluadores/mevaluadosporsupervisor',
+            show: true
           });
 
 
-          commit('s_Loading', {
-            value: 0,
-            show: false
-          });
+          dispatch('getDistributionbySupervisor', values.Number);
 
         },
         response => {
@@ -435,7 +462,8 @@ export default {
             commit('calcularRatinguser');
 
             dispatch('cambiarmenu', {
-              code: 'mevaluarempledo'
+              code: 'mevaluarempledo',
+              show: false
             });
           }
         },
@@ -763,7 +791,7 @@ export default {
     router.push('/' + item.code);
     commit('s_Loading', {
       value: 0,
-      show: false
+      show: item.show
     });
   },
 
@@ -803,6 +831,11 @@ export default {
     commit
   }, value) {
     commit('set_validhuella', value);
+  },
+  set_returnto: function ({
+    commit
+  }, value) {
+    commit('set_returnto', value);
   },
   set_nombreInput: function ({
     state,

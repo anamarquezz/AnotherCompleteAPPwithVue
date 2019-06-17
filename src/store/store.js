@@ -12,6 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     drawer: true,
+    returnto:'miplantilla',    
     isregresar: localStorage.getItem('isregresar') || 'false',
     sw_ui: 'login',
     sw_uimainEvaluacion: 'home',

@@ -65,10 +65,16 @@
 
 
 
-              <v-btn v-if="h.type ==='button'" dark large :class="conditioncolor(h,props)" class="w-75 mb-2"
+              <v-btn v-if="h.type ==='button' && h.btntitle !='Firmar'" dark large :class="conditioncolor(h,props)" class="w-75 mb-2"
                 @click="metodo(h,props.item)">
                 <b v-if="h.has_condition">{{conditiontext(h,props)}}</b>
                 <b v-else>{{h.btntitle}}</b>
+              </v-btn>
+
+              
+              <v-btn v-if="h.type ==='button' && h.btntitle=='Firmar'" dark large :class="conditioncolor(h,props)" class="w-75 mb-2"
+                :disabled="(!(props.item['Status'] =='COMPLETADO' && h.btntitle =='Firmar'))" @click="metodo(h,props.item)">
+                {{h.btntitle}}
               </v-btn>
 
 
