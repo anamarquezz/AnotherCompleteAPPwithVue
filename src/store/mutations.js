@@ -304,6 +304,9 @@ export default {
   set_returnto: (state, value) => {
     state.returnto = value;
   },
+  set_returnactiveTab: (state, value) => {
+    state.returnactiveTab = value;
+  },
   set_listaManteniEValua: (state, list) => {
     state.listamantenimientoevaluadores = list;
     /*

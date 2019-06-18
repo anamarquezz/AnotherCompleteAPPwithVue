@@ -739,6 +739,67 @@ export default {
   }, values) {
     commit('sw_dialog', values);
   },
+  action_gridmodal: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
+    var headerss = [{
+        text: "Numero",
+        type: "text",
+        value: "Number",
+        resize: true
+      },
+      {
+        text: "Nombre",
+        type: "text",
+        value: "PrettyName",
+        resize: true
+      },
+      {
+        text: "Puesto",
+        type: "text",
+        value: "Position",
+        resize: true
+      }, {
+        text: "Supervisor",
+        type: "text",
+        value: "Superviser",
+        resize: true
+      }, {
+        text: "Departamento",
+        type: "text",
+        value: "Department",
+        resize: true
+      },
+      {
+        text: "Calificación",
+        type: "text",
+        value: "Score",
+        resize: true
+      }
+    ];
+    var calificacion = values.distributionByEmployee.length > 0 ? values.distributionByEmployee[0].Score : 0;
+    var dialog = {
+      Value: true,
+      Title: "Escala distribución",
+      Subtitle: calificacion == 0 ? "" : "Calificación:" + calificacion, //Score.ValueDefinition + "  porcentaje " + Score.Percentage + "%",
+      contieneImagen: false,
+      Image: "",
+      Paragraph: "",
+      component: {
+        type: "grid",
+        list: values.distributionByEmployee,
+        headers: headerss,
+        dindex: "",
+        title: "",
+        subtitle: "",
+        avatar: ""
+      }
+    };
+    this.dispatch('sw_dialog', dialog);
+
+  },
 
 
   sw_uimainEvaluacion: function ({
@@ -836,6 +897,11 @@ export default {
     commit
   }, value) {
     commit('set_returnto', value);
+  },
+  set_returnactiveTab: function ({
+    commit
+  }, value) {
+    commit('set_returnactiveTab', value);
   },
   set_nombreInput: function ({
     state,

@@ -10,26 +10,27 @@
 
 
         <v-container fluid class="mt-5">
-          <v-tabs centered color="grey darken-2" dark icons-and-text>
+         
+          <v-tabs centered color="grey darken-2" dark icons-and-text :v-model="returnactiveTab">
             <v-tabs-slider color="blue"></v-tabs-slider>
 
-            <v-tab href="#tab-1">
+            <v-tab @click="activeTab(0)">
               Mi Plantilla
               <v-icon>ar fa-list-alt</v-icon>
             </v-tab>
 
-            <v-tab href="#tab-2" v-if="g_loginUser.AllUserSupervisers.length > 0">
+            <v-tab v-if="g_loginUser.AllUserSupervisers.length > 0" @click="activeTab(1)">
               Plantila Supervisores
               <v-icon>far fa-list-alt</v-icon>
             </v-tab>
 
-            <v-tab href="#tab-3">
+            <v-tab @click="activeTab(2)">
               Escala de distribución
               <v-icon>far fa-list-alt</v-icon>
             </v-tab>
 
 
-            <v-tab-item :value="'tab-1'">
+            <v-tab-item>
               <v-container fluid>
                 <v-toolbar dark color="blue darken-3 white--text " text-xs-center>
                   <h5><i class="fas fa-edit mr-3"></i>Proceso de Evaluaciones</h5>
@@ -54,7 +55,7 @@
 
             </v-tab-item>
 
-            <v-tab-item :value="'tab-2'" v-if="g_loginUser.AllUserSupervisers.length > 0">
+            <v-tab-item v-if="g_loginUser.AllUserSupervisers.length > 0">
               <v-container fluid>
                 <v-toolbar dark color="blue darken-3 white--text">
                   <h4><i class="far fa-list-alt mr-3"></i>Plantila de supervisores</h4>
@@ -66,7 +67,7 @@
               </v-container>
             </v-tab-item>
 
-            <v-tab-item :value="'tab-3'">
+            <v-tab-item>
               <v-container fluid>
                 <v-toolbar dark color="blue darken-3 white--text">
                   <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
@@ -111,6 +112,7 @@ export default {
   },
   data() {
     return {
+      active: 3,
       color: "green lighten-1",
       tabs: null,
       text:
@@ -253,14 +255,13 @@ export default {
           value: "ValueDefinition",
           resize: true
         },
-        {
+        /*  {
           text: "Puntuación",
           type: "text",
           align: "center",
           value: "Puntuation",
           resize: true
-        },
-
+        },*/
         {
           text: "% de Distribución",
           type: "text",
@@ -291,23 +292,23 @@ export default {
         },
         {
           text: "Nombre Personas",
-          type: "modal",
-          align: "center",
+          type: "icon",
           value: "distributionByEmployee",
           iconbtn: "fa fa-users",
-          titlecombo: "PrettyName",
-          valuecombo: "Number",
-          action: "action_evaluarEmpleado",
+          action: "action_gridmodal",
           resize: true
         }
       ]
     };
   },
   computed: {
-    ...mapGetters(["g_loginUser"]),
-    ...mapState(["token"])
+    ...mapGetters(["g_loginUser", "returnactiveTab"]),
+    ...mapState(["token", "returnactiveTab"])
   },
   methods: {
+    activeTab(value) {
+      this.$store.dispatch("set_returnactiveTab", value);
+    },
     escalaDis(Score) {
       var esto = this;
 
@@ -334,7 +335,7 @@ export default {
       this.$store.dispatch("sw_dialog", dialog);
     }
   },
-  created() {
+  mounted() {
     var esto = this;
     esto.$store.dispatch("s_Loading", {
       value: 0,

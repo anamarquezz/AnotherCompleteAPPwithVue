@@ -53,13 +53,13 @@
 ``
         <template slot="items" slot-scope="props">
           <tr v-if="!isMobile" class="grey lighten-4">
-            <td v-for="h in headers" :key="h.text" class="text-center">
+            <td v-for="h in headers" :key="h.value" class="text-center">
 
               <b v-if="h.type ==='text'" class="font-size-17 black--text">
                 {{props.item[h.value]}}
               </b>
 
-              <v-btn flat icon color="primary" v-if="h.type ==='icon'">
+              <v-btn flat icon color="primary" v-if="h.type ==='icon'" @click="metodo(h,props.item)">
                 <v-icon>{{h.iconbtn}}</v-icon>
               </v-btn>
 
@@ -72,7 +72,7 @@
               </v-btn>
 
               
-              <v-btn v-if="h.type ==='button' && h.btntitle=='Firmar'" dark large :class="conditioncolor(h,props)" class="w-75 mb-2"
+              <v-btn v-if="h.type ==='button' && h.btntitle=='Firmar'" dark large  class="w-75 mb-2"
                 :disabled="(!(props.item['Status'] =='COMPLETADO' && h.btntitle =='Firmar'))" @click="metodo(h,props.item)">
                 {{h.btntitle}}
               </v-btn>
@@ -113,12 +113,14 @@
                   </v-btn>
 
 
-                  <v-btn v-if="h.type ==='button'  && h.resize" dark large :class="conditioncolor(h,props)" class="mt-5"
-                    @click="metodo(h,props.item)">
+                  <v-btn v-if="h.type ==='button'  && h.resize && h.btntitle !='Firmar'" dark large :class="conditioncolor(h,props)" class="mt-5"
+                    @click="metodo(h,props.item)"
+                      :disabled="(!(props.item['Status'] =='COMPLETADO' && h.btntitle =='Firmar'))">
                     <b v-if="h.has_condition">{{conditiontext(h,props)}}</b>
                     <b v-else>{{h.btntitle}}</b>
                   </v-btn>
 
+                
 
 
                   <v-menu v-if="h.type ==='combo'" lazy :close-on-content-click="true" transition="scale-transition"

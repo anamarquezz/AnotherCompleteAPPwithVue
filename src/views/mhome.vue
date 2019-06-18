@@ -209,12 +209,12 @@ export default {
           value: "ValueDefinition",
           resize: true
         },
-        {
+        /*   {
           text: "Puntuación",
           type: "text",
           value: "Puntuation",
           resize: true
-        },
+        },*/
         {
           text: "Evaluación",
           type: "text",
@@ -239,7 +239,7 @@ export default {
           value: "Percentage",
           resize: false
         },
-        {
+        /* {
           text: "Num de Personas",
           type: "text",
           value: "Quantity",
@@ -247,14 +247,21 @@ export default {
         },
         {
           text: "Nombre Personas",
-          type: "combo",
+          type: "icon",
           value: "distributionByEmployee",
           iconbtn: "fa fa-users",
-          titlecombo: "PrettyName",
-          valuecombo: "Number",
-          action: "action_evaluarEmpleado",
-          resize: false
-        }
+          action: "action_gridmodal",
+          resize: true
+        },*/
+        {
+          text: "Nombre Personas",
+          type: "icon",
+          value: "distributionByEmployee",
+          iconbtn: "fa fa-users",
+          action: "action_gridmodal",
+          resize: true
+        },
+      
       ]
     };
   },

@@ -111,7 +111,7 @@ export default {
           has_condition: false,
           resize: true,
           value: "",
-          color: "blue darken-4"
+          color: "blue"
         }
       ],
       headersDistribucion: [
@@ -121,12 +121,12 @@ export default {
           value: "ValueDefinition",
           resize: true
         },
-        {
+        /*   {
           text: "Puntuación",
           type: "text",
           value: "Puntuation",
           resize: true
-        },
+        },*/
         {
           text: "Evaluación",
           type: "text",
@@ -151,7 +151,7 @@ export default {
           value: "Percentage",
           resize: false
         },
-        {
+        /* {
           text: "Num de Personas",
           type: "text",
           value: "Quantity",
@@ -166,6 +166,14 @@ export default {
           valuecombo: "Number",
           action: "action_evaluarEmpleado",
           resize: false
+        }*/
+        {
+          text: "Nombre Personas",
+          type: "icon",
+          value: "distributionByEmployee",
+          iconbtn: "fa fa-users",
+          action: "action_gridmodal",
+          resize: true
         }
       ]
     };
@@ -186,8 +194,6 @@ export default {
   created: function() {
     if (this.g_loginUser.Subordinatesbyuser.length == 0)
       this.$router.push("/mempleadosevaluadores");
-
-   
   }
 };
 </script>
