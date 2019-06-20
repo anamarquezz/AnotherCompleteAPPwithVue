@@ -28,115 +28,105 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapActions,
-    mapGetters
-  } from 'vuex';
+import { mapState, mapActions, mapGetters } from "vuex";
 
+import listaempleados from "../components/listaempleados.vue";
+import navbar from "../components/navbar.vue";
+import menuoptions from "../components/menuoptions.vue";
 
-  import listaempleados from '../components/listaempleados.vue'
-  import navbar from '../components/navbar.vue'
-  import menuoptions from '../components/menuoptions.vue'
-
-  export default {
-
-    name: 'mtodosempleados',
-    components: {
-      menuoptions,
-      navbar,
-      listaempleados
-    },
-    data() {
-      return {
-        headers: [
-          /*   {
+export default {
+  name: "mtodosempleados",
+  components: {
+    menuoptions,
+    navbar,
+    listaempleados
+  },
+  data() {
+    return {
+      headers: [
+        /*   {
                text:'',
                type: 'icon',
                iconbtn:'fas fa-user',
                 resize: true
              },*/
-          {
-            text: "Num Emp",
-            type: 'text',
-            align: 'center',
-            value: "Number",
-            resize: false
-          },
-          {
-            text: "Nombre",
-            type: 'text',
-            align: 'center',
-            value: "PrettyName",
-            resize: true
-          },
-          {
-            text: "Clasificación",
-            type: 'text',
-            align: 'center',
-            value: "Clasificacion",
-            resize: false
-          },
-          {
-            text: "Puesto",
-            type: 'text',
-            align: 'center',
-            value: "Position",
-            resize: false
-          },
-          {
-            text: "Departamento",
-            type: 'text',
-            align: 'center',
-            value: "Department",
-            resize: false
-          },
-          {
-            text: "Supervisor",
-            type: 'text',
-            align: 'center',
-            value: "SupervisorPrettyName",
-            resize: false
-          },
-          {
-            text: "Status",
-            type: 'text',
-            align: 'center',
-            value: "Status",
-            resize: false
-          },
-          {
-            text: "Evaluación",
-            type: 'text',
-            align: 'center',
-            value: "Score",
-            resize: false
-          }
-        ],
-      }
-    },
-    computed: {
-      ...mapGetters(["g_loginUser"]),
-      ...mapState([
-        'token'
-      ])
-    },
-    methods: {},
-    created: function () {
-      var esto = this;
-      esto.$store.dispatch("s_Loading", {
-          value: 0,
-          show: true
-        }),
-        esto.$store.dispatch('GetAllEmployees');
-    },
+        {
+          text: "Num Emp",
+          type: "text",
+          align: "center",
+          value: "Number",
+          resize: false
+        },
+        {
+          text: "Nombre",
+          type: "text",
+          align: "center",
+          value: "PrettyName",
+          resize: true
+        },
+        {
+          text: "Supervisor",
+          type: "text",
+          align: "center",
+          value: "SupervisorPrettyName",
+          resize: true
+        },
+        {
+          text: "Puesto",
+          type: "text",
+          align: "center",
+          value: "Position",
+          resize: false
+        },
+        {
+          text: "Departamento",
+          type: "text",
+          align: "center",
+          value: "Department",
+          resize: false
+        },
+        {
+          text: "Supervisor",
+          type: "text",
+          align: "center",
+          value: "SupervisorPrettyName",
+          resize: false
+        },
+        {
+          text: "Status",
+          type: "text",
+          align: "center",
+          value: "Status",
+          resize: false
+        },
+        {
+          text: "Evaluación",
+          type: "text",
+          align: "center",
+          value: "Score",
+          resize: false
+        }
+      ]
+    };
+  },
+  computed: {
+    ...mapGetters(["g_loginUser"]),
+    ...mapState(["token"])
+  },
+  methods: {},
+  created: function() {
+    var esto = this;
+    esto.$store.dispatch("s_Loading", {
+      value: 0,
+      show: true
+    }),
+      esto.$store.dispatch("GetAllEmployees");
   }
-
+};
 </script>
 
 <style scope>
-  @import '../assets/css/global.css';
+@import "../assets/css/global.css";
 
-  @import '../assets/css/media_query.css';
-
+@import "../assets/css/media_query.css";
 </style>

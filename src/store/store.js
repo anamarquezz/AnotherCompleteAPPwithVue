@@ -12,7 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     drawer: true,
-    returnactiveTab: 1,
+    returnactiveTab: "2",
     returnto: 'miplantilla',
     isregresar: localStorage.getItem('isregresar') || 'false',
     sw_ui: 'login',

@@ -52,7 +52,7 @@
         </template>
 ``
         <template slot="items" slot-scope="props">
-          <tr v-if="!isMobile" class="grey lighten-4">
+          <tr v-if="!isMobile" class="grey lighten-4"> 
             <td v-for="h in headers" :key="h.value" class="text-center">
 
               <b v-if="h.type ==='text'" class="font-size-17 black--text">
@@ -73,7 +73,7 @@
 
               
               <v-btn v-if="h.type ==='button' && h.btntitle=='Firmar'" dark large  class="w-75 mb-2"
-                :disabled="(!(props.item['Status'] =='COMPLETADO' && h.btntitle =='Firmar'))" @click="metodo(h,props.item)">
+                 @click="metodo(h,props.item)">
                 {{h.btntitle}}
               </v-btn>
 
@@ -241,27 +241,32 @@ export default {
       return items[Nombrearray];
     },
     conditioncolor(h, props) {
-      if (h.has_condition) {
-        var esto = this;
-        return h.conditionvalues[
-          h.conditionvalues.findIndex(
-            el => el.condition === props.item[h.condition_property]
-          )
-        ].color;
-      } else {
-        return h.color;
+      try {
+        if (h.has_condition && props.item[h.condition_property] !== undefined) {
+          var esto = this;
+          return h.conditionvalues[
+            h.conditionvalues.findIndex(
+              el => el.condition === props.item[h.condition_property]
+            )
+          ].color;
+        } else {
+          return h.color;
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
     conditiontext(h, props) {
       var esto = this;
-
-      return h.conditionvalues[
-        h.conditionvalues.findIndex(
-          el =>
-            el.condition === props.item[h.condition_property] &&
-            h.getconditiontext
-        )
-      ].text;
+      if (props.item[h.condition_property] != undefined) {
+        return h.conditionvalues[
+          h.conditionvalues.findIndex(
+            el =>
+              el.condition === props.item[h.condition_property] &&
+              h.getconditiontext
+          )
+        ].text;
+      }
     },
     getjsonfields() {
       var result = {};

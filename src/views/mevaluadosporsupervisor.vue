@@ -79,10 +79,11 @@ export default {
           resize: true
         },
         {
-          text: "Clasificación",
+          text: "Supervisor",
           type: "text",
-          value: "Clasificacion",
-          resize: false
+          align: "center",
+          value: "PrettyNameSuperviser",
+          resize: true
         },
         {
           text: "Puesto",

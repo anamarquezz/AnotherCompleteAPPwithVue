@@ -57,8 +57,9 @@ export default {
         {
           text: "Clasificación",
           type: "text",
-          resize: false,
-          value: "Clasificacion"
+          align: "center",
+          value: "Clasificacion",
+          resize: true
         },
         {
           text: "Puesto",
