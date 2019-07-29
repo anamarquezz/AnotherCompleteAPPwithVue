@@ -1,4 +1,3 @@
-
 <template>
   <v-container fluid>
     <v-layout>
@@ -18,16 +17,17 @@
 
         <v-layout row wrap class="mt-3 ml-lg-5 ml-xl-5" v-for="fechas in g_periods" :key="fechas.code">
 
-          <v-flex xs12 sm12 md13 lg3 xl3 class="ml-3 mt-3">
+          <v-flex xs12 sm12 md12 lg3 xl2 class="ml-3 mt-3">
             <h5 class="text-pre-wrap font-weight-bold">{{fechas.description}}</h5>
           </v-flex>
 
           <v-flex xs12 sm5 md4 lg-4 xl3 class="ml-3 mt-2">
             <h5 class="dinline"></h5>
-             <date-picker :disabledDays="disabledDays" v-if="fechas.code ==='YEAR'" v-model="fechas.minDate" type="year" format="YYYY"  :lang="lang" ></date-picker>
+            <date-picker :disabledDays="disabledDays" v-if="fechas.code ==='YEAR'" v-model="fechas.minDate" type="year"
+              format="YYYY" :lang="lang"></date-picker>
 
-            <v-menu v-if="fechas.code !=='YEAR'"  lazy :close-on-content-click="true" transition="scale-transition" offset-y full-width
-              :nudge-right="40" max-width="190px" min-width="290px">
+            <v-menu v-if="fechas.code !=='YEAR'" lazy :close-on-content-click="true" transition="scale-transition"
+              offset-y full-width :nudge-right="40" max-width="190px" min-width="290px">
               <v-text-field slot="activator" label="Desde:" v-model="fechas.minDate" prepend-icon="event" readonly>
               </v-text-field>
               <v-date-picker v-model="fechas.minDate" no-title scrollable actions color="light-blue darken-4" dark>
@@ -40,10 +40,11 @@
           </v-flex>
 
           <v-flex xs12 sm5 md4 lg-4 xl3 class="ml-3 mt-2">
-             <date-picker :disabledDays="disabledDays"   v-if="fechas.code ==='YEAR'"  v-model="fechas.maxDate" type="year" format="YYYY"  :lang="lang" ></date-picker>
+            <date-picker :disabledDays="disabledDays" v-if="fechas.code ==='YEAR'" v-model="fechas.maxDate" type="year"
+              format="YYYY" :lang="lang"></date-picker>
 
-            <v-menu v-if="fechas.code !=='YEAR'" lazy :close-on-content-click="true" transition="scale-transition" offset-y full-width
-              :nudge-right="40" max-width="190px" min-width="290px">
+            <v-menu v-if="fechas.code !=='YEAR'" lazy :close-on-content-click="true" transition="scale-transition"
+              offset-y full-width :nudge-right="40" max-width="190px" min-width="290px">
               <v-text-field slot="activator" label="Hasta" v-model="fechas.maxDate" prepend-icon="event" readonly>
               </v-text-field>
               <v-date-picker v-model="fechas.maxDate" no-title scrollable actions color="light-blue darken-4 " dark>
@@ -57,7 +58,7 @@
           <v-flex xs12 sm5 md4 lg24 xl2 class="ml-3 mt-1">
             <v-btn color="light-blue darken-4" dark large v-on:click="guardarfecha(fechas)"><b>Guardar</b></v-btn>
           </v-flex>
-        </v-layout>       
+        </v-layout>
 
         <v-layout>
         </v-layout>
@@ -138,6 +139,7 @@ export default {
   font: 18px/1.5 Helvetica Neue, Helvetica, Arial, Microsoft Yahei, sans-serif;
   background: #000000cf;
 }
+
 .cell:hover {
   color: #01579b;
   font-weight: bold;

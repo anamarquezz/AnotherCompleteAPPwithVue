@@ -54,80 +54,70 @@
 </template>
 
 <script>
+import { mapState, mapActions, mapGetters } from "vuex";
 
-  import {
-    mapState,
-    mapActions,
-    mapGetters
-  } from 'vuex';
-
-  export default {
-    name: 'aReactivosPersonal',
-    data() {
-      return {
-        pagination: {
-          descending: true,
-          page: 1,
-          rowsPerPage: 5, // -1 for All
-          sortBy: 'Description',
+export default {
+  name: "aReactivosPersonal",
+  data() {
+    return {
+      pagination: {
+        descending: true,
+        page: 1,
+        rowsPerPage: 5, // -1 for All
+        sortBy: "Description"
+      },
+      selected: [],
+      search: "",
+      isMobile: false,
+      font: "font-size: 20px !important;",
+      headers: [
+        {
+          text: "Reactivos a Evaluar",
+          value: "Description"
         },
-        selected: [],
-        search: '',
-        isMobile: false,
-        font: 'font-size: 20px !important;',
-        headers: [{
-            text: 'Historial Disciplinario',
-            value: 'Description'
-          },
-          {
-            text: 'Puntuación',
-            value: 'Puntuación'
-          }
-
-        ],
-      }
-    },
-    computed: {
-       ...mapGetters(["g_loginUser"]),
-      g_empEvaluar() {
-        return this.$store.getters.g_loginUser.empleadoaEvaluar;
-      },
-    },
-    methods: {
-      onResize() {
-        if (window.innerWidth < 769)
-          this.isMobile = true;
-        else
-          this.isMobile = false;
-      },
-      toggleAll() {
-        if (this.selected.length) this.selected = []
-        else this.selected = this.g_loginUser.Subordinates.slice()
-      },
-      ratingReactivo(item) {
-        var esto = this;
-        if(esto.g_loginUser.allowEvaluation == "true"){
-          esto.$store.dispatch('calculateRating', item);
+        {
+          text: "Puntuación",
+          value: "Puntuación"
         }
-
+      ]
+    };
+  },
+  computed: {
+    ...mapGetters(["g_loginUser"]),
+    g_empEvaluar() {
+      return this.$store.getters.g_loginUser.empleadoaEvaluar;
+    }
+  },
+  methods: {
+    onResize() {
+      if (window.innerWidth < 769) this.isMobile = true;
+      else this.isMobile = false;
+    },
+    toggleAll() {
+      if (this.selected.length) this.selected = [];
+      else this.selected = this.g_loginUser.Subordinates.slice();
+    },
+    ratingReactivo(item) {
+      var esto = this;
+      if (esto.g_loginUser.allowEvaluation == "true") {
+        esto.$store.dispatch("calculateRating", item);
       }
     }
   }
-
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  @import '../../../../assets/css/global.css';
-  @import '../../../../assets/css/media_query.css';
+@import "../../../../assets/css/global.css";
+@import "../../../../assets/css/media_query.css";
 
-  .theme--dark.v-toolbar {
-    background-color: #1e88e5 !important;
-    color: #fff !important;
-  }
+.theme--dark.v-toolbar {
+  background-color: #1e88e5 !important;
+  color: #fff !important;
+}
 
-  .font-sizes {
-    font-size: 17px;
-  }
-
+.font-sizes {
+  font-size: 17px;
+}
 </style>

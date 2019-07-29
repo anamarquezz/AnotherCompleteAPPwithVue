@@ -13,21 +13,36 @@
           <v-tabs centered color="grey darken-2" dark icons-and-text v-model="active">
             <v-tabs-slider color="blue"></v-tabs-slider>
 
-            <v-tab @click="activeTab('tab-plantilla')">
-              Mi Plantilla
-              <v-icon>ar fa-list-alt</v-icon>
-            </v-tab>
-
-            <v-tab v-if="g_loginUser.AllUserSupervisers.length > 0" @click="activeTab('tab-supervisores')">
-              Plantila Supervisores
-              <v-icon>far fa-list-alt</v-icon>
-            </v-tab>
-
-            <v-tab @click="activeTab('tab-distribucion')">
+            
+            <v-tab @click="activeTab('tab-distribucion')" :key="'tab-distribucion'">
               Escala de distribución
               <v-icon>far fa-list-alt</v-icon>
             </v-tab>
 
+            <v-tab @click="activeTab('tab-plantilla')" :key="'tab-plantilla'">
+              Mi Plantilla
+              <v-icon>ar fa-list-alt</v-icon>
+            </v-tab>
+
+            <v-tab v-if="g_loginUser.AllUserSupervisers.length > 0" @click="activeTab('tab-supervisores')" :key="'tab-supervisores'">
+              Plantila Supervisores
+              <v-icon>far fa-list-alt</v-icon>
+            </v-tab>
+
+
+            
+            <v-tab-item :key="'tab-distribucion'">
+              <v-container fluid>
+                <v-toolbar dark color="blue darken-3 white--text">
+                  <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
+                  <v-spacer></v-spacer>
+                </v-toolbar>
+                <listaempleados from="EVAL" :headers="headersDistribucion"
+                  v-if="g_loginUser.DistributionSuperviser.length > 0" :list='g_loginUser.DistributionSuperviser'
+                  excelname="escaladistribuciontodosempleados.xls" haspagination=false>
+                </listaempleados>
+              </v-container>
+            </v-tab-item>
 
             <v-tab-item :key="'tab-plantilla'">
               <v-container fluid>
@@ -60,24 +75,12 @@
                   <h4><i class="far fa-list-alt mr-3"></i>Plantila de supervisores</h4>
                   <v-spacer></v-spacer>
                 </v-toolbar>
-                <listaempleados from="EVAL" :headers="headers" :list='g_loginUser.AllUserSupervisers'
+                <listaempleados from="EVAL" :headers="headersPSup" :list='g_loginUser.AllUserSupervisers'
                   excelname="PantillaSupervisores.xls" haspagination=true>
                 </listaempleados>
               </v-container>
             </v-tab-item>
 
-            <v-tab-item :key="'tab-distribucion'">
-              <v-container fluid>
-                <v-toolbar dark color="blue darken-3 white--text">
-                  <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
-                  <v-spacer></v-spacer>
-                </v-toolbar>
-                <listaempleados from="EVAL" :headers="headersDistribucion"
-                  v-if="g_loginUser.DistributionSuperviser.length > 0" :list='g_loginUser.DistributionSuperviser'
-                  excelname="escaladistribuciontodosempleados.xls" haspagination=false>
-                </listaempleados>
-              </v-container>
-            </v-tab-item>
           </v-tabs>
 
         </v-container>
@@ -246,6 +249,91 @@ export default {
           value: ""
         }
       ],
+      headersPSup: [
+        {
+          text: ".",
+          type: "image",
+          align: "center",
+          value: "Image",
+          resize: true
+        },
+        {
+          text: "Num Emp",
+          type: "text",
+          align: "center",
+          value: "Number",
+          resize: false
+        },
+        {
+          text: "Nombre",
+          type: "text",
+          align: "center",
+          value: "PrettyName",
+          resize: true
+        },
+        {
+          text: "Supervisor",
+          type: "text",
+          align: "center",
+          value: "PrettyNameSuperviser",
+          resize: true
+        },
+        {
+          text: "Puesto",
+          type: "text",
+          align: "center",
+          value: "Position",
+          resize: true
+        },
+        {
+          text: "Status",
+          type: "text",
+          align: "center",
+          value: "Status",
+          resize: true
+        },
+        {
+          text: "Evaluación",
+          type: "text",
+          align: "center",
+          value: "Score",
+          resize: true
+        },
+        {
+          text: "",
+          type: "button",
+          align: "left",
+          btntitle: "Evaluar",
+          action: "action_evaluarEmpleado",
+          has_condition: true,
+          condition_property: "Status",
+          getconditiontext: true,
+          conditionvalues: [
+            {
+              condition: "NO INICIADO",
+              text: "Evaluar",
+              color: "indigo darken-4"
+            },
+            {
+              condition: "EVALUADO",
+              text: "Aprobar",
+              color: "cyan darken-3"
+            },
+            {
+              condition: "INICIADO",
+              text: "Editar",
+              color: "blue darken-3"
+            },
+            {
+              condition: "COMPLETADO",
+              text: "Editar",
+              color: "blue darken-3"
+            }
+          ],
+          resize: true,
+          value: ""
+        }
+      ],
       headersDistribucion: [
         {
           text: "",
@@ -342,7 +430,7 @@ export default {
     }),
       esto.$store.dispatch("GetSubordinateByUser");
     esto.$store.dispatch("set_returnto", "miplantilla");
-    esto.active = esto.returnactiveTab;
+    // esto.active = esto.returnactiveTab;
   }
 };
 </script>

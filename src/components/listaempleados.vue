@@ -17,7 +17,7 @@
         name="filename.xls">
         <img src="../assets/img/excel.png" width="30" />
         Descargar Excel
-         <i class="fas fa-download "></i> 
+        <i class="fas fa-download "></i> 
       </download-excel> -->
 
 
@@ -45,7 +45,7 @@
             <span v-if="props.header.tooltip != null">
               {{ props.header.tooltip }}
             </span>
-             <span v-else>
+            <span v-else>
               {{ props.header.text }}
             </span>
           </v-tooltip>
@@ -73,8 +73,8 @@
 
               
               <v-btn v-if="h.type ==='button' && h.btntitle=='Firmar'" dark large  class="w-75 mb-2"
-                 @click="metodo(h,props.item)">
-                {{h.btntitle}}
+                @click="metodo(h,props.item)">
+                {{h.btntitle}} <!-- :disabled="(!(props.item['Status'] =='COMPLETADO' && h.btntitle =='Firmar'))" -->
               </v-btn>
 
 

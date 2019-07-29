@@ -30,9 +30,9 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, "../web_Eval_Prod/index.html"), //web_EvalTest  web_Eval web_EvalTest
+    index: path.resolve(__dirname, "../web_Eval_Prod/index.html"), //web_EvalTest    web_Eval_Prod
     // Paths
-    assetsRoot: path.resolve(__dirname, "../web_Eval_Prod"), //webstations web_EvalTest
+    assetsRoot: path.resolve(__dirname, "../web_Eval_Prod"), //webstations web_EvalTest web_Eval_Prod
     assetsSubDirectory: "static",
     assetsPublicPath: "",
     /**
@@ -43,7 +43,7 @@ module.exports = {
     productionSourceMap: true,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: "#source-map",
-    // Gzip off by default as many popular static hosts such as
+    // Gzip off by default as many popular static hosts such as 
     // Surge or Netlify already gzip all static assets for you.
     // Before setting to `true`, make sure to:
     // npm install --save-dev compression-webpack-plugin

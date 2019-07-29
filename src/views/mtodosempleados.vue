@@ -19,7 +19,7 @@
             :list='g_loginUser.Subordinates' excelname="todoslosempleados.xls">
           </listaempleados>
 
-       
+
         </v-container>
 
       </v-flex>
@@ -44,12 +44,12 @@ export default {
   data() {
     return {
       headers: [
-        /*   {
-               text:'',
-               type: 'icon',
-               iconbtn:'fas fa-user',
-                resize: true
-             },*/
+        /*{
+          text:'',
+          type: 'icon',
+          iconbtn:'fas fa-user',
+          resize: true
+        },*/
         {
           text: "Num Emp",
           type: "text",
@@ -65,10 +65,10 @@ export default {
           resize: true
         },
         {
-          text: "Supervisor",
+          text: "Clasificación",
           type: "text",
           align: "center",
-          value: "SupervisorPrettyName",
+          value: "Clasificacion",
           resize: true
         },
         {
