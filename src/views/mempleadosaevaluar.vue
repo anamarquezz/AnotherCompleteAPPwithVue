@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout>
-      <navbar color="grey darken-3" textcolor="white--text"></navbar>
+      <navbar color="grey darken-4" textcolor="white--text"></navbar>
       <v-flex row xs3 md3 lg3 xl3>
         <menuoptions></menuoptions>
       </v-flex>
@@ -9,78 +9,77 @@
 
 
 
-        <v-container fluid class="mt-5">         
-          <v-tabs centered color="grey darken-2" dark icons-and-text v-model="active">
-            <v-tabs-slider color="blue"></v-tabs-slider>
+        <v-container fluid class="mt-5">
+          <v-tabs centered color="cyan darken-2" dark icons-and-text v-model="returnactiveTab">
+            <v-tabs-slider color="indigo"></v-tabs-slider>
 
-            
-            <v-tab @click="activeTab('tab-distribucion')" :key="'tab-distribucion'">
+
+            <v-tab >
               Escala de distribución
               <v-icon>far fa-list-alt</v-icon>
             </v-tab>
 
-            <v-tab @click="activeTab('tab-plantilla')" :key="'tab-plantilla'">
+            <v-tab >
               Mi Plantilla
               <v-icon>ar fa-list-alt</v-icon>
             </v-tab>
 
-            <v-tab v-if="g_loginUser.AllUserSupervisers.length > 0" @click="activeTab('tab-supervisores')" :key="'tab-supervisores'">
+            <v-tab v-if="g_loginUser.AllUserSupervisers.length > 0">
               Plantila Supervisores
               <v-icon>far fa-list-alt</v-icon>
             </v-tab>
 
 
-            
-            <v-tab-item :key="'tab-distribucion'">
-              <v-container fluid>
-                <v-toolbar dark color="blue darken-3 white--text">
-                  <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
-                  <v-spacer></v-spacer>
-                </v-toolbar>
-                <listaempleados from="EVAL" :headers="headersDistribucion"
-                  v-if="g_loginUser.DistributionSuperviser.length > 0" :list='g_loginUser.DistributionSuperviser'
-                  excelname="escaladistribuciontodosempleados.xls" haspagination=false>
-                </listaempleados>
-              </v-container>
-            </v-tab-item>
+            <v-tabs-items v-model="returnactiveTab">
+              <v-tab-item>
+                <v-container fluid>
+                  <v-toolbar dark color="blue darken-3 white--text">
+                    <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
+                    <v-spacer></v-spacer>
+                  </v-toolbar>
+                  <listaempleados from="EVAL" :headers="headersDistribucion"
+                    v-if="g_loginUser.DistributionSuperviser.length > 0" :list='g_loginUser.DistributionSuperviser'
+                    excelname="escaladistribuciontodosempleados.xls" haspagination=false>
+                  </listaempleados>
+                </v-container>
+              </v-tab-item>
 
-            <v-tab-item :key="'tab-plantilla'">
-              <v-container fluid>
-                <v-toolbar dark color="blue darken-3 white--text " text-xs-center>
-                  <h5><i class="fas fa-edit mr-3"></i>Proceso de Evaluaciones</h5>
-                  <v-spacer></v-spacer>
+              <v-tab-item>
+                <v-container fluid>
+                  <v-toolbar dark color="blue darken-3 white--text " text-xs-center>
+                    <h5><i class="fas fa-edit mr-3"></i>Proceso de Evaluaciones</h5>
+                    <v-spacer></v-spacer>
 
-                </v-toolbar>
-                <listaempleados from="EVAL" :headers="headerSumarySupervisor"
-                  v-if="g_loginUser.SuperviserSummary.length > 0" :list='g_loginUser.SuperviserSummary' excelname=''
-                  hassearch=false haspagination=true>
-                </listaempleados>
-              </v-container>
+                  </v-toolbar>
+                  <listaempleados from="EVAL" :headers="headerSumarySupervisor"
+                    v-if="g_loginUser.SuperviserSummary.length > 0" :list='g_loginUser.SuperviserSummary' excelname=''
+                    hassearch=false haspagination=true>
+                  </listaempleados>
+                </v-container>
 
-              <v-container fluid>
-                <v-toolbar dark color="blue darken-3 white--text">
-                  <h4><i class="far fa-list-alt mr-3"></i>Mi Plantilla</h4>
-                  <v-spacer></v-spacer>
-                </v-toolbar>
-                <listaempleados :headers="headers" v-if="g_loginUser.Subordinates.length > 0"
-                  :list='g_loginUser.Subordinates' excelname="empleadosEvaluadores.xls" haspagination=false>
-                </listaempleados>
-              </v-container>
+                <v-container fluid>
+                  <v-toolbar dark color="blue darken-3 white--text">
+                    <h4><i class="far fa-list-alt mr-3"></i>Mi Plantilla</h4>
+                    <v-spacer></v-spacer>
+                  </v-toolbar>
+                  <listaempleados :headers="headers" v-if="g_loginUser.Subordinates.length > 0"
+                    :list='g_loginUser.Subordinates' excelname="empleadosEvaluadores.xls" haspagination=false>
+                  </listaempleados>
+                </v-container>
+              </v-tab-item>
 
-            </v-tab-item>
-
-            <v-tab-item v-if="g_loginUser.AllUserSupervisers.length > 0" :key="'tab-supervisores'">
-              <v-container fluid>
-                <v-toolbar dark color="blue darken-3 white--text">
-                  <h4><i class="far fa-list-alt mr-3"></i>Plantila de supervisores</h4>
-                  <v-spacer></v-spacer>
-                </v-toolbar>
-                <listaempleados from="EVAL" :headers="headersPSup" :list='g_loginUser.AllUserSupervisers'
-                  excelname="PantillaSupervisores.xls" haspagination=true>
-                </listaempleados>
-              </v-container>
-            </v-tab-item>
-
+              <v-tab-item v-if="g_loginUser.AllUserSupervisers.length > 0">
+                <v-container fluid>
+                  <v-toolbar dark color="blue darken-3 white--text">
+                    <h4><i class="far fa-list-alt mr-3"></i>Plantila de supervisores</h4>
+                    <v-spacer></v-spacer>
+                  </v-toolbar>
+                  <listaempleados from="EVAL" :headers="headersPSup" :list='g_loginUser.AllUserSupervisers'
+                    excelname="PantillaSupervisores.xls" haspagination=true>
+                  </listaempleados>
+                </v-container>
+              </v-tab-item>
+            </v-tabs-items>
           </v-tabs>
 
         </v-container>
@@ -343,12 +342,12 @@ export default {
           resize: true
         },
         /*  {
-          text: "Puntuación",
-          type: "text",
-          align: "center",
-          value: "Puntuation",
-          resize: true
-        },*/
+            text: "Puntuación",
+            type: "text",
+            align: "center",
+            value: "Puntuation",
+            resize: true
+          },*/
         {
           text: "% de Distribución",
           type: "text",
@@ -390,7 +389,16 @@ export default {
   },
   computed: {
     ...mapGetters(["g_loginUser"]),
-    ...mapState(["token", "returnactiveTab"])
+    ...mapState(["token"]),
+
+    returnactiveTab: {
+      get() {
+        return this.$store.state.returnactiveTab;
+      },
+      set(newValue) {
+        return this.$store.dispatch("set_returnactiveTab", newValue);
+      }
+    }
   },
   methods: {
     activeTab(returnactiveTab) {
