@@ -142,41 +142,34 @@
 </template>
 
 <script>
-    import {
-     mapState,
-     mapActions
-   } from 'vuex';
+import { mapState, mapActions } from "vuex";
 
-  export default {
-    name: 'infoEmpleado',
-    props: {},
-    data() {
-      return {
-        isMobile: false,
-        readonly: true
-      }
-    },
-    methods: {
-      onResize() {
-        if (window.innerWidth < 769)
-          this.isMobile = true;
-        else
-          this.isMobile = false;
-      }
-    },
-    computed: {  
-
-      g_empleadoaEvaluar() {
-        return this.$store.getters.g_empleadoaEvaluar.empleadoInfo[0];
-      } ,
-            
+export default {
+  name: "infoEmpleado",
+  props: {},
+  data() {
+    return {
+      isMobile: false,
+      readonly: true
+    };
+  },
+  methods: {
+    onResize() {
+      if (window.innerWidth < 769) this.isMobile = true;
+      else this.isMobile = false;
+    }
+  },
+  computed: {
+    g_empleadoaEvaluar() {
+      return this.$store.getters.g_empleadoaEvaluar.empleadoInfo[0];
     }
   }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  @import '../../../../assets/css/global.css';
+@import "../../../../assets/css/global.css";
 
-  @import '../../../../assets/css/media_query.css';
+@import "../../../../assets/css/media_query.css";
 </style>

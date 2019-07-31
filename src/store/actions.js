@@ -3,7 +3,7 @@
     https://intranet.valuout.com/CloverServices/
 */
 
-var url = "https://intranet.valuout.com/CloverServices/";
+var url = "https://intranet.valuout.com/CloverServices";
 import Vue from "vue";
 var values = {
   message: "",
@@ -12,22 +12,23 @@ var values = {
 import router from "../router";
 
 export default {
-  AUTH_REQUEST: ({ commit, dispatch }, user) => {
+  AUTH_REQUEST: ({
+    commit,
+    dispatch
+  }, user) => {
     try {
       return new Promise((resolve, reject) => {
         // The Promise used for router redirect in login
         commit("AUTH_REQUEST");
         Vue.http
           .post(
-            url + "/auth/token",
-            {
+            url + "/auth/token", {
               username: user.username,
               password: "cl0v3r",
               grant_type: "password",
               client: "EVALUATION",
               passwordhind: user.password
-            },
-            {
+            }, {
               emulateJSON: true
             }
           )
@@ -48,9 +49,9 @@ export default {
               localStorage.removeItem("user-token"); // if the request fails, remove any possible user token if possible
               dispatch(
                 "errorResponse",
-                response.body == ""
-                  ? "Problemas con la conexión a internet"
-                  : response.body.error
+                response.body == "" ?
+                "Problemas con la conexión a internet" :
+                response.body.error
               );
             }
           );
@@ -60,7 +61,11 @@ export default {
     }
   },
 
-  errorResponse({ state, commit, dispatch }, message) {
+  errorResponse({
+    state,
+    commit,
+    dispatch
+  }, message) {
     dispatch("set_showMessage", {
       message: message,
       show: true,
@@ -75,7 +80,9 @@ export default {
     });
   },
 
-  AUTH_LOGOUT: ({ commit }) => {
+  AUTH_LOGOUT: ({
+    commit
+  }) => {
     return new Promise((resolve, reject) => {
       localStorage.removeItem("user-token"); // clear your user's token from localstorage
       localStorage.removeItem("userId");
@@ -88,7 +95,11 @@ export default {
     });
   },
 
-  getEmpleadoInfo: function({ state, commit, dispatch }) {
+  getEmpleadoInfo: function ({
+    state,
+    commit,
+    dispatch
+  }) {
     try {
       Vue.http
         .get(url + "/api/evaluation/GetEmployeeInfo", {
@@ -102,18 +113,18 @@ export default {
               commit("set_loginUser", response.body.Employee);
 
               router.push("/mhome");
-            /* commit('s_Loading', { 
-              value: 0, 
-              show: false 
-             }); */
+              /* commit('s_Loading', { 
+                value: 0, 
+                show: false 
+               }); */
             }
           },
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -122,7 +133,11 @@ export default {
     }
   },
 
-  GetSubordinateByUser: function({ state, commit, dispatch }, values) {
+  GetSubordinateByUser: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
     try {
       var nombreSup = localStorage.getItem("Name");
       commit("set_SubordinateByUser", {
@@ -168,9 +183,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -178,8 +193,7 @@ export default {
       dispatch("errorResponse", e.message);
     }
   },
-  getDistributionbySupervisor: function(
-    {
+  getDistributionbySupervisor: function ({
       //mevaluadosporsupervisor
       state,
       commit,
@@ -213,7 +227,11 @@ export default {
         }
       });
   },
-  GetAllEmployees: function({ state, commit, dispatch }, values) {
+  GetAllEmployees: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
     try {
       commit("set_SubordinateByUser", {
         List: [],
@@ -241,9 +259,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -253,7 +271,11 @@ export default {
   },
   //
 
-  GetDistributionAll: function({ state, commit, dispatch }, values) {
+  GetDistributionAll: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
     try {
       commit("GetSummarySubordinates", {
         List: []
@@ -279,9 +301,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -290,7 +312,11 @@ export default {
     }
   },
 
-  GetEmployeesBySuperviser: function({ state, commit, dispatch }, values) {
+  GetEmployeesBySuperviser: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
     // var nombreSup = values.PrettyNamePrettyName;
     try {
       commit("set_SubordinateByUsers", {
@@ -324,9 +350,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -335,7 +361,11 @@ export default {
     }
   },
 
-  GetSummarySubordinates: function({ state, commit, dispatch }, values) {
+  GetSummarySubordinates: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
     try {
       commit("GetSummarySubordinates", {
         List: []
@@ -359,9 +389,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -370,23 +400,29 @@ export default {
     }
   },
 
-  saveUpdateUser: function({ state, commit, dispatch }, data) {
+  saveUpdateUser: function ({
+    state,
+    commit,
+    dispatch
+  }, data) {
     commit("saveUpdateUser", data);
     dispatch("GuardarInfoEvalUsuario");
   },
 
-  GuardarInfoEvalUsuario: function({ state, commit, dispatch }) {
+  GuardarInfoEvalUsuario: function ({
+    state,
+    commit,
+    dispatch
+  }) {
     try {
       Vue.http
         .post(
           url + "/api/evaluation/UpdatateEvaluation",
-          state.loginUser.empleadoaEvaluar.saveUpdateUser,
-          {
+          state.loginUser.empleadoaEvaluar.saveUpdateUser, {
             headers: {
               Authorization: localStorage.getItem("user-token")
             }
-          },
-          {
+          }, {
             emulateJSON: true
           }
         )
@@ -394,8 +430,7 @@ export default {
           response => {
             if (response.body.resultInfo.Valid) {
               dispatch("set_showMessage", {
-                message:
-                  "Datos Almacenados!!, " + response.body.resultInfo.Message,
+                message: "Datos Almacenados!!, " + response.body.resultInfo.Message,
                 title: "Información",
                 colorThema: "blue",
                 showregresar: false,
@@ -416,10 +451,8 @@ export default {
           },
           response => {
             dispatch("set_showMessage", {
-              message:
-                response.body == ""
-                  ? "Problemas con la conexión a internet"
-                  : response.body.Message,
+              message: response.body == "" ?
+                "Problemas con la conexión a internet" : response.body.Message,
               show: true,
               title: "Error",
               showregresar: false,
@@ -432,18 +465,20 @@ export default {
     }
   },
 
-  guardarPeriodo: function({ state, commit, dispatch }, data) {
+  guardarPeriodo: function ({
+    state,
+    commit,
+    dispatch
+  }, data) {
     try {
       Vue.http
         .post(
           url + "/api/evaluation/UpdatePeriod",
-          data,
-          {
+          data, {
             headers: {
               Authorization: localStorage.getItem("user-token")
             }
-          },
-          {
+          }, {
             emulateJSON: true
           }
         )
@@ -464,9 +499,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -475,7 +510,11 @@ export default {
     }
   },
 
-  GetEvaluationEmployee: function({ state, commit, dispatch }, data) {
+  GetEvaluationEmployee: function ({
+    state,
+    commit,
+    dispatch
+  }, data) {
     try {
       Vue.http
         .get(url + "/api/evaluation/GetEvaluationEmployee", {
@@ -493,9 +532,8 @@ export default {
 
               commit(
                 "set_EmployeeInfo",
-                response.body.EmployeeInfo.empleadoInfo.length > 0
-                  ? response.body.EmployeeInfo
-                  : []
+                response.body.EmployeeInfo.empleadoInfo.length > 0 ?
+                response.body.EmployeeInfo : []
               );
               commit("calcularRatinguser");
 
@@ -514,7 +552,11 @@ export default {
     }
   },
 
-  GetPeriods: function({ state, commit, dispatch }, values) {
+  GetPeriods: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
     commit("set_resetperiods", {
       List: []
     });
@@ -539,9 +581,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -551,7 +593,11 @@ export default {
   },
   //JSON
 
-  firmas: function({ state, commit, dispatch }, datos) {
+  firmas: function ({
+    state,
+    commit,
+    dispatch
+  }, datos) {
     try {
       Vue.http
         .get(url + "/api/util/UserInActiveDirectory", {
@@ -573,9 +619,9 @@ export default {
             } else {
               dispatch(
                 "errorResponse",
-                response.body == ""
-                  ? "Problemas con la conexión a internet"
-                  : response.body.userInfo.Message
+                response.body == "" ?
+                "Problemas con la conexión a internet" :
+                response.body.userInfo.Message
               );
             }
             commit("s_Loading", {
@@ -586,9 +632,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -597,7 +643,11 @@ export default {
     }
   },
 
-  validUser: function({ state, commit, dispatch }, datos) {
+  validUser: function ({
+    state,
+    commit,
+    dispatch
+  }, datos) {
     try {
       Vue.http
         .get(url + "/api/util/UserInActiveDirectory", {
@@ -634,9 +684,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -644,7 +694,10 @@ export default {
       dispatch("errorResponse", e.message);
     }
   },
-  GetConfiguracionEvaluadores({ commit, dispatch }) {
+  GetConfiguracionEvaluadores({
+    commit,
+    dispatch
+  }) {
     try {
       Vue.http
         .get(url + "/api/evaluation/GetConfigEvaluation", {
@@ -661,9 +714,9 @@ export default {
             } else {
               dispatch(
                 "errorResponse",
-                response.body == ""
-                  ? "Problemas con la conexión a internet"
-                  : response.body.userInfo.Message
+                response.body == "" ?
+                "Problemas con la conexión a internet" :
+                response.body.userInfo.Message
               );
             }
             commit("s_Loading", {
@@ -674,9 +727,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -685,18 +738,19 @@ export default {
     }
   },
 
-  GuardarConfiguracionEvaluadores({ commit, dispatch }, datos) {
+  GuardarConfiguracionEvaluadores({
+    commit,
+    dispatch
+  }, datos) {
     try {
       Vue.http
         .post(
-          url + "/api/evaluation/UpdateConfigEvaluation",
-          {
+          url + "/api/evaluation/UpdateConfigEvaluation", {
             number_approval: datos.number_approval,
             number_evaluator: datos.number_evaluator,
             number_evaluated: datos.number_evaluated,
             active: datos.active == undefined ? 0 : 1
-          },
-          {
+          }, {
             headers: {
               Authorization: localStorage.getItem("user-token")
             },
@@ -721,9 +775,9 @@ export default {
             } else {
               dispatch(
                 "errorResponse",
-                response.body == ""
-                  ? "Problemas con la conexión a internet"
-                  : response.body.ConfigEvaluation.Message
+                response.body == "" ?
+                "Problemas con la conexión a internet" :
+                response.body.ConfigEvaluation.Message
               );
             }
             commit("s_Loading", {
@@ -734,9 +788,9 @@ export default {
           response => {
             dispatch(
               "errorResponse",
-              response.body == ""
-                ? "Problemas con la conexión a internet"
-                : response.body.Message
+              response.body == "" ?
+              "Problemas con la conexión a internet" :
+              response.body.Message
             );
           }
         );
@@ -744,7 +798,11 @@ export default {
       dispatch("errorResponse", e.message);
     }
   },
-  action_evaluarEmpleado: function({ state, commit, dispatch }, data) {
+  action_evaluarEmpleado: function ({
+    state,
+    commit,
+    dispatch
+  }, data) {
     var esto = this;
     dispatch("s_Loading", {
       value: 0,
@@ -752,46 +810,76 @@ export default {
     });
     dispatch("GetEvaluationEmployee", data);
   },
-  action_visualizarEmpleados: function({ state, commit, dispatch }, data) {
+  action_visualizarEmpleados: function ({
+    state,
+    commit,
+    dispatch
+  }, data) {
     dispatch("s_Loading", {
-      value: 0,
-      show: true
-    }),
+        value: 0,
+        show: true
+      }),
       dispatch("GetEmployeesBySuperviser", data);
   },
-  set_signaturepor({ commit }, por) {
+  set_signaturepor({
+    commit
+  }, por) {
     commit("set_signaturepor", por);
   },
 
-  backevaluarempleado: function({ commit }) {
+  backevaluarempleado: function ({
+    commit
+  }) {
     commit("backevaluarempleado");
   },
 
-  set_cDialog: function(
-    { state, commit, dispatch },
+  set_cDialog: function ({
+      state,
+      commit,
+      dispatch
+    },
     empleadoaEvaluarSeleccionado
   ) {
     commit("set_cDialog", empleadoaEvaluarSeleccionado);
   },
-  set_showMessage: function({ state, commit, dispatch }, values) {
+  set_showMessage: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
     commit("set_showMessage", values);
   },
 
-  s_Loading: function({ state, commit, dispatch }, values) {
+  s_Loading: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
     commit("s_Loading", values);
   },
 
-  set_loginwidthjsons: function({ state, commit, dispatch }, value) {
+  set_loginwidthjsons: function ({
+    state,
+    commit,
+    dispatch
+  }, value) {
     commit("set_loginwidthjsons", value);
     dispatch("getEmpleadoInfoJson");
   },
 
-  sw_dialog: function({ state, commit, dispatch }, values) {
+  sw_dialog: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
     commit("sw_dialog", values);
   },
-  action_gridmodal: function({ state, commit, dispatch }, values) {
-    var headerss = [
-      {
+  action_gridmodal: function ({
+    state,
+    commit,
+    dispatch
+  }, values) {
+    var headerss = [{
         text: "Numero",
         type: "text",
         value: "Number",
@@ -829,9 +917,9 @@ export default {
       }
     ];
     var calificacion =
-      values.distributionByEmployee.length > 0
-        ? values.distributionByEmployee[0].Score
-        : 0;
+      values.distributionByEmployee.length > 0 ?
+      values.distributionByEmployee[0].Score :
+      0;
     var dialog = {
       Value: true,
       Title: "Escala distribución",
@@ -852,19 +940,30 @@ export default {
     this.dispatch("sw_dialog", dialog);
   },
 
-  sw_uimainEvaluacion: function({ state, commit, dispatch }, ui) {
+  sw_uimainEvaluacion: function ({
+    state,
+    commit,
+    dispatch
+  }, ui) {
     commit("sw_uimainEvaluacion", ui);
   },
 
-  set_showMessage: function({ state, commit, dispatch }, message) {
+  set_showMessage: function ({
+    state,
+    commit,
+    dispatch
+  }, message) {
     commit("set_showMessage", message);
   },
 
-  s_comments: function({ state, commit, dispatch }, data) {
+  s_comments: function ({
+    state,
+    commit,
+    dispatch
+  }, data) {
     commit("s_comments", data);
     dispatch("set_showMessage", {
-      message:
-        'Comentarios actualizados, para guardar la informacion presione el boton: "Guardar".',
+      message: 'Comentarios actualizados, para guardar la informacion presione el boton: "Guardar".',
       title: "Información",
       colorThema: "blue",
       showregresar: false,
@@ -872,11 +971,19 @@ export default {
     });
   },
 
-  calculateRating: function({ state, commit, dispatch }, data) {
+  calculateRating: function ({
+    state,
+    commit,
+    dispatch
+  }, data) {
     commit("calcularRatinguser", data);
   },
 
-  cambiarmenu({ state, commit, dispatch }, item) {
+  cambiarmenu({
+    state,
+    commit,
+    dispatch
+  }, item) {
     router.push("/" + item.code);
     commit("s_Loading", {
       value: 0,
@@ -884,10 +991,16 @@ export default {
     });
   },
 
-  set_drawer({ commit }, value) {
+  set_drawer({
+    commit
+  }, value) {
     commit("set_drawer", value);
   },
-  getEmpleadoInfoJson: function({ state, commit, dispatch }) {
+  getEmpleadoInfoJson: function ({
+    state,
+    commit,
+    dispatch
+  }) {
     try {
       var resultEmp = require("./jsons/Employee.json");
       commit("set_loginUser", resultEmp.Employee);
@@ -906,16 +1019,26 @@ export default {
   set_regresar: (state, value) => {
     state.isregresar = value;
   },
-  set_validhuella: function({ commit }, value) {
+  set_validhuella: function ({
+    commit
+  }, value) {
     commit("set_validhuella", value);
   },
-  set_returnto: function({ commit }, value) {
+  set_returnto: function ({
+    commit
+  }, value) {
     commit("set_returnto", value);
   },
-  set_returnactiveTab: function({ commit }, value) {
+  set_returnactiveTab: function ({
+    commit
+  }, value) {
     commit("set_returnactiveTab", value);
   },
-  set_nombreInput: function({ state, commit, dispatch }, datos) {
+  set_nombreInput: function ({
+    state,
+    commit,
+    dispatch
+  }, datos) {
     commit("set_nombreInput", {
       Nombre: datos.Nombre,
       By: datos.By

@@ -65,7 +65,7 @@
 
 
 
-              <v-btn v-if="h.type ==='button' && h.btntitle !='Firmar'" dark large :class="conditioncolor(h,props)" class="w-75 mb-2"
+              <v-btn v-if="h.type ==='button' && h.btntitle !='Firmar'" dark large :class="[conditioncolor(h,props),conditiondisplay(h,props)]" class="w-75 mb-2"
                 @click="metodo(h,props.item)">
                 <b v-if="h.has_condition">{{conditiontext(h,props)}}</b>
                 <b v-else>{{h.btntitle}}</b>
@@ -113,7 +113,7 @@
                   </v-btn>
 
 
-                  <v-btn v-if="h.type ==='button'  && h.resize && h.btntitle !='Firmar'" dark large :class="conditioncolor(h,props)" class="mt-5"
+                  <v-btn v-if="h.type ==='button'  && h.resize && h.btntitle !='Firmar'" dark large :class="[conditioncolor(h,props),conditiondisplay(h,props)]" class="mt-5"
                     @click="metodo(h,props.item)"
                       :disabled="(!(props.item['Status'] =='COMPLETADO' && h.btntitle =='Firmar'))">
                     <b v-if="h.has_condition">{{conditiontext(h,props)}}</b>
@@ -251,6 +251,26 @@ export default {
           ].color;
         } else {
           return h.color;
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    conditiondisplay(h, props) {
+      try {
+        if (
+          h.conditionClass &&
+          h.has_condition &&
+          props.item[h.condition_property] !== undefined
+        ) {
+          var esto = this;
+          return h.conditionvalues[
+            h.conditionvalues.findIndex(
+              el => el.condition === props.item[h.condition_property]
+            )
+          ].class;
+        } else {
+          return;
         }
       } catch (e) {
         console.log(e);

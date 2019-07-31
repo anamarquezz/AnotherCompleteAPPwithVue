@@ -10,8 +10,8 @@
 
 
         <v-container fluid class="mt-5">
-          <v-tabs centered color="cyan darken-2" dark icons-and-text v-model="returnactiveTab">
-            <v-tabs-slider color="indigo"></v-tabs-slider>
+          <v-tabs centered  icons-and-text v-model="returnactiveTab">
+            <v-tabs-slider color="cyan"></v-tabs-slider>
 
 
             <v-tab >
@@ -25,7 +25,7 @@
             </v-tab>
 
             <v-tab v-if="g_loginUser.AllUserSupervisers.length > 0">
-              Plantila Supervisores
+              Plantilla Supervisores
               <v-icon>far fa-list-alt</v-icon>
             </v-tab>
 
@@ -33,8 +33,8 @@
             <v-tabs-items v-model="returnactiveTab">
               <v-tab-item>
                 <v-container fluid>
-                  <v-toolbar dark color="blue darken-3 white--text">
-                    <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
+                  <v-toolbar dark color="light-blue darken-3 white--text">
+                    <h4><i class="far fa-list-alt mr-3"></i>EscalaEscala de distribución</h4>
                     <v-spacer></v-spacer>
                   </v-toolbar>
                   <listaempleados from="EVAL" :headers="headersDistribucion"
@@ -46,7 +46,7 @@
 
               <v-tab-item>
                 <v-container fluid>
-                  <v-toolbar dark color="blue darken-3 white--text " text-xs-center>
+                  <v-toolbar dark color="light-blue darken-4 white--text " text-xs-center>
                     <h5><i class="fas fa-edit mr-3"></i>Proceso de Evaluaciones</h5>
                     <v-spacer></v-spacer>
 
@@ -58,7 +58,7 @@
                 </v-container>
 
                 <v-container fluid>
-                  <v-toolbar dark color="blue darken-3 white--text">
+                  <v-toolbar dark color="light-blue darken-4 white--text">
                     <h4><i class="far fa-list-alt mr-3"></i>Mi Plantilla</h4>
                     <v-spacer></v-spacer>
                   </v-toolbar>
@@ -70,7 +70,7 @@
 
               <v-tab-item v-if="g_loginUser.AllUserSupervisers.length > 0">
                 <v-container fluid>
-                  <v-toolbar dark color="blue darken-3 white--text">
+                  <v-toolbar dark color="deep-purple darken-4 white--text">
                     <h4><i class="far fa-list-alt mr-3"></i>Plantila de supervisores</h4>
                     <v-spacer></v-spacer>
                   </v-toolbar>
@@ -226,22 +226,26 @@ export default {
             {
               condition: "NO INICIADO",
               text: "Evaluar",
-              color: "indigo darken-4"
+              color: "indigo darken-4",
+              visible: true
             },
             {
               condition: "EVALUADO",
               text: "Editar",
-              color: "blue darken-3"
+              color: "blue darken-3",
+              visible: true
             },
             {
               condition: "INICIADO",
               text: "Editar",
-              color: "blue darken-3"
+              color: "blue darken-3",
+              visible: true
             },
             {
               condition: "COMPLETADO",
               text: "Editar",
-              color: "blue darken-3"
+              color: "blue darken-3",
+              visible: true
             }
           ],
           resize: true,
@@ -307,26 +311,31 @@ export default {
           has_condition: true,
           condition_property: "Status",
           getconditiontext: true,
+          conditionClass: true,
           conditionvalues: [
             {
               condition: "NO INICIADO",
               text: "Evaluar",
-              color: "indigo darken-4"
+              color: "indigo darken-4",
+              class: "d-none"
             },
             {
               condition: "EVALUADO",
               text: "Aprobar",
-              color: "cyan darken-3"
+              color: "cyan darken-3",
+              class: "d-inline"
             },
             {
               condition: "INICIADO",
               text: "Editar",
-              color: "blue darken-3"
+              color: "blue darken-3",
+              class: "d-none"
             },
             {
               condition: "COMPLETADO",
               text: "Editar",
-              color: "blue darken-3"
+              color: "blue darken-3",
+              class: "d-none"
             }
           ],
           resize: true,

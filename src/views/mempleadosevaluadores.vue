@@ -113,7 +113,8 @@ export default {
           resize: true,
           color: "blue darken-3",
           condition_property: "Evaluated",
-          value: ""
+          value: "",
+          
         }
       ]
     };

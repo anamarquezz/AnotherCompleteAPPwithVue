@@ -285,7 +285,7 @@ export default {
       }),
         esto.$store.dispatch("saveUpdateUser", {
           comments: esto.comments,
-          feedback_comments: esto.feedback_comments
+          feedback_comments: esto.feedback_commentsfeedback_comments
         });
     },
     RegresarUsuarios() {
@@ -373,11 +373,8 @@ export default {
           
         }*/
   },
-  mounted() {
+  created() {
     var esto = this;
-
-    if (esto.g_loginUser.empleadoaEvaluar.empleadoInfo.length < 0)
-      esto.$router.push("/mempleadosaevaluar");
 
     /*   var myHub = $.hubConnection("http://localhost:49014/signalr", {
              useDefaultPath: true
@@ -418,7 +415,9 @@ export default {
     });
     esto.findIP = findIP;
 
-    var connection = $.hubConnection("http://localhost:49014/signalr");
+    var connection = $.hubConnection(
+      "https://intranet.valuout.com/CloverServices/signalr"
+    );
     var proxy = connection.createHubProxy("finger");
     esto.proxy = proxy;
     // receives broadcast messages from a hub function, called "broadcastMessage"
