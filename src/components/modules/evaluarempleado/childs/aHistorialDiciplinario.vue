@@ -69,7 +69,7 @@ export default {
       pagination: {
         descending: true,
         page: 1,
-        rowsPerPage: 10, // -1 for All
+        rowsPerPage: 25, // -1 for All
         sortBy: "histodisc"
       },
       mostrarEnviar: false,

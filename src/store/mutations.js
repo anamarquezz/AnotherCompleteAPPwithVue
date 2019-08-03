@@ -301,9 +301,7 @@ export default {
   set_nombreInput: (state, datos) => {
     state.loginUser[datos.By] = datos.Nombre;
   },
-  set_returnto: (state, value) => {
-    state.returnto = value;
-  },
+
   set_returnactiveTab: (state, value) => {
     state.returnactiveTab = value;
   },
@@ -340,6 +338,223 @@ export default {
 
     state.expandlist = listaMantenimiento;
 */
+  },
+  set_paginationnumber: (state, values) => {
+    state[values.paginationname] = values.newvalue;
+  },
+  set_returnto: (state, value) => {
+    state.returnTo = value;
+  },
+  clearPag_mevaluadosporsupervisor: (state, value) => {
+    var pag = {
+      descending: true,
+      page: 1,
+      rowsPerPage: 10,
+      sortBy: "name",
+      rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
+    };
+    state.mevaluadosporsupervisor = pag;
+    state.mevaluadosporsupervisor_escala = pag;
+
+  },
+
+  set_clear_paginado: (state, value) => {
+    var pag = {
+      descending: true,
+      page: 1,
+      rowsPerPage: 10,
+      sortBy: "name",
+      rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
+    };
+
+    state.cdialog = pag;
+    state.mempleadoaevaluar = pag;
+    state.mempleadoaevaluar2 = pag;
+    state.mempleadoaevaluar3 = pag;
+    state.pagination_name4 = pag;
+    state.mhome_distr = pag;
+    state.mempleadosevaluadores = pag;
+    state.mevaluadosporsupervisor = pag;
+    state.mtodosempleados = pag;
+    state.mevaluadosporsupervisor_escala = pag;
+    state.mempleadoaevaluar3 = pag;
+    state.mantenimientoeval = pag;
+
+  },
+  clearVariables: (state, value) => {
+    var pag = {
+      descending: true,
+      page: 1,
+      rowsPerPage: 10,
+      sortBy: "name",
+      rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
+    };
+
+    state.cdialog = pag;
+    state.drawer = true;
+    state.mempleadoaevaluar = pag;
+    state.mempleadoaevaluar2 = pag;
+    state.mempleadoaevaluar3 = pag;
+    state.pagination_name4 = pag;
+    state.mhome_distr = pag;
+    state.mempleadosevaluadores = pag;
+    state.mevaluadosporsupervisor = pag;
+    state.mtodosempleados = pag;
+    state.mevaluadosporsupervisor_escala = pag;
+    state.mempleadoaevaluar3 = pag;
+    state.returnactiveTab = 0;
+    state.isregresar = localStorage.getItem('isregresar') || 'false';
+    state.sw_ui = 'login';
+    state.returnTo = 'miplantilla';
+    state.sw_uimainEvaluacion = 'home';
+    state.sw_dialog = {
+        Value: false,
+        Title: '',
+        Subtitle: '',
+        contieneImagen: false,
+        Image: '',
+        Paragraph: '',
+        component: {
+          type: 'expansion',
+          data: {}
+        }
+      },
+      state.modalmessage = {
+        colorThema: '',
+        show: false,
+        message: '',
+        title: '',
+        showregresar: false,
+      }, //
+      state.continue = false,
+      state.token = localStorage.getItem('user-token') || '',
+      state.status = '',
+      state.NumeroEmpleadoSeleccionado = '',
+      state.loginwidthjsons = false,
+      state.listamantenimientoevaluadores = [],
+      state.expandlist = [],
+      state.loading = {
+        value: 0,
+        show: false,
+        showlinear: false,
+      },
+      state.validhuella = '',
+
+      state.datePeriods = [],
+
+      state.loginUser = {
+        userId: '',
+        Name: '',
+        Puesto: '',
+        Shift: '',
+        UserPic: '',
+        Area: '',
+        isRH: '',
+        position: '',
+        allowESign: '',
+        isSupervisor: "false",
+        allowEvaluation: "false",
+        descriptionPeriod: '',
+        minPeriod: '',
+        maxPeriod: '',
+        minYear: '',
+        maxYear: '',
+        EvalYear: '',
+        empleadoaEvaluarSeleccionado: '',
+        supervisorSeleccionado: '',
+        SuperviserSummary: [],
+        AllUserSupervisers: [],
+        Gerentesupervisores: [],
+        Subordinates: [],
+        Subordinatesbyuser: [],
+        DistributionSuperviser: [],
+        Nombregerente: '',
+        nombreSup: '',
+        nombreEmp: '',
+        empleadoaEvaluar: {
+
+          ratingEmpleado: 0,
+          puntuacionEmpleado: 0,
+          empleadoInfo: '',
+          indicatorTressResult: '',
+          indicatorTress: [{
+              Cantidad: 0,
+              Code: '',
+              Description: '',
+              Result: '',
+            },
+            {
+              Cantidad: 0,
+              Code: '',
+              Description: '',
+              Result: '',
+            },
+            {
+              Cantidad: 0,
+              Code: '',
+              Description: '',
+              Result: '',
+            },
+            {
+              Cantidad: 0,
+              Code: '',
+              Description: '',
+              Result: '',
+            }
+          ],
+          indicatorConfigResult: '',
+          indicatorConfig: [],
+          categoryValue: [],
+          evaluationResult: '',
+
+          signatureInfo: [{
+              Date: null,
+              IsSignature: false,
+              Name: "",
+              Number: "",
+              Signature: "",
+              TypeCode: "EMP",
+              TypeDescription: "Empleado",
+            },
+            {
+              Date: null,
+              IsSignature: false,
+              Name: "",
+              Number: "",
+              Signature: "",
+              TypeCode: "GEAR",
+              TypeDescription: "Gerente de Area",
+            },
+            {
+              Date: null,
+              IsSignature: false,
+              Name: "",
+              Number: "",
+              Signature: "",
+              TypeCode: "GRH",
+              TypeDescription: "Gerencia RH",
+            },
+            {
+              Date: null,
+              IsSignature: false,
+              Name: "",
+              Number: "",
+              Signature: "",
+              TypeCode: "SUP",
+              TypeDescription: "Jefe Inmediato/Sup. Gral",
+            }
+          ],
+          saveUpdateUser: {
+            number: '',
+            comments: '',
+            feedBack_Comments: '',
+            IndicatorResult: [],
+            nombreEvaluador: '',
+            nombreEmpleado: '',
+            signatureInfo: []
+          }
+        }
+      }
   }
 
 

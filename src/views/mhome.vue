@@ -144,8 +144,6 @@
           </v-flex>
 
 
-
-
           <v-flex xs12 class="mt-5">
             <div v-if="g_loginUser.isRH == 'true'">
               <v-container fluid>
@@ -153,7 +151,7 @@
                   <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
                   <v-spacer></v-spacer>
                 </v-toolbar>
-                <listaempleados from="EVAL" :headers="headersDistribucion"
+                <listaempleados from="EVAL" :headers="headersDistribucion" :pagination_name="pagination_name"
                   excelname="escaladistribuciontodosempleados.xls" v-if="g_loginUser.Subordinates.length > 0"
                   :list='g_loginUser.Subordinates'>
                 </listaempleados>
@@ -184,6 +182,7 @@ export default {
   },
   data() {
     return {
+      pagination_name: "mhome_distr",
       periodorevision: "",
       periodoevaluacion: "",
       periodorevisionRH: "",
@@ -260,8 +259,7 @@ export default {
           iconbtn: "fa fa-users",
           action: "action_gridmodal",
           resize: true
-        },
-      
+        }
       ]
     };
   },

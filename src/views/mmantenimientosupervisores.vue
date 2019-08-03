@@ -45,7 +45,7 @@
             <h4><i class="fa fa-users mr-3"></i> Supervisores / Gerentes </h4>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <listaempleados :headers="headers" v-if="listamantenimientoevaluadores.length > 0" from='EVAL'
+          <listaempleados :headers="headers" v-if="listamantenimientoevaluadores.length > 0" from='EVAL' :pagination_name="pagination_name"
             :list='listamantenimientoevaluadores' excelname="gerentesupervisores.xls">
           </listaempleados>
 
@@ -74,6 +74,7 @@ export default {
   },
   data() {
     return {
+      pagination_name: "mantenimientoeval",
       number_approval: "",
       number_evaluator: "",
       number_evaluated: "",

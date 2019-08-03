@@ -8,7 +8,7 @@
       </v-flex>
       <v-flex row xs12 md12 lg9 xl9 class="mt-5">
         <v-layout row class="mt-5">
-          <evaluarempleado > </evaluarempleado>
+          <evaluarempleado> </evaluarempleado>
         </v-layout>
       </v-flex>
     </v-layout>
@@ -36,6 +36,7 @@ export default {
     ...mapGetters(["g_loginUser"]),
     ...mapState(["token"])
   },
+  props: ["returnTo"],
   methods: {},
   created: function() {
     if (this.g_loginUser.empleadoaEvaluar.empleadoInfo.length > 0) {

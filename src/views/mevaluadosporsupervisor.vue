@@ -23,7 +23,7 @@
 
               <v-spacer></v-spacer>
             </v-toolbar>
-            <listaempleados :headers="headers" v-if="g_loginUser.Subordinatesbyuser.length > 0"
+            <listaempleados :headers="headers" v-if="g_loginUser.Subordinatesbyuser.length > 0" :pagination_name="pagination_name"
               excelname="empleadosporsupervisor.xls" :list='g_loginUser.Subordinatesbyuser'>
             </listaempleados>
           </v-flex>
@@ -32,8 +32,8 @@
               <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
               <v-spacer></v-spacer>
             </v-toolbar>
-            <listaempleados from="SUP" :headers="headersDistribucion"
-              v-if="g_loginUser.DistributionSuperviser.length > 0" :list='g_loginUser.DistributionSuperviser'
+            <listaempleados from="SUP" :headers="headersDistribucion" :pagination_name="pagination_name2"
+              v-if="g_loginUser.DistributionSuperviser.length > 0" :list='g_loginUser.DistributionSuperviser' 
               excelname="escaladistribuciontodosempleados.xls" haspagination=false>
             </listaempleados>
           </v-flex>
@@ -59,6 +59,8 @@ export default {
   },
   data() {
     return {
+      pagination_name: "mevaluadosporsupervisor",
+      pagination_name2: "mevaluadosporsupervisor_escala",
       headers: [
         {
           text: "",
@@ -109,6 +111,7 @@ export default {
           align: "left",
           btntitle: "Firmar",
           action: "action_evaluarEmpleado",
+          returnTo: "mempleadosevaluadores",
           has_condition: false,
           resize: true,
           value: "",
@@ -186,6 +189,7 @@ export default {
   methods: {
     RegresarUsuarios() {
       var esto = this;
+      esto.$store.dispatch("set_clearPag_mevaluadosporsupervisor");
       esto.$store.dispatch("cambiarmenu", {
         code: "mempleadosevaluadores",
         show: false

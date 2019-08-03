@@ -1,19 +1,14 @@
 <template>
 
   <v-layout row justify-center>
-    <v-dialog v-model="gsw_dialog.Value" persistent width="900">
+    <v-dialog v-model="gsw_dialog.Value" persistent width="1100">
       <v-card>
         <v-card-title class="headline blue darken-1 text-white" primary-title>
-          <h3>{{gsw_dialog.Title}}</h3>
+          <h3>{{gsw_dialog.Title}},</h3>         
         </v-card-title>
+      
         <v-card-text>
-          <v-layout row wrap class="text-center">
-            <v-flex xs12 md12 lg12 xl12>
-              <p class=" mb-3 mt-3 headline" v-if="gsw_dialog.Subtitle!=''">{{gsw_dialog.Subtitle}}</p>
-            </v-flex>
-
-            <v-flex xs12 md12 lg12 xl12>
-            </v-flex>
+          <v-layout row wrap class="text-center">         
             <v-flex xs12 md12 lg12 xl12 class="ml-2">
               <h5 class="mt-3" v-if="gsw_dialog.Paragraph!=''">{{gsw_dialog.Paragraph}}</h5>
               <div v-if="gsw_dialog.component.type === 'list'">
@@ -23,7 +18,7 @@
                 </clist>
               </div>
               <div v-if="gsw_dialog.component.type === 'grid' && gsw_dialog.component.list.length >0" >               
-                <listaempleados from="EVAL" :headers="gsw_dialog.component.headers"
+                <listaempleados from="EVAL" :headers="gsw_dialog.component.headers"  :pagination_name="pagination_name"
                   v-if="gsw_dialog.component.list.length > 0" :list='gsw_dialog.component.list'
                   excelname="escaladistribuciontodosempleados.xls" haspagination=false>
                 </listaempleados>
@@ -37,8 +32,9 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
+          <h2 class="indigo--text darken-4--text ml-3 mb-3"> {{gsw_dialog.Subtitle}}</h2>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-2 white--text" @click="act_regresar">
+          <v-btn color="blue darken-2 white--text mr-4" @click="act_regresar">
             <b> Aceptar </b>
           </v-btn>
 
@@ -60,7 +56,9 @@ export default {
   },
   props: {},
   data() {
-    return {};
+    return {
+      pagination_name: "cdialog"
+    };
   },
   methods: {
     act_regresar: function() {

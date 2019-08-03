@@ -15,7 +15,7 @@
             <h4><i class="fa fa-users mr-3"></i>Plantilla Activa</h4>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <listaempleados from="EVAL" :headers="headers" v-if="g_loginUser.Subordinates.length > 0"
+          <listaempleados from="EVAL" :headers="headers" v-if="g_loginUser.Subordinates.length > 0"  :pagination_name="pagination_name"
             :list='g_loginUser.Subordinates' excelname="todoslosempleados.xls">
           </listaempleados>
 
@@ -43,6 +43,7 @@ export default {
   },
   data() {
     return {
+      pagination_name: "mtodosempleados",
       headers: [
         /*{
           text:'',

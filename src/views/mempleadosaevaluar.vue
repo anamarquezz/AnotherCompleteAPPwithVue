@@ -8,7 +8,6 @@
       <v-flex row xs11 md11 lg11 xl11>
 
 
-
         <v-container fluid class="mt-5">
           <v-tabs centered  icons-and-text v-model="returnactiveTab">
             <v-tabs-slider color="cyan"></v-tabs-slider>
@@ -34,10 +33,10 @@
               <v-tab-item>
                 <v-container fluid>
                   <v-toolbar dark color="light-blue darken-3 white--text">
-                    <h4><i class="far fa-list-alt mr-3"></i>EscalaEscala de distribución</h4>
+                    <h4><i class="far fa-list-alt mr-3"></i>Escala de distribución</h4>
                     <v-spacer></v-spacer>
                   </v-toolbar>
-                  <listaempleados from="EVAL" :headers="headersDistribucion"
+                  <listaempleados from="EVAL" :headers="headersDistribucion" :pagination_name="pagination_name3"
                     v-if="g_loginUser.DistributionSuperviser.length > 0" :list='g_loginUser.DistributionSuperviser'
                     excelname="escaladistribuciontodosempleados.xls" haspagination=false>
                   </listaempleados>
@@ -50,9 +49,9 @@
                     <h5><i class="fas fa-edit mr-3"></i>Proceso de Evaluaciones</h5>
                     <v-spacer></v-spacer>
 
-                  </v-toolbar>
-                  <listaempleados from="EVAL" :headers="headerSumarySupervisor"
-                    v-if="g_loginUser.SuperviserSummary.length > 0" :list='g_loginUser.SuperviserSummary' excelname=''
+                  </v-toolbar>                  
+                  <listaempleados from="EVAL" :headers="headerSumarySupervisor"  :pagination_name="pagination_name3"
+                    v-if="g_loginUser.SuperviserSummary.length > 0 " :list='g_loginUser.SuperviserSummary' excelname=''
                     hassearch=false haspagination=true>
                   </listaempleados>
                 </v-container>
@@ -62,7 +61,7 @@
                     <h4><i class="far fa-list-alt mr-3"></i>Mi Plantilla</h4>
                     <v-spacer></v-spacer>
                   </v-toolbar>
-                  <listaempleados :headers="headers" v-if="g_loginUser.Subordinates.length > 0"
+                  <listaempleados :headers="headers" v-if="g_loginUser.Subordinates.length > 0" :pagination_name="pagination_name2"
                     :list='g_loginUser.Subordinates' excelname="empleadosEvaluadores.xls" haspagination=false>
                   </listaempleados>
                 </v-container>
@@ -71,17 +70,16 @@
               <v-tab-item v-if="g_loginUser.AllUserSupervisers.length > 0">
                 <v-container fluid>
                   <v-toolbar dark color="deep-purple darken-4 white--text">
-                    <h4><i class="far fa-list-alt mr-3"></i>Plantila de supervisores</h4>
+                    <h4><i class="far fa-list-alt mr-3"></i>Plantilla de supervisores</h4>
                     <v-spacer></v-spacer>
                   </v-toolbar>
-                  <listaempleados from="EVAL" :headers="headersPSup" :list='g_loginUser.AllUserSupervisers'
+                  <listaempleados from="EVAL" :headers="headersPSup" :list='g_loginUser.AllUserSupervisers' :pagination_name="pagination_name"
                     excelname="PantillaSupervisores.xls" haspagination=true>
                   </listaempleados>
                 </v-container>
               </v-tab-item>
             </v-tabs-items>
           </v-tabs>
-
         </v-container>
 
 
@@ -113,6 +111,10 @@ export default {
   },
   data() {
     return {
+      pagination_name: "mempleadoaevaluar",
+      pagination_name2: "mempleadoaevaluar2",
+      pagination_name3: "mempleadoaevaluar3",
+      pagination_name3: "pagination_name4",
       active: null,
       color: "green lighten-1",
       tabs: null,
@@ -158,7 +160,7 @@ export default {
           align: "center",
           type: "text",
           resize: false,
-          value: "Evaluated",
+          value: "Terminated",
           tooltip:
             " Numero de Empleados con el proceso finalizado (evaluación, retroalimentación y firmas)"
         }
@@ -219,6 +221,7 @@ export default {
           align: "left",
           btntitle: "Evaluar",
           action: "action_evaluarEmpleado",
+          returnTo: "mempleadosaevaluar",
           has_condition: true,
           condition_property: "Status",
           getconditiontext: true,
@@ -308,6 +311,7 @@ export default {
           align: "left",
           btntitle: "Evaluar",
           action: "action_evaluarEmpleado",
+          returnTo: "mempleadosaevaluar",
           has_condition: true,
           condition_property: "Status",
           getconditiontext: true,
@@ -446,7 +450,6 @@ export default {
       show: true
     }),
       esto.$store.dispatch("GetSubordinateByUser");
-    esto.$store.dispatch("set_returnto", "miplantilla");
     // esto.active = esto.returnactiveTab;
   }
 };

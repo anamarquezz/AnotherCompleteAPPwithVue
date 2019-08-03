@@ -1,6 +1,6 @@
 /* http://localhost:49014
 "http://10.2.16.98:82/
-    https://intranet.valuout.com/CloverServices/
+    https://intranet.valuout.com/CloverServices
 */
 
 var url = "http://localhost:49014";
@@ -86,6 +86,7 @@ export default {
     return new Promise((resolve, reject) => {
       localStorage.removeItem("user-token"); // clear your user's token from localstorage
       localStorage.removeItem("userId");
+      commit("clearVariables", 0);
 
       commit("s_Loading", {
         value: 0,
@@ -442,9 +443,13 @@ export default {
             } else {
               dispatch("set_showMessage", {
                 message: response.body.resultInfo.Message,
-                title: "Información",
-                colorThema: "blue",
+                title: "Error",
+                colorThema: "red",
                 showregresar: false,
+                show: true
+              });
+              commit("s_Loading", {
+                value: 0,
                 show: false
               });
             }
@@ -519,7 +524,7 @@ export default {
       Vue.http
         .get(url + "/api/evaluation/GetEvaluationEmployee", {
           params: {
-            number: data.Number
+            number: data.items.Number
           },
           headers: {
             Authorization: localStorage.getItem("user-token")
@@ -528,7 +533,7 @@ export default {
         .then(
           response => {
             if (response.body.EmployeeInfo != "") {
-              response.body.EmployeeInfo.empleadoInfo.Image = data.Image;
+              response.body.EmployeeInfo.empleadoInfo.Image = data.items.Image;
 
               commit(
                 "set_EmployeeInfo",
@@ -536,6 +541,8 @@ export default {
                 response.body.EmployeeInfo : []
               );
               commit("calcularRatinguser");
+
+              commit("set_returnto", data.headers.returnTo);
 
               dispatch("cambiarmenu", {
                 code: "mevaluarempledo",
@@ -819,7 +826,7 @@ export default {
         value: 0,
         show: true
       }),
-      dispatch("GetEmployeesBySuperviser", data);
+      dispatch("GetEmployeesBySuperviser", data.items);
   },
   set_signaturepor({
     commit
@@ -917,8 +924,8 @@ export default {
       }
     ];
     var calificacion =
-      values.distributionByEmployee.length > 0 ?
-      values.distributionByEmployee[0].Score :
+      values.items.distributionByEmployee.length > 0 ?
+      values.items.distributionByEmployee[0].Score :
       0;
     var dialog = {
       Value: true,
@@ -929,7 +936,7 @@ export default {
       Paragraph: "",
       component: {
         type: "grid",
-        list: values.distributionByEmployee,
+        list: values.items.distributionByEmployee,
         headers: headerss,
         dindex: "",
         title: "",
@@ -1024,11 +1031,7 @@ export default {
   }, value) {
     commit("set_validhuella", value);
   },
-  set_returnto: function ({
-    commit
-  }, value) {
-    commit("set_returnto", value);
-  },
+
   set_returnactiveTab: function ({
     commit
   }, value) {
@@ -1043,5 +1046,27 @@ export default {
       Nombre: datos.Nombre,
       By: datos.By
     });
-  }
+  },
+  set_paginationnumber: function ({
+    state,
+    commit,
+    dispatch
+  }, datos) {
+    commit("set_paginationnumber", datos);
+  },
+  set_returnto: function ({
+    commit
+  }, value) {
+    commit("set_returnto", value);
+  },
+  set_clear_paginado: function ({
+    commit
+  }, value) {
+    commit("set_clear_paginado", value);
+  },
+  set_clearPag_mevaluadosporsupervisor: function ({
+    commit
+  }, value) {
+    commit("clearPag_mevaluadosporsupervisor", value);
+  },
 };

@@ -12,7 +12,7 @@
         <template slot="items" slot-scope="props">
           <tr v-if="!isMobile">
             <td class="miw-3 p-3 font-sizes">{{props.item.Description}} </td>
-            <v-radio-group v-model="props.item.Result" row class="mt-2" @click="ratingReactivo(props.item)">
+            <v-radio-group v-model="props.item.Result" row class="mt-2" v-on="ratingReactivo(props.item)">
               <v-radio label="2" :value="2" color="blue darken-3" :disabled="g_loginUser.allowEvaluation=='false'"></v-radio>
               <v-radio label="4" :value="4" color="blue darken-3" :disabled="g_loginUser.allowEvaluation=='false'"></v-radio>
               <v-radio label="6" :value="6" color="blue darken-3" :disabled="g_loginUser.allowEvaluation=='false'"></v-radio>
@@ -63,7 +63,7 @@ export default {
       pagination: {
         descending: true,
         page: 1,
-        rowsPerPage: 5, // -1 for All
+        rowsPerPage: 25, // -1 for All
         sortBy: "Description"
       },
       selected: [],

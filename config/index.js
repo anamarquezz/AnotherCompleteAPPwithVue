@@ -27,7 +27,6 @@ module.exports = {
     cacheBusting: true,
     cssSourceMap: true
   },
-
   build: {
     // Template for index.html
     index: path.resolve(__dirname, "../web_Eval_Prod/index.html"), //web_EvalTest    web_Eval_Prod

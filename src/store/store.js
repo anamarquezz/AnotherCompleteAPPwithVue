@@ -8,14 +8,36 @@ import actions from './actions';
 import mutations from './mutations'
 import getters from './getters'
 
+var pag = {
+  descending: true,
+  page: 1,
+  rowsPerPage: 10,
+  sortBy: "name",
+  rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
+};
+
 Vue.use(Vuex)
+
+
 export default new Vuex.Store({
   state: {
+    cdialog: pag,
     drawer: true,
+    mempleadoaevaluar: pag,
+    mempleadoaevaluar2: pag,
+    mempleadoaevaluar3: pag,
+    pagination_name4: pag,
+    mhome_distr: pag,
+    mempleadosevaluadores: pag,
+    mevaluadosporsupervisor: pag,
+    mtodosempleados: pag,
+    mevaluadosporsupervisor_escala: pag,
+    mempleadoaevaluar3: pag,
+    mantenimientoeval: pag,
     returnactiveTab: 0,
-    returnto: 'miplantilla',
     isregresar: localStorage.getItem('isregresar') || 'false',
     sw_ui: 'login',
+    returnTo: 'miplantilla',
     sw_uimainEvaluacion: 'home',
     sw_dialog: {
       Value: false,

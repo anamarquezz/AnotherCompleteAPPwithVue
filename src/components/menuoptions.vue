@@ -81,7 +81,8 @@ export default {
     opcionmenu(item) {
       var esto = this,
         metodo = "";
-      //this.$store.dispatch("s_Loading", { value: 0, show: true });
+      this.$store.dispatch("set_clear_paginado", 0);
+
       switch (item.code) {
         case "#login":
           metodo = "AUTH_LOGOUT";

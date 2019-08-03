@@ -15,7 +15,7 @@
               <h4><i class="fas fa-id-card mr-3"></i>Gerentes/Sup. Generales</h4>
               <v-spacer></v-spacer>
             </v-toolbar>
-            <listaempleados from="EVAL" :headers="headers" v-if="g_loginUser.Subordinates.length > 0"
+            <listaempleados from="EVAL" :headers="headers" v-if="g_loginUser.Subordinates.length > 0" :pagination_name="pagination_name"
               excelname="supervisoresaevaluar.xls" :list='g_loginUser.Subordinates'>
             </listaempleados>
           </v-flex>
@@ -41,6 +41,8 @@ export default {
   },
   data() {
     return {
+      pagination_name: "mempleadosevaluadores",
+      mevaluadosporsupervisor_escala: "mevaluadosporsupervisor_escala",
       headers: [
         {
           text: "Num Emp",
@@ -100,7 +102,7 @@ export default {
           text: "Terminado",
           type: "text",
           resize: false,
-          value: "Evaluated",
+          value: "Terminated",
           tooltip:
             "Numero de Empleados con el proceso finalizado (evaluación, retroalimentación y firmas)"
         },
@@ -109,12 +111,12 @@ export default {
           type: "button",
           btntitle: "Visualizar",
           action: "action_visualizarEmpleados",
+          returnTo: "mempleadosevaluadores",
           has_condition: false,
           resize: true,
           color: "blue darken-3",
-          condition_property: "Evaluated",
-          value: "",
-          
+          condition_property: "Terminated",
+          value: ""
         }
       ]
     };
@@ -132,7 +134,6 @@ export default {
       show: true
     }),
       esto.$store.dispatch("GetSummarySubordinates");
-    this.$store.dispatch("set_returnto", "Gerentes/Sup");
   }
 };
 </script>

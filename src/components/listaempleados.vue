@@ -33,7 +33,8 @@
 
     <v-layout v-resize="onResize" column>
       <v-data-table :dark="dark" v-if="list.length > 0" :headers="headers" :items="list" :search="search"
-        :custom-filter="customFilter" :pagination.sync="pagination" :rows-per-page-items="pagination.rowsPerPageItems"
+        :custom-filter="customFilter" :pagination.sync="pagination"  :rows-per-page-items="pagination.rowsPerPageItems"
+        :footer-props="{'show-current-page':true }"
         :hide-headers="isMobile" :class="{mobile: isMobile}" class="elevation-1">
       <template slot="headerCell" slot-scope="props">
           <v-tooltip bottom>
@@ -165,13 +166,6 @@ export default {
       color: "blue darken-3",
       btn: "btn",
       search: "",
-      pagination: {
-        descending: true,
-        page: 1,
-        rowsPerPage: 10,
-        sortBy: "name",
-        rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
-      },
       condition_values: {
         text: "",
         color: "indigo darken-4"
@@ -226,15 +220,35 @@ export default {
     "dark",
     "hassearch",
     "haspagination",
-    "excelname"
+    "excelname",
+    "pagination_name"
   ],
   computed: {
-    ...mapGetters(["g_loginUser"])
+    ...mapGetters(["g_loginUser"]),
+    pagination: {
+      get() {
+        if (this.list.length < 10) {
+          var newValue = this.$store.state[this.pagination_name];
+          newValue.page = 1;
+          this.$store.dispatch("set_paginationnumber", {
+            newvalue: newValue,
+            paginationname: this.pagination_name
+          });
+        }
+        return this.$store.state[this.pagination_name];
+      },
+      set(newValue) {
+        return this.$store.dispatch("set_paginationnumber", {
+          newvalue: newValue,
+          paginationname: this.pagination_name
+        });
+      }
+    }
   },
   methods: {
     metodo(h, items) {
       this.search = "";
-      this.$store.dispatch(h.action, items);
+      this.$store.dispatch(h.action, { items: items, headers: h });
     },
     listacombo(items, Nombrearray) {
       var esto = this;
@@ -353,7 +367,7 @@ export default {
   },
 
   mounted: function() {
-    //  console.log(this.list);
+    console.log(this.list);
   }
 };
 </script>
