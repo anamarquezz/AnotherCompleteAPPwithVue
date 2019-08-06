@@ -3,7 +3,7 @@
     https://intranet.valuout.com/CloverServices
 */
 
-var url = "http://localhost:49014";
+var url = "https://intranet.valuout.com/CloverServices";
 import Vue from "vue";
 var values = {
   message: "",
