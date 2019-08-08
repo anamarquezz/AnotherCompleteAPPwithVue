@@ -12,17 +12,19 @@
       </div>
     </div>
 
-    <v-layout>
-      <v-flex xs12 sm8 md8 lg8 xl8>
-        <div class="text-right">
-          <v-btn color="light-blue darken-4" dark large v-on:click="GuardarEvaluacion"><b>Guardar</b></v-btn>
+    <v-layout wrap>
+      <v-flex xs12 sm12 md8 lg8 xl8>
+        <div class="mt-xl-4 mt-md-4">
+          <v-btn fixed right bottom  color="blue" class="z-idx shadowborder" dark large v-on:click="GuardarEvaluacion">
+             <v-icon dark>far fa-save </v-icon>
+             <b class="ml-3">Guardar</b></v-btn>
         </div>
         <aHistorialDiciplinario></aHistorialDiciplinario>
         <aReactivosPersonal class="mt-1"></aReactivosPersonal>
 
         <v-layout wrap class="text-center">
 
-          <v-flex xs12 sm5 md5 lg5 xl5 class="mr-2">
+          <v-flex xs12 sm11 md5 lg5 xl5 class="mr-2">
             <v-toolbar dark color="blue">
               <h3><i class="fas fa-comments"></i></h3>
               <v-toolbar-title class="white--text ">
@@ -35,7 +37,7 @@
               :disabled="(g_loginUser.descriptionPeriod == 'Retroalimentación') == true? false:true">
             </v-textarea>
           </v-flex>
-          <v-flex xs12 sm mdl5 lg5 xl5 class="ml-5 ">
+          <v-flex xs12 sm11 dl5 lg5 xl5 class="ml-xl-5 ">
             <v-toolbar dark color="blue">
               <h3><i class="fas fa-comments"></i></h3>
               <v-toolbar-title class="white--text ">
@@ -61,7 +63,7 @@
             </v-toolbar>
           </v-flex>
 
-          <v-flex xs12 sm5 md5 lg5 xl5 class="mr-2 mt-3">
+          <v-flex xs12 sm11 md5 lg5 xl5 class="mr-2 mt-3">
             <v-toolbar dark color="light-blue darken-4">
               <h3><i class="fas fa-user-edit"></i></h3>
               <v-toolbar-title class="white--text ">
@@ -88,7 +90,7 @@
           </v-flex>
 
 
-          <v-flex xs12 sm5 md5 lg5 xl5 class="ml-5 mt-3">
+          <v-flex xs12 sm11 md5 lg5 xl5 class="ml-xl-5 mt-xl-3">
             <v-toolbar dark color="light-blue darken-4">
               <h3><i class="fas fa-user-tie"></i></h3>
               <v-toolbar-title class="white--text ">
@@ -117,7 +119,7 @@
 
         </v-layout>
         <v-layout wrap class="text-center">
-          <v-flex xs12 sm5 md5 lg5 xl5 class="mr-2 mt-5">
+          <v-flex xs12 sm11 md5 lg5 xl5 class="mr-2 mt-5">
             <v-toolbar dark color="light-blue darken-4 mt-4">
               <h3><i class="fas fa-user-tie"></i></h3>
               <v-toolbar-title class="white--text ">
@@ -147,7 +149,7 @@
           </v-flex>
 
 
-          <v-flex xs12 sm5 md5 lg5 xl5 class="ml-5">
+          <v-flex xs12 sm11 md5 lg5 xl5 class="ml-xl-5">
             <!-- :disabled="g_loginUser.descriptionPeriod == 'Evaluación'"  -->
             <v-switch v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature" id="switchchange"
               v-model="eshuella" class="font-weight-bold" @change="changefirmahuella"
@@ -207,7 +209,7 @@
 
       </v-flex>
 
-      <v-flex xs12 sm4 md4 lg4 xl4>
+      <v-flex xs12 sm12 md4 lg4 xl4>
         <infoEmpleado class=""></infoEmpleado>
         <v-container>
           <v-toolbar color="light-blue darken-4 " dark>
@@ -466,7 +468,22 @@ export default {
     color: #fff !important;
   }*/
 
+.z-idx {
+  z-index: 10;
+}
+.v-btn--bottom:not(.v-btn--absolute) {
+  bottom: 35px !important;
+  margin-left: -138px !important;
+}
+
 .fontsihuella {
   font-size: 4em;
+}
+
+.shadowborder {
+  /* will-change: box-shadow; */
+  /* -webkit-box-shadow: 0 3px 1px -2px rgb(80, 255, 110), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12); */
+  box-shadow: 10px 13px 1px -2px rgba(69, 91, 217, 0.37),
+    0 2px 2px 0 rgba(0, 0, 0, 0.14), 7px 7px 5px 0 rgba(41, 125, 134, 0.59) !important;
 }
 </style>

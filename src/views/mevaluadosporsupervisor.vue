@@ -112,10 +112,36 @@ export default {
           btntitle: "Firmar",
           action: "action_evaluarEmpleado",
           returnTo: "mempleadosevaluadores",
-          has_condition: false,
-          resize: true,
-          value: "",
-          color: "blue"
+          has_condition: true,
+          condition_property: "Status",
+          getconditiontext: true,
+          conditionClass: true,
+          conditionvalues: [
+            {
+              condition: "NO INICIADO",
+              text: "Evaluar",
+              color: "indigo darken-4",
+              class: "d-none"
+            },
+            {
+              condition: "EVALUADO",
+              text: "Aprobar",
+              color: "blue darken-3",
+              class: "d-none"
+            },
+            {
+              condition: "INICIADO",
+              text: "Editar",
+              color: "blue darken-3",
+              class: "d-none"
+            },
+            {
+              condition: "COMPLETADO",
+              text: "Firmar",
+              color: "blue darken-3",
+              class: "d-inline"
+            }
+          ]
         }
       ],
       headersDistribucion: [

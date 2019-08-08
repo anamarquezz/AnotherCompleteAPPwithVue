@@ -38,7 +38,7 @@
               <ul class="flex-content">
                 <li class="flex-item font-sizes">{{props.item.Description}}</li>
                 <li class="" data-label="Puntuación">
-                  <v-radio-group v-model="row" column class="mt-2">
+                  <v-radio-group v-model="row" column class="mt-1">
                     <v-radio :label="i" :value="i" v-for="i in props.item.Result" :key="i" color="blue darken-3">
                     </v-radio>
                   </v-radio-group>

@@ -43,7 +43,7 @@
         <v-card dark color="indigo" class="white--text pt-1">
           <v-flex>
             <div class=" text-center mt-5">
-              <img class="elevation-5 iconinfo rounded-circle " :src="g_imagen" />
+              <img class="elevation-5 iconinfo rounded-circle " :src="g_empleadoaEvaluar.Image" />
             </div>
           </v-flex>
           <v-divider light></v-divider>
@@ -52,13 +52,18 @@
               class=" ml-xl-5"></v-rating> -->
           </v-flex>
           <v-card-actions class="font-weith-bold title white black--text">
-            <v-flex xs12 class="text-center white" subheading>
-              <div class="subheading p-1"><b>{{g_empleadoaEvaluar.Name}}, {{g_empleadoaEvaluar.PaternalSurname}}</b>
+             <v-flex xs12 class=" white" subheading>
+              <div class="subheading p-1 "><h4></h4>
               </div>
-              <div class="subheading pb-2">Fecha de ingreso: {{g_empleadoaEvaluar.AdmissionDateFormat}}</div>
-              <div class="subheading p-1">{{g_empleadoaEvaluar.Position}}</div>
-              <div class="subheading p-1"> {{g_empleadoaEvaluar.Department}}</div>
-              <div class="subheading p-1">{{g_empleadoaEvaluar.Clasification}}</div>
+              <div class="headline p-1 mb-2"><b>#{{g_empleadoaEvaluar.Number}}, </b><b class="">{{g_empleadoaEvaluar.Name}} {{g_empleadoaEvaluar.PaternalSurname}},</b> 
+              </div>
+              <div class="subheading pb-2">Fecha de ingreso  :<b> {{g_empleadoaEvaluar.AdmissionDateFormat}}</b></div>
+              <div class="subheading p-1">Puesto: <b>{{g_empleadoaEvaluar.Position}}</b></div>
+                          <div class="subheading p-1">Salario: <b > ${{g_empleadoaEvaluar.Salary}}</b></div>
+              <div class="subheading p-1">Departamento:<b> {{g_empleadoaEvaluar.Department}}</b></div>
+              <div class="subheading p-1">Planta: <b>{{g_empleadoaEvaluar.Planta}} </b> </div>
+              <div class="subheading p-1">Supervisor: <b>{{g_empleadoaEvaluar.SupervisorName}}, {{g_empleadoaEvaluar.SupervisorPaternalSurname}} </b></div>
+              <div class="subheading p-1">Clasificación:<b> {{g_empleadoaEvaluar.Clasification}}</b></div>
 
             </v-flex>
             <v-spacer></v-spacer>

@@ -66,17 +66,13 @@
 
 
 
-              <v-btn v-if="h.type ==='button' && h.btntitle !='Firmar'" dark large :class="[conditioncolor(h,props),conditiondisplay(h,props)]" class="w-75 mb-2"
+              <v-btn v-if="h.type ==='button'" dark large :class="[conditioncolor(h,props),conditiondisplay(h,props)]" class="w-75 mb-2"
                 @click="metodo(h,props.item)">
                 <b v-if="h.has_condition">{{conditiontext(h,props)}}</b>
                 <b v-else>{{h.btntitle}}</b>
               </v-btn>
 
-              
-              <v-btn v-if="h.type ==='button' && h.btntitle=='Firmar'" dark large  class="w-75 mb-2"
-                @click="metodo(h,props.item)">
-                {{h.btntitle}} <!-- :disabled="(!(props.item['Status'] =='COMPLETADO' && h.btntitle =='Firmar'))" -->
-              </v-btn>
+            
 
 
               <img v-if="h.type ==='image'" :src="props.item[h.value]" class="iconsize rounded-circle mt-1 mb-1 " />
