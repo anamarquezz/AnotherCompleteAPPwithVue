@@ -1,7 +1,7 @@
 <template>
   <v-navigation-drawer fixed clipped class="grey lighten-4" app v-model="g_drawer">
     <v-list dense class="grey lighten-4">
-      <template v-for="(item, i) in items">
+      <template v-for="(item, i) in itemsmenu">
         <v-layout row v-if="item.heading" align-center :key="i">
           <v-flex xs6>
             <v-subheader v-if="item.heading">
@@ -55,19 +55,12 @@ import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   name: "menuoptions",
   data() {
-    return {
-      items: [
-        {
-          icon: "fas fa-home light-blue--text text--darken-2",
-          text: "Inicio",
-          code: "mhome"
-        }
-      ]
-    };
+    return {};
   },
   computed: {
     ...mapState({
-      loginUser: "loginUser"
+      loginUser: "loginUser",
+      itemsmenu: "itemsmenu"
     }),
     g_drawer: {
       get() {
@@ -112,66 +105,6 @@ export default {
         }
       }
     }
-  },
-  mounted: function() {
-    var esto = this;
-    if (esto.loginUser.isSupervisor == "true") {
-      esto.items.splice(esto.items.length, 0, {
-        icon: "far fa-list-alt light-blue--text text--darken-2",
-        text: "Mi plantilla",
-        code: "mempleadosaevaluar"
-      });
-    }
-    if (esto.loginUser.isRH == "true") {
-      esto.items.splice(
-        esto.items.length,
-        0,
-        {
-          icon: "keyboard_arrow_up",
-          "icon-alt": "keyboard_arrow_down",
-          text: "Reportes",
-          code: "expand",
-          model: false,
-          children: [
-            {
-              icon: "fa-id-card light-blue--text text--darken-2",
-              text: "Gerentes/Sup. Generales",
-              code: "mempleadosevaluadores"
-            },
-            {
-              icon: "far fa-list-alt light-blue--text text--darken-2",
-              text: "Plantilla Activa",
-              code: "mtodosempleados"
-            }
-          ]
-        },
-        {
-          icon: "fas fa-calendar-alt light-blue--text text--darken-2",
-          text: "Calendario",
-          code: "mconfigurarfechas"
-        },
-        {
-          icon: "fas fa-user-cog light-blue--text text--darken-2",
-          text: "Mantenimiento/ Evaluadores",
-          code: "mmantenimientosupervisores"
-        }
-      );
-    }
-
-    esto.items.splice(
-      esto.items.length,
-      0,
-      /*{
-        icon: "far fa-list-alt light-blue--text text--darken-2",
-        text: "Personal a Evaluar",
-        code: "mevaluarempledo"
-      }*/ {
-        icon:
-          "fas fa-sign-out-alt fa-rotate-180 light-blue--text text--darken-2",
-        text: "Cerrar sesión",
-        code: "#login"
-      }
-    );
   }
 };
 </script>

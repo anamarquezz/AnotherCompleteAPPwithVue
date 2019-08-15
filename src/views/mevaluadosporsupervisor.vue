@@ -106,7 +106,7 @@ export default {
           resize: false
         },
         {
-          text: "",
+          text: "Firmar",
           type: "button",
           align: "left",
           btntitle: "Firmar",
@@ -117,7 +117,7 @@ export default {
           getconditiontext: true,
           conditionClass: true,
           conditionvalues: [
-            {
+            /* {
               condition: "NO INICIADO",
               text: "Evaluar",
               color: "indigo darken-4",
@@ -134,11 +134,11 @@ export default {
               text: "Editar",
               color: "blue darken-3",
               class: "d-none"
-            },
+            },*/
             {
               condition: "COMPLETADO",
               text: "Firmar",
-              color: "blue darken-3",
+              color: "cyan darken-2",
               class: "d-inline"
             }
           ]

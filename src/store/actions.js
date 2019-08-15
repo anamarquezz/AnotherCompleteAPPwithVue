@@ -1,9 +1,10 @@
 /* http://localhost:49014
 "http://10.2.16.98:82/
+http://wks-3423:82
     https://intranet.valuout.com/CloverServices
 */
 
-var url = "https://intranet.valuout.com/CloverServices";
+var url = "http://wks-3423:82";
 import Vue from "vue";
 var values = {
   message: "",
@@ -606,13 +607,16 @@ export default {
     dispatch
   }, datos) {
     try {
+      //commit("set_signaturepor", datos.firmapor);
+
       Vue.http
-        .get(url + "/api/util/UserInActiveDirectory", {
+        .get(url + "/api/evaluation/ValidateSignature", {
           params: {
             usuario: datos.usuario,
             contrasena: datos.contrasena,
-            extra: datos.extra,
-            validby: "usuarioncontrasena"
+            numberSign: datos.numberSign,
+            codeSignature: datos.codeSignature,
+            evaluation_id: datos.evaluation_id
           },
           headers: {
             Authorization: localStorage.getItem("user-token")
@@ -622,7 +626,7 @@ export default {
         .then(
           response => {
             if (response.body.userInfo.Valid) {
-              commit("set_signaturepor", datos.firmapor);
+              commit("set_signaturepor", datos.codeSignature);
             } else {
               dispatch(
                 "errorResponse",
@@ -1068,5 +1072,5 @@ export default {
     commit
   }, value) {
     commit("clearPag_mevaluadosporsupervisor", value);
-  },
+  }
 };

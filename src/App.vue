@@ -16,9 +16,16 @@
         </v-progress-circular>
 
         <div v-if="g_Loading.showlinear" class="possition3">
+
+          <v-btn fixed left top  color="light-blue accent-4" class="z-idx shadowborder" dark large v-on:click="cancelshowlinear()">
+             <v-icon dark>fas fa-window-close </v-icon>
+             <b class="ml-3">Cancelar</b></v-btn>
+             
           <h1 class=" indigo--text"> <i class="fontsihuella mt-3 fas fa-fingerprint"></i>
             Favor de colocar tu huella en el dispositivo,</h1>
           <h1 v-if="validhuella !='' " class=" ml-5 mt-4 red--text">Huella invalida, intenta de nuevo</h1>
+
+
         </div>
 
 
@@ -34,89 +41,92 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapActions,
-    mapGetters
-  } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
-  import mensaje from "./components/elemento/mensaje.vue";
-  import cdialog from "./components/elemento/cdialog.vue";
+import mensaje from "./components/elemento/mensaje.vue";
+import cdialog from "./components/elemento/cdialog.vue";
 
-  export default {
-    name: "App",
-    components: {
-      mensaje,
-      cdialog
+export default {
+  name: "App",
+  components: {
+    mensaje,
+    cdialog
+  },
+  data() {
+    return {
+      interval: {},
+      value: 0,
+      isMobile: false
+    };
+  },
+  computed: {
+    ...mapGetters(["g_Loading", "g_showMessage", "gsw_dialog"]),
+    ...mapState(["validhuella"])
+  },
+  beforeDestroy() {
+    clearInterval(this.interval);
+  },
+  methods: {
+    onResize() {
+      if (window.innerWidth < 910) this.isMobile = true;
+      else this.isMobile = false;
     },
-    data() {
-      return {
-        interval: {},
+
+    cancelshowlinear() {
+      var esto = this;
+      esto.$store.dispatch("s_Loading", {
         value: 0,
-        isMobile: false
-      };
-    },
-    computed: {
-      ...mapGetters(["g_Loading", "g_showMessage", "gsw_dialog"]),
-      ...mapState(["validhuella"])
-    },
-    beforeDestroy() {
-      clearInterval(this.interval);
-    },
-    methods: {
-      onResize() {
-        if (window.innerWidth < 910) this.isMobile = true;
-        else this.isMobile = false;
-      }
-    },
-    mounted() {
-      this.interval = setInterval(() => {
-        if (!this.g_Loading.show) {
-          return (this.value = 0);
-        }
-        if (this.value < 100) {
-          this.value += 10;
-        }
-      }, 2000);
+        show: false,
+        showlinear: false
+      });
     }
-  };
-
+  },
+  mounted() {
+    this.interval = setInterval(() => {
+      if (!this.g_Loading.show) {
+        return (this.value = 0);
+      }
+      if (this.value < 100) {
+        this.value += 10;
+      }
+    }, 2000);
+  }
+};
 </script>
 
 
 <style scoped>
-  @import "./assets/css/global.css";
+@import "./assets/css/global.css";
 
-  .v-progress-circular {
-    margin: 1rem;
-  }
+.v-progress-circular {
+  margin: 1rem;
+}
 
-  .mt-200 {
-    margin-top: -50px;
-  }
+.mt-200 {
+  margin-top: -50px;
+}
 
-  .possition {
-    position: fixed;
-    top: 250px;
-    bottom: 0;
-    left: 500px;
-    width: 22;
-  }
+.possition {
+  position: fixed;
+  top: 250px;
+  bottom: 0;
+  left: 500px;
+  width: 22;
+}
 
-  .possition2 {
-    position: fixed;
-    top: 300px;
-    bottom: 0;
-    left: 320px;
-  }
+.possition2 {
+  position: fixed;
+  top: 300px;
+  bottom: 0;
+  left: 320px;
+}
 
-  .loadingz {
-    z-index: 10;
-  }
+.loadingz {
+  z-index: 10;
+}
 
-  .v-progress-circular__underlay {
-    stroke: rgb(73, 86, 97);
-    z-index: 1;
-  }
-
+.v-progress-circular__underlay {
+  stroke: rgb(73, 86, 97);
+  z-index: 1;
+}
 </style>

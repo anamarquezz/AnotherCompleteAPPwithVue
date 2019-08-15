@@ -98,6 +98,60 @@ export default {
       localStorage.setItem('isregresar', false + '');
     }
 
+    if (state.loginUser.isSupervisor == "true") {
+      state.itemsmenu.splice(state.itemsmenu.length, 0, {
+        icon: "far fa-list-alt light-blue--text text--darken-2",
+        text: "Mi plantilla",
+        code: "mempleadosaevaluar"
+      });
+    }
+    if (state.loginUser.isRH == "true") {
+      state.itemsmenu.splice(
+        state.itemsmenu.length,
+        0, {
+          icon: "keyboard_arrow_up",
+          "icon-alt": "keyboard_arrow_down",
+          text: "Reportes",
+          code: "expand",
+          model: false,
+          children: [{
+              icon: "fa-id-card light-blue--text text--darken-2",
+              text: "Gerentes/Sup. Generales",
+              code: "mempleadosevaluadores"
+            },
+            {
+              icon: "far fa-list-alt light-blue--text text--darken-2",
+              text: "Plantilla Activa",
+              code: "mtodosempleados"
+            }
+          ]
+        }, {
+          icon: "fas fa-calendar-alt light-blue--text text--darken-2",
+          text: "Calendario",
+          code: "mconfigurarfechas"
+        }, {
+          icon: "fas fa-user-cog light-blue--text text--darken-2",
+          text: "Mantenimiento/ Evaluadores",
+          code: "mmantenimientosupervisores"
+        }
+      );
+    }
+
+    state.itemsmenu.splice(
+      state.itemsmenu.length,
+      0,
+      /*{
+        icon: "far fa-list-alt light-blue--text text--darken-2",
+        text: "Personal a Evaluar",
+        code: "mevaluarempledo"
+      }*/
+      {
+        icon: "fas fa-sign-out-alt fa-rotate-180 light-blue--text text--darken-2",
+        text: "Cerrar sesión",
+        code: "#login"
+      }
+    );
+
   },
 
   set_SubordinateByUser: (state, data) => {
@@ -179,7 +233,7 @@ export default {
     }
 
     state.loginUser.empleadoaEvaluar.saveUpdateUser.number = data.empleadoInfo[0].Number;
-
+    state.loginUser.empleadoaEvaluar.saveUpdateUser.signatureInfo = data.evaluationResult.signatureInfo;
 
     var data = {
       "indicator_code": '',
@@ -295,9 +349,9 @@ export default {
   set_signaturepor: (state, por) => {
     state.loginUser.empleadoaEvaluar.signatureInfo[state.loginUser.empleadoaEvaluar.signatureInfo.findIndex(el => el
       .TypeCode == por)].IsSignature = true;
-
     state.loginUser.empleadoaEvaluar.saveUpdateUser.signatureInfo = state.loginUser.empleadoaEvaluar.signatureInfo;
   },
+
   set_nombreInput: (state, datos) => {
     state.loginUser[datos.By] = datos.Nombre;
   },
@@ -390,7 +444,13 @@ export default {
       rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
     };
 
-    state.cdialog = pag;
+    state.itemsmenu = [{
+        icon: "fas fa-home light-blue--text text--darken-2",
+        text: "Inicio",
+        code: "mhome"
+      }],
+
+      state.cdialog = pag;
     state.drawer = true;
     state.mempleadoaevaluar = pag;
     state.mempleadoaevaluar2 = pag;

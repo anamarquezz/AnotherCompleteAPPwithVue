@@ -21,6 +21,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    itemsmenu: [{
+      icon: "fas fa-home light-blue--text text--darken-2",
+      text: "Inicio",
+      code: "mhome"
+    }],
     cdialog: pag,
     drawer: true,
     mempleadoaevaluar: pag,

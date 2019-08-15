@@ -125,7 +125,7 @@ export default {
           text: "Número de Empleados",
           type: "text",
           align: "center",
-          resize: false,
+          resize: true,
           value: "TotalEvaluate",
           tooltip: "Total Epleados a Evaluar"
         },
@@ -133,7 +133,7 @@ export default {
           text: "No Iniciados",
           type: "text",
           align: "center",
-          resize: false,
+          resize: true,
           value: "NoIniciados",
           tooltip: "Numero de Empleados que no se ha iniciado su evaluación"
         },
@@ -141,16 +141,25 @@ export default {
           text: "Iniciado",
           type: "text",
           align: "center",
-          resize: false,
+          resize: true,
           value: "Initiated",
           tooltip:
             "Numero de Empleados que ya se inició su evaluación pero que aun faltan puntos por califica"
         },
         {
+          text: "Evaluado",
+          type: "text",
+          align: "center",
+          resize: true,
+          value: "Evaluated",
+          tooltip:
+            "Numero de Empleados que ya se terminaron de evaluar y está pendiente su retroalimentación"
+        },
+        {
           text: "Completado",
           type: "text",
           align: "center",
-          resize: false,
+          resize: true,
           value: "Completed",
           tooltip:
             "Numero de Empleados que ya se terminaron de evaluar y está pendiente su retroalimentación"
@@ -159,7 +168,7 @@ export default {
           text: "Terminado",
           align: "center",
           type: "text",
-          resize: false,
+          resize: true,
           value: "Terminated",
           tooltip:
             " Numero de Empleados con el proceso finalizado (evaluación, retroalimentación y firmas)"
@@ -246,8 +255,8 @@ export default {
             },
             {
               condition: "COMPLETADO",
-              text: "Editar",
-              color: "blue darken-3",
+              text: "Visualizar",
+              color: "blue darken-4",
               visible: true
             }
           ],
@@ -337,7 +346,7 @@ export default {
             },
             {
               condition: "COMPLETADO",
-              text: "Editar",
+              text: "Visualizar",
               color: "blue darken-3",
               class: "d-none"
             }

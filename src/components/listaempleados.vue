@@ -252,13 +252,19 @@ export default {
     },
     conditioncolor(h, props) {
       try {
+        if (h.text == "Firmar") {
+          console.log("alla");
+        }
         if (h.has_condition && props.item[h.condition_property] !== undefined) {
           var esto = this;
-          return h.conditionvalues[
-            h.conditionvalues.findIndex(
-              el => el.condition === props.item[h.condition_property]
-            )
-          ].color;
+          var pr =
+            h.conditionvalues[
+              h.conditionvalues.findIndex(
+                el => el.condition === props.item[h.condition_property]
+              )
+            ];
+          if (pr != undefined) return pr.color;
+          else return "transparent";
         } else {
           return h.color;
         }
@@ -274,11 +280,14 @@ export default {
           props.item[h.condition_property] !== undefined
         ) {
           var esto = this;
-          return h.conditionvalues[
-            h.conditionvalues.findIndex(
-              el => el.condition === props.item[h.condition_property]
-            )
-          ].class;
+          var pr =
+            h.conditionvalues[
+              h.conditionvalues.findIndex(
+                el => el.condition === props.item[h.condition_property]
+              )
+            ];
+          if (pr != undefined) return pr.class;
+          else return "d-none";
         } else {
           return;
         }
@@ -289,13 +298,16 @@ export default {
     conditiontext(h, props) {
       var esto = this;
       if (props.item[h.condition_property] != undefined) {
-        return h.conditionvalues[
-          h.conditionvalues.findIndex(
-            el =>
-              el.condition === props.item[h.condition_property] &&
-              h.getconditiontext
-          )
-        ].text;
+        var pr =
+          h.conditionvalues[
+            h.conditionvalues.findIndex(
+              el =>
+                el.condition === props.item[h.condition_property] &&
+                h.getconditiontext
+            )
+          ];
+        if (pr != undefined) return pr.text;
+        else return;
       }
     },
     getjsonfields() {

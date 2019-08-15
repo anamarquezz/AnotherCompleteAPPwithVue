@@ -188,6 +188,7 @@ export default {
       periodorevisionRH: "",
       periodoretro: "",
       months: [
+        "Zero",
         "Enero",
         "Febrero",
         "Marzo",
@@ -268,45 +269,46 @@ export default {
     g_periodos() {
       var periods = this.$store.getters.g_periods;
       if (periods.length > 0) {
+        // 2017-08-02
         this.periodorevision =
           "Del " +
-          (new Date(periods[0].minDate).getDate() + 1) +
+          periods[0].minDate.substr(8, 9) +
           " " +
-          this.months[new Date(periods[0].minDate).getMonth()] +
+          this.months[parseInt(periods[0].minDate.substr(5, 6))] +
           " al  " +
-          (new Date(periods[0].maxDate).getDate() + 1) +
+          periods[0].maxDate.substr(8, 9) +
           " de " +
-          this.months[new Date(periods[0].maxDate).getMonth()];
+          this.months[parseInt(periods[0].maxDate.substr(5, 6))];
 
         this.periodoevaluacion =
           "Del " +
-          (new Date(periods[1].minDate).getDate() + 1) +
+          periods[1].minDate.substr(8, 9) +
           " " +
-          this.months[new Date(periods[1].minDate).getMonth()] +
+          this.months[parseInt(periods[1].minDate.substr(5, 6))] +
           " al  " +
-          (new Date(periods[1].maxDate).getDate() + 1) +
+          periods[1].maxDate.substr(8, 9) +
           " de " +
-          this.months[new Date(periods[1].maxDate).getMonth()];
+          this.months[parseInt(periods[1].maxDate.substr(5, 6))];
 
         this.periodorevisionRH =
           "Del " +
-          (new Date(periods[2].minDate).getDate() + 1) +
+          periods[2].minDate.substr(8, 9) +
           " " +
-          this.months[new Date(periods[2].minDate).getMonth()] +
+          this.months[parseInt(periods[2].minDate.substr(5, 6))] +
           " al  " +
-          (new Date(periods[2].maxDate).getDate() + 1) +
+          periods[2].maxDate.substr(8, 9) +
           " de " +
-          this.months[new Date(periods[2].maxDate).getMonth()];
+          this.months[parseInt(periods[2].maxDate.substr(5, 6))];
 
         this.periodoretro =
           "Del " +
-          (new Date(periods[3].minDate).getDate() + 1) +
+          periods[3].minDate.substr(8, 9) +
           " " +
-          this.months[new Date(periods[3].minDate).getMonth()] +
+          this.months[parseInt(periods[3].minDate.substr(5, 6))] +
           " al  " +
-          (new Date(periods[3].maxDate).getDate() + 1) +
+          periods[3].maxDate.substr(8, 9) +
           " de " +
-          this.months[new Date(periods[3].maxDate).getMonth()];
+          this.months[parseInt(periods[3].maxDate.substr(5, 6))];
       }
     }
   },
