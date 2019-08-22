@@ -167,6 +167,9 @@ export default {
   set_SuperviserSummary: (state, data) => {
     state.loginUser.SuperviserSummary = data;
   },
+  set_ApprovalSummary: (state, data) => {
+    state.loginUser.ApprovalSummary = data;
+  },
   set_AllUserSupervisers: (state, data) => {
     state.loginUser.AllUserSupervisers = data;
     state.loginUser.AllUserSupervisers.forEach(function (element) {
@@ -187,10 +190,6 @@ export default {
   set_DistributionSuperviser: (state, data) => {
     state.loginUser.DistributionSuperviser = data;
   },
-  s_comments: (state, data) => {
-    state.loginUser.empleadoaEvaluar.saveUpdateUser.comments = data.comments;
-    state.loginUser.empleadoaEvaluar.saveUpdateUser.feedBack_Comments = data.feedback_comments;
-  },
   GetSummarySubordinates: (state, data) => {
     state.loginUser.Subordinates = data.List;
   },
@@ -206,6 +205,9 @@ export default {
       state.loginUser.empleadoaEvaluar.indicatorTressResult = data.indicatorTress.reduce(function (tot, record) {
         return tot + record.Result;
       }, 0);
+
+
+      state.loginUser.empleadoaEvaluar.empleadoInfo[0].Status = data.evaluationResult.evaluationStatus == null ? "NO INICIADO" : data.evaluationResult.evaluationStatus;
 
 
     }
@@ -227,7 +229,7 @@ export default {
     state.loginUser.empleadoaEvaluar.isloginfirmaEmp = false;
     state.loginUser.empleadoaEvaluar.isloginfirmaEva = false;
     if (data.evaluationResult != null) {
-      state.loginUser.empleadoaEvaluar.saveUpdateUser.feedBack_Comments = data.evaluationResult.feedback_comments;
+      state.loginUser.empleadoaEvaluar.saveUpdateUser.feedback_comments = data.evaluationResult.feedback_comments;
       state.loginUser.empleadoaEvaluar.saveUpdateUser.comments = data.evaluationResult.comments;
       state.loginUser.empleadoaEvaluar.signatureInfo = data.evaluationResult.signatureInfo;
     }
@@ -246,6 +248,7 @@ export default {
       state.loginUser.empleadoaEvaluar.saveUpdateUser.IndicatorResult.push(data);
     });
   },
+
 
   backevaluarempleado: (state) => {
     state.loginUser.empleadoaEvaluar.empleadoInfo = {};
@@ -320,6 +323,9 @@ export default {
     // Actualizar la suma  de los result  
 
     state.loginUser.empleadoaEvaluar.saveUpdateUser.IndicatorResult = [];
+
+    state.loginUser.empleadoaEvaluar.saveUpdateUser.comments = data.comments;
+    state.loginUser.empleadoaEvaluar.saveUpdateUser.feedBack_Comments = data.feedback_comments;
 
     state.loginUser.empleadoaEvaluar.indicatorConfig.reduce(function (tot, element) {
       state.loginUser.empleadoaEvaluar.saveUpdateUser.IndicatorResult.push({
@@ -434,6 +440,9 @@ export default {
     state.mempleadoaevaluar3 = pag;
     state.mantenimientoeval = pag;
 
+  },
+  set_selectmevaluadosporsupervisor: (state, value) => {
+    state.selectmevaluadosporsupervisor = value;
   },
   clearVariables: (state, value) => {
     var pag = {
@@ -575,6 +584,7 @@ export default {
               Signature: "",
               TypeCode: "EMP",
               TypeDescription: "Empleado",
+              allowSignature: false
             },
             {
               Date: null,
@@ -615,7 +625,7 @@ export default {
           }
         }
       }
-  }
+  },
 
 
 }

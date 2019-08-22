@@ -31,10 +31,10 @@
             <v-toolbar dark color="blue">
               <h3><i class="fas fa-comments"></i></h3>
               <v-toolbar-title class="white--text ">
-                Comentarios Evaluador
+                Comentarios Evaluador {{setComments}}
               </v-toolbar-title>
             </v-toolbar>
-            <v-textarea v-model="comments" id="textareaComment" box name="input-7-4"
+            <v-textarea v-model="g_loginUser.empleadoaEvaluar.saveUpdateUser.comments" id="textareaComment" box name="input-7-4"
               label="Retroalimentación por parte del evaluador" class="" color="blue"
               :disabled="(g_loginUser.descriptionPeriod == 'Retroalimentación') == true? false:true"> 
               :value="g_empleadoaEvaluar.saveUpdateUser.comments">
@@ -48,7 +48,7 @@
               </v-toolbar-title>
             </v-toolbar>
 
-            <v-textarea v-model="feedback_comments" id="textareaFeedback" box name="input-7-4"
+            <v-textarea v-model="g_loginUser.empleadoaEvaluar.saveUpdateUser.feedback_comments" id="textareaFeedback" box name="input-7-4"
               label="Comentarios por parte del empleado." :value="g_empleadoaEvaluar.saveUpdateUser.feedBack_Comments"
               :disabled="(g_loginUser.descriptionPeriod == 'Retroalimentación') == true? false:true"
               class="" color="blue">
@@ -77,10 +77,10 @@
               {{g_loginUser.empleadoaEvaluar.signatureInfo[3].Name}}
             </h4>
             <v-form ref="form" v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[3].IsSignature">
-              <v-text-field :disabled="(g_loginUser.descriptionPeriod == 'Evaluación') == true? false:true" class="m-3 mb-4" 
+              <v-text-field :disabled="!g_loginUser.empleadoaEvaluar.signatureInfo[3].allowSignature" class="m-3 mb-4" 
                 outline label="Usuario" v-model="usuarioSup" prepend-icon="fas fa-user" :rules="validarcampos">
               </v-text-field>
-              <v-text-field :disabled="(g_loginUser.descriptionPeriod == 'Evaluación') == true? false:true" class="m-3" 
+              <v-text-field :disabled="!g_loginUser.empleadoaEvaluar.signatureInfo[3].allowSignature" class="m-3" 
                 outline autocomplete="current-password" label="Contraseña" type="password"
                 @keyup.enter.native="firma('SUP', {usuario:'usuarioSup',contrasena:'contrasenaSup'})"
                 v-model="contrasenaSup" prepend-icon="fas fa-key" :rules="validarcampos"></v-text-field>
@@ -100,21 +100,22 @@
                 {{g_loginUser.empleadoaEvaluar.signatureInfo[1].TypeDescription }}
               </v-toolbar-title>
             </v-toolbar>
-            <h4 v-if="g_loginUser.empleadoaEvaluar.signatureInfo[1].IsSignature">
+            <h4 class="mt-3" v-if="g_loginUser.empleadoaEvaluar.signatureInfo[1].IsSignature">
               {{g_loginUser.empleadoaEvaluar.signatureInfo[1].Name}}</h4>
             <v-form ref="form" v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[1].IsSignature">
-              <v-text-field :disabled="(g_loginUser.descriptionPeriod == 'Evaluación') == true? false:true"  class="m-3 mb-4"
+              <v-text-field :disabled="!g_loginUser.empleadoaEvaluar.signatureInfo[1].allowSignature"  class="m-3 mb-4"
                 outline label="Usuario" v-model="usuarioGere" prepend-icon="fas fa-user" :rules="validarcampos">
               </v-text-field>
-              <v-text-field :disabled="(g_loginUser.descriptionPeriod == 'Evaluación') == true? false:true" class="m-3" 
+              <v-text-field :disabled="!g_loginUser.empleadoaEvaluar.signatureInfo[1].allowSignature" class="m-3" 
                 outline autocomplete="current-password" label="Contraseña" type="password"
                 @keyup.enter.native="firma('GEAR', {usuario:'usuarioGere',contrasena:'contrasenaGere'})"
                 v-model="contrasenaGere" prepend-icon="fas fa-key" :rules="validarcampos"></v-text-field>
               <v-btn color="indigo darken-2" dark large class="mt-lg-4 mt-xl-4"
                 @click="firma('GEAR',{usuario:'usuarioGere',contrasena:'contrasenaGere'})" :disabled="disabledGer"><b>
-                  <h4 class="dinline"></h4> Firmar
+                  <h4 class="dinline"></h4> Firmar 
                 </b>
               </v-btn>
+              
             </v-form>
           </v-flex>
 
@@ -129,14 +130,14 @@
                 {{g_loginUser.empleadoaEvaluar.signatureInfo[2].TypeDescription }}
               </v-toolbar-title>
             </v-toolbar>
-            <h4 v-if="g_loginUser.empleadoaEvaluar.signatureInfo[2].IsSignature">
+            <h4 class="mt-3" v-if="g_loginUser.empleadoaEvaluar.signatureInfo[2].IsSignature">
               {{g_loginUser.empleadoaEvaluar.signatureInfo[2].Name }}</h4>
             <v-form ref="form" v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[2].IsSignature">
               <v-text-field class="m-3 mb-4" outline 
-                :disabled="(g_loginUser.descriptionPeriod == 'Retroalimentación') == true? false:true" label="Usuario" 
+                :disabled="!g_loginUser.empleadoaEvaluar.signatureInfo[2].allowSignature" label="Usuario" 
                 v-model="usuarioRH" prepend-icon="fas fa-user" :rules="validarcampos"></v-text-field>
               <v-text-field class="m-3" outline 
-                :disabled="(g_loginUser.descriptionPeriod == 'Retroalimentación') == true? false:true"
+                :disabled="!g_loginUser.empleadoaEvaluar.signatureInfo[2].allowSignature"
               autocomplete="current-password" label="Contraseña" type="password"
                 @keyup.enter.native="firma('GERH',{usuario:'usuarioRH',contrasena:'contrasenaRH'})"
                 v-model="contrasenaRH" prepend-icon="fas fa-key" :rules="validarcampos"></v-text-field>
@@ -155,7 +156,7 @@
           <v-flex xs12 sm11 md5 lg5 xl5 class="ml-xl-5">
             <!-- :disabled="g_loginUser.descriptionPeriod == 'Evaluación'"  -->
             <v-switch v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature" id="switchchange" 
-            :disabled="(g_loginUser.descriptionPeriod == 'Retroalimentación') == true? false:true"
+            :disabled="(g_empleadoaEvaluar.empleadoInfo[0].Status =='COMPLETADO') == true? false:true"
               v-model="eshuella" class="font-weight-bold" @change="changefirmahuella"
               label="Firmar: Active Directory/ Huella"></v-switch>
 
@@ -188,9 +189,9 @@
                 {{g_loginUser.empleadoaEvaluar.signatureInfo[0].Name}}</h4>
               <v-form ref="form" v-if="!g_loginUser.empleadoaEvaluar.signatureInfo[0].IsSignature">
                 <v-text-field class="m-3 mb-4" 
-                  :disabled="(g_loginUser.descriptionPeriod == 'Retroalimentación') == true? false:true" outline
+                  :disabled="!g_loginUser.empleadoaEvaluar.signatureInfo[0].allowSignature" outline
                   label="Usuario" v-model="usuarioEmp" prepend-icon="fas fa-user" :rules="validarcampos"></v-text-field>
-                <v-text-field class="m-3" :disabled="(g_loginUser.descriptionPeriod == 'Retroalimentación') == true? false:true"
+                <v-text-field class="m-3" :disabled="!g_loginUser.empleadoaEvaluar.signatureInfo[0].allowSignature"
                   outline label="Contraseña" type="password"
                   @keyup.enter.native="firma('EMP',{ usuario:'usuarioEmp', contrasena:'contrasenaEmp'})"
                   autocomplete="current-password" v-model="contrasenaEmp" prepend-icon="fas fa-key"
@@ -297,6 +298,10 @@ export default {
     },
     disabledEmp() {
       return !(this.usuarioEmp != "" && this.contrasenaEmp != "");
+    },
+    setComments() {
+      this.comments = this.g_empleadoaEvaluar.saveUpdateUser.comments;
+      this.feedback_comments = this.g_empleadoaEvaluar.saveUpdateUser.feedback_comments;
     }
   },
   methods: {
@@ -308,7 +313,7 @@ export default {
       }),
         esto.$store.dispatch("saveUpdateUser", {
           comments: esto.comments,
-          feedback_comments: esto.feedback_commentsfeedback_comments
+          feedback_comments: esto.feedback_comments
         });
     },
     RegresarUsuarios() {
@@ -343,10 +348,7 @@ export default {
           contrasena: esto[code.contrasena],
           numberSign: Num,
           codeSignature: por,
-          evaluation_id:
-            this.g_empleadoaEvaluar.evaluationResult.evaluation_id == undefined
-              ? null
-              : this.g_empleadoaEvaluar.evaluationResult.evaluation_id
+          numberEvaluated: this.g_empleadoaEvaluar.empleadoInfo[0].Number
         };
 
         this.$store.dispatch("firmas", datos);
@@ -401,7 +403,8 @@ export default {
   created() {
     var esto = this;
 
-    /*   var myHub = $.hubConnection("http://localhost:49014/signalr", {
+    /*  (g_loginUser.descriptionPeriod == 'Evaluación' && (g_empleadoaEvaluar.empleadoInfo[0].Status =='NO INICIADO' || g_empleadoaEvaluar.empleadoInfo[0].Status =='INICIADO'))
+     var myHub = $.hubConnection("http://localhost:49014/signalr", {
                  useDefaultPath: true
                });
                var proxy = myHub.createHubProxy('finger');

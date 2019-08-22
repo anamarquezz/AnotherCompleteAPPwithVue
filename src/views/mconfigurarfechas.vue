@@ -21,7 +21,7 @@
             <h5 class="text-pre-wrap font-weight-bold">{{fechas.description}}</h5>
           </v-flex>
 
-          <v-flex xs12 sm5 md4 lg-4 xl3 class="ml-3 mt-2">
+          <v-flex xs3 sm3 md3 lg3 xl3 class="ml-3 mt-2">
             <h5 class="dinline"></h5>
             <date-picker :disabledDays="disabledDays" v-if="fechas.code ==='YEAR'" v-model="fechas.minDate" type="year"
               format="YYYY" :lang="lang"></date-picker>
@@ -39,7 +39,7 @@
             </v-menu>
           </v-flex>
 
-          <v-flex xs12 sm5 md4 lg-4 xl3 class="ml-3 mt-2">
+          <v-flex xs3 sm3 md3 lg3 xl3 class="ml-3 mt-2">
             <date-picker :disabledDays="disabledDays" v-if="fechas.code ==='YEAR'" v-model="fechas.maxDate" type="year"
               format="YYYY" :lang="lang"></date-picker>
 
@@ -55,7 +55,7 @@
               </v-date-picker>
             </v-menu>
           </v-flex>
-          <v-flex xs12 sm5 md4 lg24 xl2 class="ml-3 mt-1">
+          <v-flex xs2 sm2 md3 lg2 xl3 class="ml-3 mt-1">
             <v-btn color="light-blue darken-4" dark large v-on:click="guardarfecha(fechas)"><b>Guardar</b></v-btn>
           </v-flex>
         </v-layout>

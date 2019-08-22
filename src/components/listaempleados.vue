@@ -105,17 +105,17 @@
                     {{props.item[h.value]}}
                   </b>
 
-                  <v-btn flat icon color="primary" v-if="h.type ==='icon' && h.resize" class="mt-3">
-                    <v-icon>{{h.iconbtn}}</v-icon>
-                  </v-btn>
+                  <v-btn flat icon color="primary" v-if="h.type ==='icon'" @click="metodo(h,props.item)">
+                <v-icon>{{h.iconbtn}}</v-icon>
+              </v-btn>
 
 
-                  <v-btn v-if="h.type ==='button'  && h.resize && h.btntitle !='Firmar'" dark large :class="[conditioncolor(h,props),conditiondisplay(h,props)]" class="mt-5"
-                    @click="metodo(h,props.item)"
-                      :disabled="(!(props.item['Status'] =='COMPLETADO' && h.btntitle =='Firmar'))">
-                    <b v-if="h.has_condition">{{conditiontext(h,props)}}</b>
-                    <b v-else>{{h.btntitle}}</b>
-                  </v-btn>
+
+              <v-btn v-if="h.type ==='button'" dark large :class="[conditioncolor(h,props),conditiondisplay(h,props)]" class="w-75 mb-2"
+                @click="metodo(h,props.item)">
+                <b v-if="h.has_condition">{{conditiontext(h,props)}}</b>
+                <b v-else>{{h.btntitle}}</b>
+              </v-btn>
 
                 
 

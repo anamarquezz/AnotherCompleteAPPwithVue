@@ -4,7 +4,7 @@ http://wks-3423:82
     https://intranet.valuout.com/CloverServices
 */
 
-var url = "http://wks-3423:82";
+var url = "http://10.2.16.98:82";
 import Vue from "vue";
 var values = {
   message: "",
@@ -126,7 +126,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -174,6 +174,10 @@ export default {
               "set_DistributionSuperviser",
               response.body.EmployeeEvaluated.DistributionSuperviser
             );
+            commit(
+              "set_ApprovalSummary",
+              response.body.EmployeeEvaluated.ApprovalSummary
+            );
 
             router.push("/mempleadosaevaluar");
 
@@ -187,7 +191,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -263,7 +267,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -305,7 +309,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -342,6 +346,8 @@ export default {
               seleccionado: values
             });
 
+
+
             dispatch("cambiarmenu", {
               code: "mempleadosevaluadores/mevaluadosporsupervisor",
               show: true
@@ -354,7 +360,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -393,7 +399,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -458,11 +464,15 @@ export default {
           response => {
             dispatch("set_showMessage", {
               message: response.body == "" ?
-                "Problemas con la conexión a internet" : response.body.Message,
+                "Problemas con la conexión a internet" : response.body.ExceptionMessage,
               show: true,
               title: "Error",
               showregresar: false,
               colorThema: "red"
+            });
+            commit("s_Loading", {
+              value: 0,
+              show: false
             });
           }
         );
@@ -503,12 +513,14 @@ export default {
             });
           },
           response => {
-            dispatch(
-              "errorResponse",
-              response.body == "" ?
-              "Problemas con la conexión a internet" :
-              response.body.Message
-            );
+            dispatch("set_showMessage", {
+              message: response.body == "" ?
+                "Problemas con la conexión a internet" : response.body.ExceptionMessage,
+              show: true,
+              title: "Error",
+              showregresar: false,
+              colorThema: "red"
+            });
           }
         );
     } catch (e) {
@@ -552,7 +564,18 @@ export default {
             }
           },
           response => {
-            dispatch("errorResponse", e.message);
+            dispatch("set_showMessage", {
+              message: response.body == "" ?
+                "Problemas con la conexión a internet" : response.body.ExceptionMessage,
+              show: true,
+              title: "Error",
+              showregresar: false,
+              colorThema: "red"
+            });
+            commit("s_Loading", {
+              value: 0,
+              show: false
+            });
           }
         );
     } catch (e) {
@@ -591,7 +614,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -616,7 +639,8 @@ export default {
             contrasena: datos.contrasena,
             numberSign: datos.numberSign,
             codeSignature: datos.codeSignature,
-            evaluation_id: datos.evaluation_id
+            numberEvaluated: datos.numberEvaluated,
+            result: state.loginUser.empleadoaEvaluar.puntuacionEmpleado
           },
           headers: {
             Authorization: localStorage.getItem("user-token")
@@ -645,7 +669,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -697,7 +721,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -740,7 +764,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -801,7 +825,7 @@ export default {
               "errorResponse",
               response.body == "" ?
               "Problemas con la conexión a internet" :
-              response.body.Message
+              response.body.ExceptionMessage
             );
           }
         );
@@ -830,7 +854,8 @@ export default {
         value: 0,
         show: true
       }),
-      dispatch("GetEmployeesBySuperviser", data.items);
+      commit('set_selectmevaluadosporsupervisor', data.items);
+    dispatch("GetEmployeesBySuperviser", data.items);
   },
   set_signaturepor({
     commit
@@ -995,7 +1020,12 @@ export default {
     commit,
     dispatch
   }, item) {
-    router.push("/" + item.code);
+
+    if (item.code == "mevaluadosporsupervisor") {
+      dispatch("GetEmployeesBySuperviser", state.selectmevaluadosporsupervisor);
+    } else {
+      router.push("/" + item.code);
+    }
     commit("s_Loading", {
       value: 0,
       show: item.show

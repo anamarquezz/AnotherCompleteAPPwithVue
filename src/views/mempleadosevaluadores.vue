@@ -9,7 +9,7 @@
       </v-flex>
 
       <v-flex row md11 lg11 xl11 class="mt-5">
-        <v-container fluid>
+        <v-container fluid class="ml-6">
           <v-flex xs12 class="">
             <v-toolbar dark color="indigo darken-4 white--text">
               <h4><i class="fas fa-id-card mr-3"></i>Gerentes/Sup. Generales</h4>
@@ -47,7 +47,7 @@ export default {
         {
           text: "Num Emp",
           type: "text",
-          resize: false,
+          resize: true,
           value: "Number"
         },
         {
@@ -69,31 +69,39 @@ export default {
           value: "Position"
         },
         {
-          text: "Número de Empleados",
+          text: "N# Empleados",
           type: "text",
-          resize: false,
+          resize: true,
           value: "TotalEvaluate",
           tooltip: "Total Epleados a Evaluar"
         },
         {
           text: "No Iniciados",
           type: "text",
-          resize: false,
+          resize: true,
           value: "NoIniciados",
           tooltip: "Numero de Empleados que no se ha iniciado su evaluación"
         },
         {
           text: "Iniciado",
           type: "text",
-          resize: false,
+          resize: true,
           value: "Initiated",
           tooltip:
-            "Numero de Empleados que ya se inició su evaluación pero que aun faltan puntos por califica"
+            "Numero de Empleados que ya se inició su evaluación pero que aun faltan puntos por calificar"
+        },
+        {
+          text: "Evaluado",
+          type: "text",
+          resize: true,
+          value: "Evaluated",
+          tooltip:
+            "Numero de Empleados que ya se firmo su evaluación por parte del Supervisor y Gerente del Area"
         },
         {
           text: "Completado",
           type: "text",
-          resize: false,
+          resize: true,
           value: "Completed",
           tooltip:
             "Numero de Empleados que ya se terminaron de evaluar y está pendiente su retroalimentación"
@@ -101,7 +109,7 @@ export default {
         {
           text: "Terminado",
           type: "text",
-          resize: false,
+          resize: true,
           value: "Terminated",
           tooltip:
             "Numero de Empleados con el proceso finalizado (evaluación, retroalimentación y firmas)"
@@ -142,4 +150,8 @@ export default {
 @import "../assets/css/global.css";
 
 @import "../assets/css/media_query.css";
+
+.ml-6 {
+  margin-left: 68px;
+}
 </style>

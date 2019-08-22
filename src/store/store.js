@@ -40,6 +40,7 @@ export default new Vuex.Store({
     mempleadoaevaluar3: pag,
     mantenimientoeval: pag,
     returnactiveTab: 0,
+    selectmevaluadosporsupervisor: {},
     isregresar: localStorage.getItem('isregresar') || 'false',
     sw_ui: 'login',
     returnTo: 'miplantilla',
@@ -152,6 +153,7 @@ export default new Vuex.Store({
             Signature: "",
             TypeCode: "EMP",
             TypeDescription: "Empleado",
+            allowSignature: false
           },
           {
             Date: null,

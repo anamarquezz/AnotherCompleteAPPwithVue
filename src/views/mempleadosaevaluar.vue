@@ -9,16 +9,16 @@
 
 
         <v-container fluid class="mt-5">
-          <v-tabs centered  icons-and-text v-model="returnactiveTab">
+          <v-tabs centered icons-and-text v-model="returnactiveTab">
             <v-tabs-slider color="cyan"></v-tabs-slider>
 
 
-            <v-tab >
+            <v-tab>
               Escala de distribución
               <v-icon>far fa-list-alt</v-icon>
             </v-tab>
 
-            <v-tab >
+            <v-tab>
               Mi Plantilla
               <v-icon>ar fa-list-alt</v-icon>
             </v-tab>
@@ -49,8 +49,8 @@
                     <h5><i class="fas fa-edit mr-3"></i>Proceso de Evaluaciones</h5>
                     <v-spacer></v-spacer>
 
-                  </v-toolbar>                  
-                  <listaempleados from="EVAL" :headers="headerSumarySupervisor"  :pagination_name="pagination_name3"
+                  </v-toolbar>
+                  <listaempleados from="EVAL" :headers="headerSumarySupervisor" :pagination_name="pagination_name3"
                     v-if="g_loginUser.SuperviserSummary.length > 0 " :list='g_loginUser.SuperviserSummary' excelname=''
                     hassearch=false haspagination=true>
                   </listaempleados>
@@ -61,20 +61,34 @@
                     <h4><i class="far fa-list-alt mr-3"></i>Mi Plantilla</h4>
                     <v-spacer></v-spacer>
                   </v-toolbar>
-                  <listaempleados :headers="headers" v-if="g_loginUser.Subordinates.length > 0" :pagination_name="pagination_name2"
-                    :list='g_loginUser.Subordinates' excelname="empleadosEvaluadores.xls" haspagination=false>
+                  <listaempleados :headers="headers" v-if="g_loginUser.Subordinates.length > 0"
+                    :pagination_name="pagination_name2" :list='g_loginUser.Subordinates'
+                    excelname="empleadosEvaluadores.xls" haspagination=false>
                   </listaempleados>
                 </v-container>
               </v-tab-item>
 
               <v-tab-item v-if="g_loginUser.AllUserSupervisers.length > 0">
+
+                <v-container fluid>
+                  <v-toolbar dark color="light-blue darken-4 white--text " text-xs-center>
+                    <h5><i class="fas fa-edit mr-3"></i>Proceso de Evaluaciones: Supervisores</h5>
+                    <v-spacer></v-spacer>
+
+                  </v-toolbar>
+                  <listaempleados from="EVAL" :headers="headerSumarySupervisor" :pagination_name="pagination_name3"
+                    v-if="g_loginUser.SuperviserSummary.length > 0 " :list='g_loginUser.ApprovalSummary' excelname=''
+                    hassearch=false haspagination=false>
+                  </listaempleados>
+                </v-container>
+
                 <v-container fluid>
                   <v-toolbar dark color="deep-purple darken-4 white--text">
                     <h4><i class="far fa-list-alt mr-3"></i>Plantilla de supervisores</h4>
                     <v-spacer></v-spacer>
                   </v-toolbar>
-                  <listaempleados from="EVAL" :headers="headersPSup" :list='g_loginUser.AllUserSupervisers' :pagination_name="pagination_name"
-                    excelname="PantillaSupervisores.xls" haspagination=true>
+                  <listaempleados from="EVAL" :headers="headersPSup" :list='g_loginUser.AllUserSupervisers'
+                    :pagination_name="pagination_name" excelname="PantillaSupervisores.xls" haspagination=true>
                   </listaempleados>
                 </v-container>
               </v-tab-item>
@@ -126,7 +140,7 @@ export default {
           type: "text",
           align: "center",
           resize: true,
-          value: "TotalEvaluate",
+          value: "TotalEvaluated",
           tooltip: "Total Epleados a Evaluar"
         },
         {
@@ -187,7 +201,7 @@ export default {
           type: "text",
           align: "center",
           value: "Number",
-          resize: false
+          resize: true
         },
         {
           text: "Nombre",
@@ -238,25 +252,31 @@ export default {
             {
               condition: "NO INICIADO",
               text: "Evaluar",
-              color: "indigo darken-4",
+              color: "cyan",
               visible: true
             },
             {
               condition: "EVALUADO",
               text: "Editar",
-              color: "blue darken-3",
+              color: "blue accent-2",
               visible: true
             },
             {
               condition: "INICIADO",
               text: "Editar",
-              color: "blue darken-3",
+              color: "blue accent-2",
               visible: true
             },
             {
               condition: "COMPLETADO",
               text: "Visualizar",
-              color: "blue darken-4",
+              color: "blue darken-3",
+              visible: true
+            },
+            {
+              condition: "TERMINADO",
+              text: "Visualizar",
+              color: "blue darken-3",
               visible: true
             }
           ],
@@ -364,12 +384,12 @@ export default {
           resize: true
         },
         /*  {
-            text: "Puntuación",
-            type: "text",
-            align: "center",
-            value: "Puntuation",
-            resize: true
-          },*/
+              text: "Puntuación",
+              type: "text",
+              align: "center",
+              value: "Puntuation",
+              resize: true
+            },*/
         {
           text: "% de Distribución",
           type: "text",

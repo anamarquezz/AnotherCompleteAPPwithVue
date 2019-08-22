@@ -111,7 +111,7 @@ export default {
           align: "left",
           btntitle: "Firmar",
           action: "action_evaluarEmpleado",
-          returnTo: "mempleadosevaluadores",
+          returnTo: "mevaluadosporsupervisor",
           has_condition: true,
           condition_property: "Status",
           getconditiontext: true,
@@ -136,7 +136,7 @@ export default {
               class: "d-none"
             },*/
             {
-              condition: "COMPLETADO",
+              condition: "TERMINADO",
               text: "Firmar",
               color: "cyan darken-2",
               class: "d-inline"
