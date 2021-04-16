@@ -64,7 +64,7 @@ export default {
     state.loginUser.allowESign = data.allowESign + '';
     state.loginUser.isSupervisor = data.userId == 28759 ? "true" : data.isSuperviser + ""; //Karina = 81462
     state.loginUser.position = data.position + "";
-    state.loginUser.allowEvaluation = data.allowEvaluation + "";
+    state.loginUser.isAdminRH = data.isAdminRH + '';
     state.loginUser.descriptionPeriod = data.descriptionPeriod;
     state.loginUser.minPeriod = new Date(data.minPeriod).toLocaleDateString();
     state.loginUser.maxPeriod = new Date(data.maxPeriod).toLocaleDateString();
@@ -72,6 +72,13 @@ export default {
     state.loginUser.maxYear = new Date(data.maxYear).toLocaleDateString();
     state.loginUser.EvalYear = new Date(data.maxYear).getFullYear();
     state.supervisorSeleccionado = state.loginUser.Name;
+
+    if (data.allowEvaluation == "false")
+      data.allowEvaluation = false;
+    if (data.allowEvaluation == "true")
+      data.allowEvaluation = true;
+
+    state.loginUser.allowEvaluation = data.allowEvaluation;
 
     localStorage.setItem('userId', state.loginUser.userId);
     localStorage.setItem('Name', state.loginUser.Name);
@@ -97,6 +104,12 @@ export default {
     } else {
       localStorage.setItem('isregresar', false + '');
     }
+    state.itemsmenu = [];
+    state.itemsmenu.splice(state.itemsmenu.length, 0, {
+      icon: "fas fa-home light-blue--text text--darken-2",
+      text: "Inicio",
+      code: "mhome"
+    });
 
     if (state.loginUser.isSupervisor == "true") {
       state.itemsmenu.splice(state.itemsmenu.length, 0, {
@@ -105,6 +118,7 @@ export default {
         code: "mempleadosaevaluar"
       });
     }
+
     if (state.loginUser.isRH == "true") {
       state.itemsmenu.splice(
         state.itemsmenu.length,
@@ -125,7 +139,13 @@ export default {
               code: "mtodosempleados"
             }
           ]
-        }, {
+        }
+      );
+    }
+    if (state.loginUser.isRH == "true" && state.loginUser.isAdminRH == "true") {
+      state.itemsmenu.splice(
+        state.itemsmenu.length,
+        0, {
           icon: "fas fa-calendar-alt light-blue--text text--darken-2",
           text: "Calendario",
           code: "mconfigurarfechas"
@@ -151,7 +171,7 @@ export default {
         code: "#login"
       }
     );
-
+    localStorage.setItem('itemsmenu', state.itemsmenu);
   },
 
   set_SubordinateByUser: (state, data) => {
@@ -341,6 +361,8 @@ export default {
         "score": element.Result
       });
     });
+
+    state.loginUser.empleadoaEvaluar.saveUpdateUser.result = state.loginUser.empleadoaEvaluar.puntuacionEmpleado;
   },
 
   set_drawer: (state, value) => {
@@ -352,10 +374,15 @@ export default {
   set_validhuella: (state, value) => {
     state.validhuella = value;
   },
-  set_signaturepor: (state, por) => {
+  set_signaturepor: (state, values) => {
     state.loginUser.empleadoaEvaluar.signatureInfo[state.loginUser.empleadoaEvaluar.signatureInfo.findIndex(el => el
-      .TypeCode == por)].IsSignature = true;
+      .TypeCode == values.por)].IsSignature = true;
+    state.loginUser.empleadoaEvaluar.signatureInfo[state.loginUser.empleadoaEvaluar.signatureInfo.findIndex(el => el
+      .TypeCode == values.por)].Name = values.PrettyName;
+    state.loginUser.empleadoaEvaluar.signatureInfo[state.loginUser.empleadoaEvaluar.signatureInfo.findIndex(el => el
+      .TypeCode == values.por)].Number = values.Number;
     state.loginUser.empleadoaEvaluar.saveUpdateUser.signatureInfo = state.loginUser.empleadoaEvaluar.signatureInfo;
+
   },
 
   set_nombreInput: (state, datos) => {
@@ -453,13 +480,9 @@ export default {
       rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
     };
 
-    state.itemsmenu = [{
-        icon: "fas fa-home light-blue--text text--darken-2",
-        text: "Inicio",
-        code: "mhome"
-      }],
+    state.itemsmenu = [];
 
-      state.cdialog = pag;
+    state.cdialog = pag;
     state.drawer = true;
     state.mempleadoaevaluar = pag;
     state.mempleadoaevaluar2 = pag;
@@ -474,7 +497,7 @@ export default {
     state.returnactiveTab = 0;
     state.isregresar = localStorage.getItem('isregresar') || 'false';
     state.sw_ui = 'login';
-    state.returnTo = 'miplantilla';
+    state.returnTo = 'mhome';
     state.sw_uimainEvaluacion = 'home';
     state.sw_dialog = {
         Value: false,
@@ -522,7 +545,7 @@ export default {
         position: '',
         allowESign: '',
         isSupervisor: "false",
-        allowEvaluation: "false",
+        allowEvaluation: false,
         descriptionPeriod: '',
         minPeriod: '',
         maxPeriod: '',

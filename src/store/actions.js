@@ -1,10 +1,5 @@
-/* http://localhost:49014
-"http://10.2.16.98:82/
-http://wks-3423:82
-    https://intranet.valuout.com/CloverServices
-*/
 
-var url = "http://10.2.16.98:82";
+var url = "http://localhost:49014"
 import Vue from "vue";
 var values = {
   message: "",
@@ -179,7 +174,7 @@ export default {
               response.body.EmployeeEvaluated.ApprovalSummary
             );
 
-            router.push("/mempleadosaevaluar");
+            // router.push(state.returnTo);
 
             commit("s_Loading", {
               value: 0,
@@ -329,7 +324,7 @@ export default {
         List: [],
         seleccionado: ""
       });
-
+      values = state.selectmevaluadosporsupervisor;
       Vue.http
         .get(url + "/api/evaluation/GetEmployeesBySuperviser", {
           params: {
@@ -345,8 +340,6 @@ export default {
               List: response.body.EmployeesBySuperviser,
               seleccionado: values
             });
-
-
 
             dispatch("cambiarmenu", {
               code: "mempleadosevaluadores/mevaluadosporsupervisor",
@@ -416,6 +409,12 @@ export default {
     commit("saveUpdateUser", data);
     dispatch("GuardarInfoEvalUsuario");
   },
+  set_saveUpdateUser: function ({
+    state,
+    commit,
+  }, data) {
+    commit("saveUpdateUser", data);
+  },
 
   GuardarInfoEvalUsuario: function ({
     state,
@@ -447,6 +446,9 @@ export default {
               commit("backevaluarempleado");
 
               dispatch("GetSubordinateByUser");
+              if (state.returnTo == "mempleadosevaluadores/mevaluadosporsupervisor")
+                dispatch("GetEmployeesBySuperviser");
+              router.push(state.returnTo);
             } else {
               dispatch("set_showMessage", {
                 message: response.body.resultInfo.Message,
@@ -459,6 +461,8 @@ export default {
                 value: 0,
                 show: false
               });
+
+
             }
           },
           response => {
@@ -527,6 +531,7 @@ export default {
       dispatch("errorResponse", e.message);
     }
   },
+
 
   GetEvaluationEmployee: function ({
     state,
@@ -631,26 +636,36 @@ export default {
   }, datos) {
     try {
       //commit("set_signaturepor", datos.firmapor);
+      var d = {
+        usuario: '',
+        contrasena: '',
+        numberSign: '',
+        codeSignature: '',
+        evaluationResult: ''
+      };
+      d.usuario = datos.usuario;
+      d.contrasena = datos.contrasena;
+      d.numberSign = datos.numberSign;
+      d.codeSignature = datos.codeSignature;
+      d.evaluationResult = state.loginUser.empleadoaEvaluar.saveUpdateUser;
 
       Vue.http
-        .get(url + "/api/evaluation/ValidateSignature", {
-          params: {
-            usuario: datos.usuario,
-            contrasena: datos.contrasena,
-            numberSign: datos.numberSign,
-            codeSignature: datos.codeSignature,
-            numberEvaluated: datos.numberEvaluated,
-            result: state.loginUser.empleadoaEvaluar.puntuacionEmpleado
-          },
-          headers: {
-            Authorization: localStorage.getItem("user-token")
-          },
-          progress(e) {}
-        })
+        .post(
+          url + "/api/evaluation/ValidateSignature",
+          d, {
+            headers: {
+              Authorization: localStorage.getItem("user-token")
+            }
+          }, {
+            emulateJSON: true
+          }
+        )
         .then(
           response => {
             if (response.body.userInfo.Valid) {
-              commit("set_signaturepor", datos.codeSignature);
+              var values = response.body.userInfo.Data[0];
+              values.por = datos.codeSignature;
+              commit("set_signaturepor", values);
             } else {
               dispatch(
                 "errorResponse",
@@ -854,8 +869,8 @@ export default {
         value: 0,
         show: true
       }),
-      commit('set_selectmevaluadosporsupervisor', data.items);
-    dispatch("GetEmployeesBySuperviser", data.items);
+      commit("set_selectmevaluadosporsupervisor", data.items);
+    dispatch("GetEmployeesBySuperviser");
   },
   set_signaturepor({
     commit
@@ -1020,7 +1035,6 @@ export default {
     commit,
     dispatch
   }, item) {
-
     if (item.code == "mevaluadosporsupervisor") {
       dispatch("GetEmployeesBySuperviser", state.selectmevaluadosporsupervisor);
     } else {

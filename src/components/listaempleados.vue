@@ -251,18 +251,31 @@ export default {
       return items[Nombrearray];
     },
     conditioncolor(h, props) {
+      var pr = "";
+      var esto = this;
       try {
-        if (h.text == "Firmar") {
-          console.log("alla");
-        }
         if (h.has_condition && props.item[h.condition_property] !== undefined) {
-          var esto = this;
-          var pr =
-            h.conditionvalues[
-              h.conditionvalues.findIndex(
-                el => el.condition === props.item[h.condition_property]
-              )
-            ];
+          if (props.item[h.condition_property2] != undefined) {
+            pr =
+              h.conditionvalues[
+                h.conditionvalues.findIndex(
+                  el =>
+                    el.condition === props.item[h.condition_property2] &&
+                    h.getconditiontext
+                )
+              ];
+          }
+          if (
+            props.item[h.condition_property] != undefined &&
+            (pr == undefined || pr == "")
+          ) {
+            pr =
+              h.conditionvalues[
+                h.conditionvalues.findIndex(
+                  el => el.condition === props.item[h.condition_property]
+                )
+              ];
+          }
           if (pr != undefined) return pr.color;
           else return "transparent";
         } else {
@@ -296,9 +309,24 @@ export default {
       }
     },
     conditiontext(h, props) {
-      var esto = this;
-      if (props.item[h.condition_property] != undefined) {
-        var pr =
+      var esto = this,
+        pr = "";
+
+      if (props.item[h.condition_property2] != undefined) {
+        pr =
+          h.conditionvalues[
+            h.conditionvalues.findIndex(
+              el =>
+                el.condition === props.item[h.condition_property2] &&
+                h.getconditiontext
+            )
+          ];
+      }
+      if (
+        props.item[h.condition_property] != undefined &&
+        (pr == undefined || pr == "")
+      ) {
+        pr =
           h.conditionvalues[
             h.conditionvalues.findIndex(
               el =>
@@ -306,9 +334,10 @@ export default {
                 h.getconditiontext
             )
           ];
-        if (pr != undefined) return pr.text;
-        else return;
       }
+
+      if (pr != undefined) return pr.text;
+      else return;
     },
     getjsonfields() {
       var result = {};

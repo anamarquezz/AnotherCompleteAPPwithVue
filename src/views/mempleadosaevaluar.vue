@@ -368,7 +368,7 @@ export default {
               condition: "COMPLETADO",
               text: "Visualizar",
               color: "blue darken-3",
-              class: "d-none"
+              class: "d-inline"
             }
           ],
           resize: true,

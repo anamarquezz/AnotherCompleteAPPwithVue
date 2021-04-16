@@ -155,149 +155,167 @@
 </template>
 
 <script>
-  import {
-    mapState,
-    mapActions,
-    mapGetters
-  } from 'vuex';
+import { mapState, mapActions, mapGetters } from "vuex";
 
-  import listaempleados from '../components/listaempleados.vue'
+import listaempleados from "../components/listaempleados.vue";
 
-  export default {
-    name: "listaExpand",
-    components:{
-        listaempleados,
+export default {
+  name: "listaExpand",
+  components: {
+    listaempleados
+  },
+  data() {
+    return {
+      selected: {},
+      isMobile: false,
+      expand: false,
+      color: "blue darken-3",
+      btn: "btn",
+      search: "",
+      pagination: {
+        descending: true,
+        page: 1,
+        rowsPerPage: 10,
+        sortBy: "name",
+        rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
+      },
+      condition_values: {
+        text: "",
+        color: "indigo darken-4"
+      }
+    };
+  },
+  props: [
+    "headers",
+    "list",
+    "from",
+    "dark",
+    "hassearch",
+    "haspagination",
+    "excelname"
+  ],
+  computed: {
+    ...mapGetters(["g_loginUser"])
+  },
+  methods: {
+    metodo(h, items) {
+      this.$store.dispatch(h.action, items);
     },
-    data() {
-      return {
-          selected: {},
-        isMobile: false,
-         expand: false,
-        color: 'blue darken-3',
-        btn: 'btn',
-        search: "",
-        pagination: {
-          descending: true,
-          page: 1,
-          rowsPerPage: 10,
-          sortBy: 'name',
-          rowsPerPageItems: [10, 50, 100, 300, 400, 600, 1000, 3000, 5000]
-        },
-        condition_values: {
-          text: '',
-          color: 'indigo darken-4'
-        },   
+    listacombo(items, Nombrearray) {
+      var esto = this;
+      return items[Nombrearray];
+    },
+    conditioncolor(h, props) {
+      if (h.has_condition) {
+        var esto = this;
+        return h.conditionvalues[
+          h.conditionvalues.findIndex(
+            el => el.condition === props.item[h.condition_property]
+          )
+        ].color;
+      } else {
+        return h.color;
       }
     },
-    props: ['headers', 'list', 'from', 'dark', 'hassearch', 'haspagination', 'excelname'],
-    computed: {
-      ...mapGetters(["g_loginUser"])
+    conditiontext(h, props) {
+      var esto = this;
+    
 
+      return h.conditionvalues[
+        h.conditionvalues.findIndex(
+          el =>
+            el.condition === props.item[h.condition_property] &&
+            h.getconditiontext
+        )
+      ].text;
     },
-    methods: {
-      metodo(h, items) {
-        this.$store.dispatch(h.action, items);
-      },
-      listacombo(items, Nombrearray) {
-        var esto = this;
-        return items[Nombrearray];
-      },
-      conditioncolor(h, props) {
-        if (h.has_condition) {
+    getjsonfields() {
+      var result = {};
+      this.headers
+        .filter(x => x.type == "text")
+        .forEach(h => (result[h.text] = h.value));
 
-          var esto = this;
-          return h.conditionvalues[h.conditionvalues.findIndex(el => el.condition === props.item[h
-            .condition_property])].color;
-        } else {
-          return h.color;
-        }
-      },
-      conditiontext(h, props) {
-        var esto = this;
+      return result;
+    },
 
-        return h.conditionvalues[h.conditionvalues.findIndex(el => el.condition === props.item[h
-          .condition_property] && h.getconditiontext)].text;
-      },
-      getjsonfields() {
-        var result = {}
-        this.headers.filter(x => x.type == 'text').forEach(h =>
-          result[h.text] = h.value
+    onResize() {
+      if (window.innerWidth < 910) this.isMobile = true;
+      else this.isMobile = false;
+    },
+    customFilter(items, search, filter) {
+      //this custom filter will do a multi-match separated by a space.
+      //e.g
+
+      if (!search) {
+        return items;
+      } //if the search is empty just return all the items
+
+      function new_filter(val, search) {
+        return (
+          val !== null &&
+          ["undefined", "boolean"].indexOf(typeof val) === -1 &&
+          val
+            .toString()
+            .toLowerCase()
+            .replace(/[^0-9a-zA-Z]+/g, "")
+            .indexOf(search) !== -1
         );
-
-
-
-        return result;
-      },
-
-      onResize() {
-        if (window.innerWidth < 910) this.isMobile = true;
-        else this.isMobile = false;
-      },
-      customFilter(items, search, filter) {
-
-        //this custom filter will do a multi-match separated by a space.
-        //e.g
-
-        if (!search) {
-          return items
-        } //if the search is empty just return all the items
-
-        function new_filter(val, search) {
-          return val !== null && ['undefined', 'boolean'].indexOf(typeof val) === -1 &&
-            val.toString().toLowerCase().replace(/[^0-9a-zA-Z]+/g, "").indexOf(search) !== -1
-        }
-
-        let needleAry = search.toString().toLowerCase().split(" ").filter(x => x);
-        //whenever we encounter a space in our search we will filter for both the first and second word (or third word)
-
-        return items.filter(row => needleAry.every(needle => Object.keys(row).some(key => new_filter(row[key],
-          needle))));
-        //foreach needle in our array cycle through the data (row[key]) in the current row looking for a match.
-        // .some will return true and exit the loop if it finds one it will return false if it doesnt
-        // .every will exit the loop if we dont find a match but will return true if all needles match
-        // .filter the rows on each match
-
-
-      },
-      toggleAll() {
-        if (this.selected.length) this.selected = [];
-        else this.selected = this.desserts.slice();
-      },
-      changeSort(column) {
-        if (this.pagination.sortBy === column) {
-          this.pagination.descending = !this.pagination.descending;
-        } else {
-          this.pagination.sortBy = column;
-          this.pagination.descending = false;
-        }
       }
+
+      let needleAry = search
+        .toString()
+        .toLowerCase()
+        .split(" ")
+        .filter(x => x);
+      //whenever we encounter a space in our search we will filter for both the first and second word (or third word)
+
+      return items.filter(row =>
+        needleAry.every(needle =>
+          Object.keys(row).some(key => new_filter(row[key], needle))
+        )
+      );
+      //foreach needle in our array cycle through the data (row[key]) in the current row looking for a match.
+      // .some will return true and exit the loop if it finds one it will return false if it doesnt
+      // .every will exit the loop if we dont find a match but will return true if all needles match
+      // .filter the rows on each match
     },
-
-    mounted: function () {
-      //  console.log(this.list);
+    toggleAll() {
+      if (this.selected.length) this.selected = [];
+      else this.selected = this.desserts.slice();
+    },
+    changeSort(column) {
+      if (this.pagination.sortBy === column) {
+        this.pagination.descending = !this.pagination.descending;
+      } else {
+        this.pagination.sortBy = column;
+        this.pagination.descending = false;
+      }
     }
-  }
+  },
 
+  mounted: function() {
+    //  console.log(this.list);
+  }
+};
 </script>
 
 <style scoped>
-  .btnhover:hover {
-    color: rgb(17, 138, 81);
-  }
+.btnhover:hover {
+  color: rgb(17, 138, 81);
+}
 
-  table.v-table tbody td:first-child,
-  table.v-table tbody td:not(:first-child),
-  table.v-table tbody th:first-child,
-  table.v-table tbody th:not(:first-child),
-  table.v-table thead td:first-child,
-  table.v-table thead td:not(:first-child),
-  table.v-table thead th:first-child,
-  table.v-table thead th:not(:first-child) {
-    padding: 0px 13px !important;
-  }
+table.v-table tbody td:first-child,
+table.v-table tbody td:not(:first-child),
+table.v-table tbody th:first-child,
+table.v-table tbody th:not(:first-child),
+table.v-table thead td:first-child,
+table.v-table thead td:not(:first-child),
+table.v-table thead th:first-child,
+table.v-table thead th:not(:first-child) {
+  padding: 0px 13px !important;
+}
 
-  .table.v-table thead th {
-    font-size: 18px !important;
-  }
-
+.table.v-table thead th {
+  font-size: 18px !important;
+}
 </style>

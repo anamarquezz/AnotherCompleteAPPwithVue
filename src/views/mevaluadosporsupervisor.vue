@@ -23,7 +23,7 @@
 
               <v-spacer></v-spacer>
             </v-toolbar>
-            <listaempleados :headers="headers" v-if="g_loginUser.Subordinatesbyuser.length > 0" :pagination_name="pagination_name"
+            <listaempleados :headers="headersFirm" v-if="g_loginUser.Subordinatesbyuser.length > 0" :pagination_name="pagination_name"
               excelname="empleadosporsupervisor.xls" :list='g_loginUser.Subordinatesbyuser'>
             </listaempleados>
           </v-flex>
@@ -61,6 +61,90 @@ export default {
     return {
       pagination_name: "mevaluadosporsupervisor",
       pagination_name2: "mevaluadosporsupervisor_escala",
+      headersFirm: [
+        {
+          text: "",
+          type: "image",
+          value: "Image",
+          resize: true
+        },
+        {
+          text: "Num Emp",
+          type: "text",
+          value: "Number",
+          resize: false
+        },
+        {
+          text: "Nombre",
+          type: "text",
+          value: "PrettyName",
+          resize: true
+        },
+        {
+          text: "Supervisor",
+          type: "text",
+          align: "center",
+          value: "PrettyNameSuperviser",
+          resize: true
+        },
+        {
+          text: "Puesto",
+          type: "text",
+          value: "Position",
+          resize: false
+        },
+        {
+          text: "Estatus",
+          type: "text",
+          value: "Status",
+          resize: false
+        },
+        {
+          text: "Evaluacion",
+          type: "text",
+          value: "Score",
+          resize: false
+        },
+        {
+          text: "Firmar",
+          type: "button",
+          align: "left",
+          btntitle: "Firmar",
+          action: "action_evaluarEmpleado",
+          returnTo: "mempleadosevaluadores/mevaluadosporsupervisor",
+          has_condition: true,
+          condition_property: "Status",
+          condition_property2:"SignatureRH",
+          getconditiontext: true,
+          conditionClass: true,
+          conditionvalues: [
+            /* {
+              condition: "NO INICIADO",
+              text: "Evaluar",
+              color: "indigo darken-4",
+              class: "d-none"
+            },
+            {
+              condition: "EVALUADO",
+              text: "Aprobar",
+              color: "blue darken-3",
+              class: "d-none"
+            }*/
+            {
+              condition: 1,
+              text: "Visualizar",
+              color: "blue darken-3",
+              class: "d-none"
+            },
+            {
+              condition: "TERMINADO",
+              text: "Firmar",
+              color: "cyan darken-2",
+              class: "d-inline"
+            }
+          ]
+        }
+      ],
       headers: [
         {
           text: "",
@@ -111,7 +195,7 @@ export default {
           align: "left",
           btntitle: "Firmar",
           action: "action_evaluarEmpleado",
-          returnTo: "mevaluadosporsupervisor",
+          returnTo: "mempleadosevaluadores/mevaluadosporsupervisor",
           has_condition: true,
           condition_property: "Status",
           getconditiontext: true,

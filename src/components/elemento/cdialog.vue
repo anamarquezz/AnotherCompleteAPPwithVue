@@ -16,7 +16,7 @@
                   :title="gsw_dialog.component.title" :subtitle="gsw_dialog.component.subtitle"
                   :avatar="gsw_dialog.component.avatar">
                 </clist>
-              </div>
+              </div>s
               <div v-if="gsw_dialog.component.type === 'grid' && gsw_dialog.component.list.length >0" >               
                 <listaempleados from="EVAL" :headers="gsw_dialog.component.headers"  :pagination_name="pagination_name"
                   v-if="gsw_dialog.component.list.length > 0" :list='gsw_dialog.component.list'

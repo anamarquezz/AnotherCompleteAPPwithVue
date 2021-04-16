@@ -72,7 +72,7 @@ export default {
           text: "N# Empleados",
           type: "text",
           resize: true,
-          value: "TotalEvaluate",
+          value: "TotalEvaluated",
           tooltip: "Total Epleados a Evaluar"
         },
         {

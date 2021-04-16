@@ -63,8 +63,7 @@ export default {
       pagination: {
         descending: true,
         page: 1,
-        rowsPerPage: 25, // -1 for All
-        sortBy: "Description"
+        rowsPerPage: 25 // -1 for All
       },
       selected: [],
       search: "",
@@ -90,9 +89,8 @@ export default {
     disabledReactivos() {
       var esto = this;
       return !(
-        this.g_empleadoaEvaluar.empleadoInfo[0].Status == "INICIADO" ||
-        this.g_empleadoaEvaluar.empleadoInfo[0].Status == "NO INICIADO" ||
-        this.g_empleadoaEvaluar.empleadoInfo[0].Status == "EVALUADO"
+        this.g_loginUser.allowEvaluation ||
+        this.g_empEvaluar.evaluationResult.allowEvaluation
       );
     }
   },
@@ -107,9 +105,7 @@ export default {
     },
     ratingReactivo(item) {
       var esto = this;
-      if (esto.g_loginUser.allowEvaluation == "true") {
-        esto.$store.dispatch("calculateRating", item);
-      }
+      esto.$store.dispatch("calculateRating", item);
     }
   }
 };

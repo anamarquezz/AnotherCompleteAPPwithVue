@@ -18,14 +18,9 @@ var pag = {
 
 Vue.use(Vuex)
 
-
 export default new Vuex.Store({
   state: {
-    itemsmenu: [{
-      icon: "fas fa-home light-blue--text text--darken-2",
-      text: "Inicio",
-      code: "mhome"
-    }],
+    itemsmenu: localStorage.getItem('itemsmenu') || [],
     cdialog: pag,
     drawer: true,
     mempleadoaevaluar: pag,
@@ -43,7 +38,7 @@ export default new Vuex.Store({
     selectmevaluadosporsupervisor: {},
     isregresar: localStorage.getItem('isregresar') || 'false',
     sw_ui: 'login',
-    returnTo: 'miplantilla',
+    returnTo: 'mhome',
     sw_uimainEvaluacion: 'home',
     sw_dialog: {
       Value: false,

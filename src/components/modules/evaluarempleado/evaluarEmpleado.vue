@@ -36,7 +36,7 @@
             </v-toolbar>
             <v-textarea v-model="g_loginUser.empleadoaEvaluar.saveUpdateUser.comments" id="textareaComment" box name="input-7-4"
               label="Retroalimentación por parte del evaluador" class="" color="blue"
-              :disabled="(g_loginUser.descriptionPeriod == 'Retroalimentación') == true? false:true"> 
+              :disabled="disabledComments"> 
               :value="g_empleadoaEvaluar.saveUpdateUser.comments">
             </v-textarea>
           </v-flex>
@@ -50,7 +50,7 @@
 
             <v-textarea v-model="g_loginUser.empleadoaEvaluar.saveUpdateUser.feedback_comments" id="textareaFeedback" box name="input-7-4"
               label="Comentarios por parte del empleado." :value="g_empleadoaEvaluar.saveUpdateUser.feedBack_Comments"
-              :disabled="(g_loginUser.descriptionPeriod == 'Retroalimentación') == true? false:true"
+              :disabled="disabledComments"
               class="" color="blue">
             </v-textarea>
           </v-flex>
@@ -302,6 +302,9 @@ export default {
     setComments() {
       this.comments = this.g_empleadoaEvaluar.saveUpdateUser.comments;
       this.feedback_comments = this.g_empleadoaEvaluar.saveUpdateUser.feedback_comments;
+    },
+    disabledComments() {
+      return !this.g_empleadoaEvaluar.evaluationResult.allowEditComments;
     }
   },
   methods: {
@@ -325,7 +328,7 @@ export default {
 
       esto.$store.dispatch("cambiarmenu", {
         code: esto.returnTo,
-        show: true
+        show: false
       });
     },
     firma(por, code) {
@@ -350,6 +353,11 @@ export default {
           codeSignature: por,
           numberEvaluated: this.g_empleadoaEvaluar.empleadoInfo[0].Number
         };
+
+        esto.$store.dispatch("set_saveUpdateUser", {
+          comments: esto.comments,
+          feedback_comments: esto.feedback_comments
+        });
 
         this.$store.dispatch("firmas", datos);
       }
@@ -444,7 +452,7 @@ export default {
     esto.findIP = findIP;
 
     var connection = $.hubConnection(
-      "http://wks-3423:82/signalr" //https://intranet.valuout.com/CloverServices/signalr
+      "https://intranet.valuout.com/CloverServices/signalr" //https://intranet.valuout.com/CloverServices/signalr
     );
     var proxy = connection.createHubProxy("finger");
     esto.proxy = proxy;
